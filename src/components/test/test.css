@@ -1,5 +1,7 @@
+$colour: #0b46b2;
+
 html {
   body {
-    background-color: #000;
+    background-color: $colour;
   }
 }
