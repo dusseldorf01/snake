@@ -45,9 +45,5 @@ module.exports = {
         new miniCss({
             filename: 'style.min.css',
         }),
-        require('postcss-simple-vars'),
-        require('autoprefixer'),
-        require('postcss-nested'),
-        require('postcss-for')
     ]
 }
