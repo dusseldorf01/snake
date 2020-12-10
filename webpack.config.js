@@ -1,11 +1,16 @@
-//const path = require('path');
+const path = require('path');
 const miniCss = require('mini-css-extract-plugin');
 module.exports = {
     entry: {
         main: './src/index.ts',
     },
     output: {
-        filename: '[name].js'
+        filename: '[name].min.js'
+    },
+    devServer: {
+        contentBase: path.join(__dirname, 'public'),
+        compress: true,
+        port: 8080
     },
     devtool: 'inline-source-map',
    // watch: true,
@@ -35,7 +40,10 @@ module.exports = {
     },
     plugins: [
         new miniCss({
-            filename: 'style.css',
+            filename: 'style.min.css',
         }),
+        require('postcss-nested'),
+        require('autoprefixer'),
+        require('postcss-for')
     ]
 }
