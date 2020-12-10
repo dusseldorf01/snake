@@ -1,14 +1,17 @@
-const path = require('path');
+const path    = require('path');
 const miniCss = require('mini-css-extract-plugin');
+const public  = 'public';
+
 module.exports = {
     entry: {
         main: './src/index.ts',
     },
     output: {
+        path: path.resolve(__dirname, `${public}/dist` ),
         filename: '[name].min.js'
     },
     devServer: {
-        contentBase: path.join(__dirname, 'public'),
+        contentBase: path.join(__dirname, public ),
         compress: true,
         port: 8080
     },
@@ -17,19 +20,19 @@ module.exports = {
     module: {
         rules: [
             {
-            test:/\.(s*)css$/,
+            test:/\.css$/i,
             use: [
                 miniCss.loader,
                 'css-loader',
-                'sass-loader',
+                'postcss-loader',
                 ]
             },
             {
-                test: /\.html$/,
+                test: /\.html$/i,
                 use: 'html-loader'
             },
             {
-                test: /\.tsx?$/,
+                test: /\.tsx?$/i,
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
@@ -42,8 +45,9 @@ module.exports = {
         new miniCss({
             filename: 'style.min.css',
         }),
-        require('postcss-nested'),
+        require('postcss-simple-vars'),
         require('autoprefixer'),
+        require('postcss-nested'),
         require('postcss-for')
     ]
 }
