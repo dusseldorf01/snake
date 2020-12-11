@@ -8,7 +8,7 @@ module.exports = {
         main: './src/index.ts',
     },
     output: {
-        path: path.resolve(__dirname, `${public}/dist` ),
+        path: path.resolve(__dirname, `${public}` ),
         filename: '[name].min.js'
     },
     devServer: {
@@ -43,7 +43,11 @@ module.exports = {
         extensions: [ '.ts', '.js', '.json' ],
     },
     plugins: [
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+          title: 'Snake',
+          template: 'src/templates/index.html',
+          favicon: "src/assests/img/favicon.ico",
+        }),
         new miniCss({
             filename: 'style.min.css',
         }),
