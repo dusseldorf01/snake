@@ -1,6 +1,7 @@
-const path    = require('path');
-const miniCss = require('mini-css-extract-plugin');
-const public  = 'public';
+const path               = require('path');
+const miniCss            = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin  =  require ( 'html-webpack-plugin' )
+const public             = 'public';
 
 module.exports = {
     entry: {
@@ -20,7 +21,7 @@ module.exports = {
     module: {
         rules: [
             {
-            test:/\.css$/i,
+            test:/\.pcss$/i,
             use: [
                 miniCss.loader,
                 'css-loader',
@@ -42,6 +43,7 @@ module.exports = {
         extensions: [ '.ts', '.js', '.json' ],
     },
     plugins: [
+        new HtmlWebpackPlugin(),
         new miniCss({
             filename: 'style.min.css',
         }),
