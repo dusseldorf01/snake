@@ -1,6 +1,8 @@
 const path = require('path');
-const miniCss = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const public = 'public';
 
@@ -13,6 +15,7 @@ module.exports = {
     filename: '[name].min.js',
   },
   devServer: {
+    historyApiFallback: true,
     contentBase: path.join(__dirname, public),
     compress: true,
     port: 8080,
@@ -24,7 +27,7 @@ module.exports = {
       {
         test: /\.pcss$/i,
         use: [
-          miniCss.loader,
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
         ],
@@ -42,14 +45,24 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, 'src/'),
+    },
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(),
+    ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Snake',
-      template: `${public}/index.html`,
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].min.css',
     }),
-    new miniCss({
-      filename: 'style.min.css',
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: `${public}/index.html`,
     }),
   ],
 };

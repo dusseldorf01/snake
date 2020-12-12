@@ -4,6 +4,6 @@ module.exports = {
     require('autoprefixer'),
     require('postcss-nested'),
     require('postcss-for'),
-    require("postcss-import")
-  ]
-}
+    require('postcss-import'),
+  ],
+};
