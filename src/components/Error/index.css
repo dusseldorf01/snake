@@ -1,0 +1,9 @@
+.error {
+  text-align: center;
+}
+
+.error__title {
+  font-size: var(--extra-big-font-size);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
