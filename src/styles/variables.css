@@ -3,6 +3,8 @@ $blue-2: #124DE2;
 $blue-3: #E4EDFD;
 $black-1: #1E1E1E;
 $black-2: #282C35;
+$black-3: #000000;
+$black-3-14: rgba(0, 0, 0, 0.14);
 $gray-1: #999999;
 $gray-2: #A9A9A9;
 $gray-3: #EAEAEA;
@@ -14,13 +16,12 @@ $gray-8: #DDDDDD;
 $red-1: #FF2F2F;
 $red-2: #D62222;
 $white-1: #FFFFFF;
-$white-1-14: rgba(0, 0, 0, 0.14);
 
 :root {
   --link-color: $blue-1;
   --extra-big-font-size: 40px;
   --big-font-size: 20px;
-  --normal--font-size: 15px;
+  --normal-font-size: 15px;
   --small-font-size: 13px;
   --extra-small-font-size: 9px;
   --black-1: $black-1;
@@ -30,7 +31,7 @@ $white-1-14: rgba(0, 0, 0, 0.14);
   --gray-2: $gray-2;
   --gray-3: $gray-3;
   --blue-1: $blue-1;
-  --box-shadow: 0 0 6px 0 $white-1-14;
+  --box-shadow: 0 0 6px 0 $black-3-14;
   --text-secondary-color: $gray-1;
 }
 
