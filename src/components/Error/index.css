@@ -5,5 +5,14 @@
 .error__title {
   font-size: var(--extra-big-font-size);
   font-weight: 500;
-  margin-bottom: 20px;
+}
+
+.error__description {
+  font-size: var(--big-font-size);
+  margin-top: 20px;
+}
+
+.error__link {
+  display: block;
+  margin-top: 70px;
 }
