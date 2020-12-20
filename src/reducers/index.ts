@@ -7,6 +7,8 @@ const rootReducer = combineReducers({
   user,
 });
 
+export type RootState = ReturnType<typeof rootReducer>;
+
 const withLogoutCleaner = (
   state:CombinedState<any>,
   action:PayloadAction,

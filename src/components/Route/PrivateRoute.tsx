@@ -1,8 +1,10 @@
 import { FunctionComponent } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { userIsAuthorizedSelector } from '@/selectors/user';
 
 const PrivateRoute:FunctionComponent<RouteProps> = ({ component, ...props }:RouteProps) => {
-  const isAuthorized = true;
+  const isAuthorized = useSelector(userIsAuthorizedSelector);
   const renderRedirect = () => (
     <Redirect to={{
       pathname: '/login',

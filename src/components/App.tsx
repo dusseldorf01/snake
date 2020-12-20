@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import {
   Route,
   Switch,
@@ -7,8 +7,11 @@ import routes, { IRoute } from '@/routes';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import GuestRoute from '@/components/Route/GuestRoute';
 import PrivateRoute from '@/components/Route/PrivateRoute';
-import Header from './Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { userStateSelector } from '@/selectors/user';
+import { userInfoActions } from '@/actions/user';
 import Loader from './Loader';
+import Header from './Header';
 
 const renderRoute = (route:IRoute) => {
   let RouteComponent;
@@ -34,23 +37,34 @@ const renderRoute = (route:IRoute) => {
   );
 };
 
-export default () => (
-  <div className="page-container">
-    <Header />
-    <main className="page-content">
-      <ErrorBoundary>
-        <Suspense
-          fallback={(
-            <div className="center-content">
-              <Loader />
-            </div>
+export default () => {
+  const dispatch = useDispatch();
+  const userState = useSelector(userStateSelector);
+
+  useEffect(() => {
+    dispatch(userInfoActions.request());
+  }, []);
+
+  const renderLoader = () => (
+    <div className="center-content">
+      <Loader />
+    </div>
+  );
+
+  return (
+    <div className="page-container">
+      <Header />
+      <main className="page-content">
+        <ErrorBoundary>
+          {userState.loading ? renderLoader() : (
+            <Suspense fallback={renderLoader()}>
+              <Switch>
+                {routes.map(renderRoute)}
+              </Switch>
+            </Suspense>
           )}
-        >
-          <Switch>
-            {routes.map(renderRoute)}
-          </Switch>
-        </Suspense>
-      </ErrorBoundary>
-    </main>
-  </div>
-);
+        </ErrorBoundary>
+      </main>
+    </div>
+  );
+};

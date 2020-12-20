@@ -1,4 +1,6 @@
-import { createAction, PayloadActionCreator, ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
+import {
+  createAction, PayloadActionCreator, ActionCreatorWithOptionalPayload, ActionCreatorWithoutPayload,
+} from '@reduxjs/toolkit';
 import { ApiParams } from '@/utils/api';
 
 export type AsyncRequestPayload = {params: ApiParams};
@@ -13,7 +15,7 @@ export type AsyncErrorPayload = {
 };
 
 export type AsyncActionCreator = {
-  request: PayloadActionCreator<AsyncRequestPayload>,
+  request: ActionCreatorWithOptionalPayload<AsyncRequestPayload | undefined>,
   success: PayloadActionCreator<AsyncSuccessPayload>,
   error: PayloadActionCreator<AsyncErrorPayload>,
   clear: ActionCreatorWithoutPayload,
@@ -21,7 +23,7 @@ export type AsyncActionCreator = {
 
 // eslint-disable-next-line import/prefer-default-export
 export const createAsyncActions = (type: string):AsyncActionCreator => ({
-  request: createAction<AsyncRequestPayload>(`${type}_REQUEST`),
+  request: createAction(`${type}_REQUEST`),
   success: createAction<AsyncSuccessPayload>(`${type}_SUCCESS`),
   error: createAction<AsyncErrorPayload>(`${type}_ERROR`),
   clear: createAction(`${type}_CLEAR`),
