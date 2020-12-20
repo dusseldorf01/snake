@@ -60,23 +60,7 @@ const Registration: FunctionComponent<{}> = () => {
         className="registration-form"
         onSubmit={handleSubmit}
       >
-        <h1 className="registration-form__title">Регистрация</h1>
-        <RegistrationInput
-          error={touched.firstName && errors.firstName}
-          label="Имя"
-          name="firstName"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.firstName}
-        />
-        <RegistrationInput
-          error={touched.secondName && errors.secondName}
-          label="Фамилия"
-          name="secondName"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.secondName}
-        />
+        <h1 className="registration-form__title">Авторизация</h1>
         <RegistrationInput
           error={touched.login && errors.login}
           label="Логин"
@@ -86,22 +70,6 @@ const Registration: FunctionComponent<{}> = () => {
           value={values.login}
         />
         <RegistrationInput
-          error={touched.email && errors.email}
-          label="Почта"
-          name="email"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.email}
-        />
-        <RegistrationInput
-          error={touched.phone && errors.phone}
-          label="Телефон"
-          name="phone"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.phone}
-        />
-        <RegistrationInput
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
@@ -109,25 +77,17 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.password}
         />
-        <RegistrationInput
-          error={touched.passwordRepeat && errors.passwordRepeat}
-          label="Пароль (еще раз)"
-          name="passwordRepeat"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.passwordRepeat}
-        />
         <button
           type="submit"
           className="registration-form__button"
         >
-          Зарегистрироваться
+          Войти
         </button>
         <a
-          href="/login"
+          href="/register"
           className="registration-form__link"
         >
-          Войти
+          Зарегистрироваться
         </a>
       </form>
     </div>

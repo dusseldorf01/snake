@@ -38,6 +38,10 @@ const routes: IRoute[] = [{
   view: lazy(() => import('./pages/Registration')),
   type: 'guest',
 }, {
+  path: '/login',
+  view: lazy(() => import('./pages/Login')),
+  type: 'guest',
+}, {
   // этот роут должен быть последним, тк будет отображаться, если предыдущие роуты не подойдут
   view: lazy(() => import('./pages/Error404')),
 }];
