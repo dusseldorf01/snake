@@ -25,6 +25,7 @@ export const createAsyncReducer = (
     .addCase(asyncCreator.request, (state, action) => ({
       ...state,
       params: (action.payload && action.payload.params) || {},
+      status: 0,
       loading: true,
       data: {},
     }))
@@ -40,7 +41,8 @@ export const createAsyncReducer = (
       error: action.payload.error,
       status: action.payload.status,
       loading: false,
-    }));
+    }))
+    .addCase(asyncCreator.clear, () => initialState);
   if (configurator) {
     configurator(builder);
   }

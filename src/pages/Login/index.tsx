@@ -6,14 +6,18 @@ import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
 import {
   IRegistrationModel,
-  registrationInitialModel,
 } from '@/models/registration';
 import '@/styles/registration-form.css';
 import checkRequiredFields from '@/utils/checkRequiredFields';
-import isPhone from '@/utils/isPhone';
-import isEmail from '@/utils/isEmail';
+import { ILoginModel, loginInitialModel } from '@/models/login';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStateSelector } from '@/selectors/user';
+import { signInActions } from '@/actions/user';
 
-const Registration: FunctionComponent<{}> = () => {
+const Login: FunctionComponent<{}> = () => {
+  const dispatch = useDispatch();
+  const signInState = useSelector(signInStateSelector);
+
   const {
     errors,
     handleBlur,
@@ -22,31 +26,23 @@ const Registration: FunctionComponent<{}> = () => {
     touched,
     validateForm,
     values,
-  } = useFormik<IRegistrationModel>({
-    initialValues: registrationInitialModel,
+  } = useFormik<ILoginModel>({
+    initialValues: loginInitialModel,
     validate: (v) => {
-      const newErrors: Partial<Record<keyof IRegistrationModel, string>> = checkRequiredFields(v, ['phone', 'email', 'passwordRepeat']);
+      const newErrors: Partial<Record<keyof IRegistrationModel, string>> = checkRequiredFields(v);
 
-      if (v.phone === '') {
-        newErrors.phone = 'Обязательное поле';
-      } else if (!isPhone(v.phone)) {
-        newErrors.phone = 'Укажите телефон в формате +7 XXX XXX XXXX';
+      if (!v.login) {
+        newErrors.login = 'Введите логин';
       }
 
-      if (v.email === '') {
-        newErrors.email = 'Обязательное поле';
-      } else if (!isEmail(v.email)) {
-        newErrors.email = 'Укажите валидный email';
-      }
-
-      if (v.password !== v.passwordRepeat) {
-        newErrors.passwordRepeat = 'Пароли не совпадают';
+      if (!v.password) {
+        newErrors.passwordRepeat = 'Введите пароль';
       }
 
       return newErrors;
     },
     onSubmit: (v) => {
-      console.log(v);
+      dispatch(signInActions.request({ params: { data: v } }));
     },
   });
 
@@ -80,6 +76,7 @@ const Registration: FunctionComponent<{}> = () => {
         <button
           type="submit"
           className="registration-form__button"
+          disabled={signInState.loading}
         >
           Войти
         </button>
@@ -94,4 +91,4 @@ const Registration: FunctionComponent<{}> = () => {
   );
 };
 
-export default Registration;
+export default Login;
