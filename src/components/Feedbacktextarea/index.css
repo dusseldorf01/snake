@@ -1,0 +1,37 @@
+.feedback-textarea {
+  display: block;
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--blue-1);
+}
+
+.feedback-textarea__label {
+  position: absolute;
+  top: 17px;
+  left: 0;
+  pointer-events: none;
+  color: var(--gray-1);
+  transition: .3s;
+}
+
+.feedback-textarea_with-value .feedback-textarea__label,
+.feedback-textarea__input:focus ~ .feedback-textarea__label {
+  top: 0;
+  font-size: var(--extra-small-font-size);
+}
+
+.feedback-textarea__error {
+  position: absolute;
+  left: 0;
+  color: var(--red-1);
+  font-size: var(--extra-small-font-size);
+  bottom: -15px;
+}
+
+.feedback-message{
+  width: 100%;
+  border: 0;
+  height: 300px;
+}

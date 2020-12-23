@@ -14,6 +14,9 @@ const routes: IRoute[] = [{
   path: '/',
   view: lazy(() => import('./pages/Game')),
 }, {
+  path: '/profile/edit',
+  view: lazy(() => import('./pages/ProfileSettings')),
+}, {
   path: '/profile',
   view: lazy(() => import('./pages/Profile')),
 }, {

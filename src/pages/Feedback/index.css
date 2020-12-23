@@ -1,0 +1,15 @@
+
+.feedback-form {
+  width: 50%;
+  min-width: 320px;
+}
+
+.registration-form__title {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+input[type='submit'],
+button {
+  margin-left: auto;
+}
