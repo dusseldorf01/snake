@@ -5,17 +5,20 @@ import {
 import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
 import {
-  IRegistrationModel,
-  registrationInitialModel,
-} from '@/models/registration';
+  IProfileSettingsModel,
+  profileSettingsInitialModel,
+} from '@/models/profileSettings';
 import '@/styles/registration-form.css';
 import validate from '@/utils/validate';
 import isRequired from '@/utils/isRequired';
 import isPhone from '@/utils/isPhone';
 import isEmail from '@/utils/isEmail';
 import areEqualPasswords from '@/utils/areEqualPasswords';
+import AvatarSettings from '@/components/AvatarSettings';
 
-const Registration: FunctionComponent<{}> = () => {
+const ProfileSettings: FunctionComponent<{}> = () => {
+  const avatarInputFileID = 'avatar-input-file';
+
   const {
     errors,
     handleBlur,
@@ -24,10 +27,10 @@ const Registration: FunctionComponent<{}> = () => {
     touched,
     validateForm,
     values,
-  } = useFormik<IRegistrationModel>({
-    initialValues: registrationInitialModel,
+  } = useFormik<IProfileSettingsModel>({
+    initialValues: profileSettingsInitialModel,
     validate: (v) => (
-      validate<IRegistrationModel>({
+      validate<IProfileSettingsModel>({
         firstName: [isRequired(v.firstName)],
         secondName: [isRequired(v.secondName)],
         login: [isRequired(v.login)],
@@ -38,6 +41,15 @@ const Registration: FunctionComponent<{}> = () => {
       })
     ),
     onSubmit: (v) => {
+      if (document.querySelector(`#${avatarInputFileID}`)) {
+        const formData = new FormData();
+        const fileElm :HTMLInputElement|null = document.querySelector(`#${avatarInputFileID}`);
+        if (fileElm && fileElm.files) {
+          const file = fileElm.files[0];
+          formData.append('avatar', file);
+        }
+      }
+
       console.log(v);
     },
   });
@@ -53,6 +65,14 @@ const Registration: FunctionComponent<{}> = () => {
         onSubmit={handleSubmit}
       >
         <h1 className="registration-form__title">Изменение данных профиля</h1>
+
+        <AvatarSettings
+          label="Аватар"
+          name="avatar"
+          onChange={handleChange}
+          value={values.avatar}
+          inputFileID={avatarInputFileID}
+        />
 
         <RegistrationInput
           error={touched.firstName && errors.firstName}
@@ -116,10 +136,9 @@ const Registration: FunctionComponent<{}> = () => {
         >
           Изменить данные
         </button>
-
       </form>
     </div>
   );
 };
 
-export default Registration;
+export default ProfileSettings;

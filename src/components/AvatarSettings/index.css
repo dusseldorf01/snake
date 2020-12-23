@@ -1,0 +1,44 @@
+.feedback-input {
+  display: block;
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--blue-1);
+}
+
+.feedback-input__label {
+  position: absolute;
+  top: 17px;
+  left: 0;
+  pointer-events: none;
+  color: var(--gray-1);
+  transition: .3s;
+}
+
+.feedback-input_with-value .feedback-input__label,
+.feedback-input__input:focus ~ .feedback-input__label {
+  top: 0;
+  font-size: var(--extra-small-font-size);
+}
+
+.feedback-input__error {
+  position: absolute;
+  left: 0;
+  color: var(--red-1);
+  font-size: var(--extra-small-font-size);
+  bottom: -15px;
+}
+
+.current-avatar {
+  height: 130px;
+  width: 130px;
+  margin: auto;
+  background-size: cover;
+  background-position: 50% 50%;
+  cursor: pointer;
+}
+
+.avatar-file-input {
+  visibility: hidden;
+}
