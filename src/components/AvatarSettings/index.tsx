@@ -16,7 +16,7 @@ export default class AvatarSettings extends PureComponent <IAvatrProps, {}> {
       name,
       onChange,
       value,
-      inputFileID,
+      inputFile,
     } = this.props;
 
     const backImage: CSSProperties = {
@@ -28,7 +28,7 @@ export default class AvatarSettings extends PureComponent <IAvatrProps, {}> {
       <label className="feedback-input feedback-input_with-value">
         <div style={backImage} className="current-avatar" />
         <input
-          id={inputFileID}
+          ref={inputFile}
           className="feedback-input__input avatar-file-input"
           name={name}
           onChange={onChange}

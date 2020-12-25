@@ -17,8 +17,7 @@ import areEqualPasswords from '@/utils/areEqualPasswords';
 import AvatarSettings from '@/components/AvatarSettings';
 
 const ProfileSettings: FunctionComponent<{}> = () => {
-  const avatarInputFileID = 'avatar-input-file';
-
+  let inputFile:HTMLInputElement;
   const {
     errors,
     handleBlur,
@@ -41,9 +40,9 @@ const ProfileSettings: FunctionComponent<{}> = () => {
       })
     ),
     onSubmit: (v) => {
-      if (document.querySelector(`#${avatarInputFileID}`)) {
+      if (inputFile) {
         const formData = new FormData();
-        const fileElm :HTMLInputElement|null = document.querySelector(`#${avatarInputFileID}`);
+        const fileElm :any = inputFile;
         if (fileElm && fileElm.files) {
           const file = fileElm.files[0];
           formData.append('avatar', file);
@@ -71,7 +70,8 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           name="avatar"
           onChange={handleChange}
           value={values.avatar}
-          inputFileID={avatarInputFileID}
+          /* eslint-disable-next-line no-return-assign */
+          inputFile={(element:HTMLInputElement) => inputFile = element}
         />
 
         <RegistrationInput
