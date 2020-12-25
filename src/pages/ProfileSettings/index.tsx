@@ -42,7 +42,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
     onSubmit: (v) => {
       if (inputFile) {
         const formData = new FormData();
-        const fileElm :any = inputFile;
+        const fileElm :HTMLInputElement = inputFile;
         if (fileElm && fileElm.files) {
           const file = fileElm.files[0];
           formData.append('avatar', file);
