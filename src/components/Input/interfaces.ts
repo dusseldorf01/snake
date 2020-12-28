@@ -1,12 +1,11 @@
 import { SyntheticEvent } from 'react';
 
-export interface IFeedbackInputProps {
+export interface IFormInput {
   label: string;
   name: string;
   onBlur: (e: SyntheticEvent) => void;
   onChange: (e: SyntheticEvent) => void;
   value: string;
   error?: string | boolean;
-  type?: 'email' | 'tel' | 'text' ;
-  pattern?: string
+  type?: 'email' | 'tel' | 'text' | 'password';
 }

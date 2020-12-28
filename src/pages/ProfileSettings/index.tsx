@@ -3,7 +3,7 @@ import {
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
-import RegistrationInput from '@/components/RegistrationInput';
+import Input from '@/components/Input';
 import {
   IProfileSettingsModel,
   profileSettingsInitialModel,
@@ -66,7 +66,6 @@ const ProfileSettings: FunctionComponent<{}> = () => {
         onSubmit={handleSubmit}
       >
         <h1 className="app-form__title">Изменение данных профиля</h1>
-
         <AvatarSettings
           name="avatar"
           onChange={handleChange}
@@ -74,8 +73,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           /* eslint-disable-next-line no-return-assign */
           inputFile={(element:HTMLInputElement) => inputFile = element}
         />
-
-        <RegistrationInput
+        <Input
           error={touched.firstName && errors.firstName}
           label="Имя"
           name="firstName"
@@ -83,7 +81,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.firstName}
         />
-        <RegistrationInput
+        <Input
           error={touched.secondName && errors.secondName}
           label="Фамилия"
           name="secondName"
@@ -91,7 +89,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.secondName}
         />
-        <RegistrationInput
+        <Input
           error={touched.login && errors.login}
           label="Логин"
           name="login"
@@ -99,7 +97,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.login}
         />
-        <RegistrationInput
+        <Input
           error={touched.email && errors.email}
           label="Почта"
           name="email"
@@ -107,7 +105,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.email}
         />
-        <RegistrationInput
+        <Input
           error={touched.phone && errors.phone}
           label="Телефон"
           name="phone"
@@ -115,7 +113,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.phone}
         />
-        <RegistrationInput
+        <Input
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
@@ -124,7 +122,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.password}
         />
-        <RegistrationInput
+        <Input
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"

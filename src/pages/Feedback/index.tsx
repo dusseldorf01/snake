@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect } from 'react';
 import { useFormik } from 'formik';
-import FeedbackInput from '@/components/Feedbackinput';
-import FeedbackTextarea from '@/components/Feedbacktextarea';
+import Input from '@/components/Input';
+import Textarea from '@/components/Textarea';
 import { feedbackInitialModel, IFeedbackModel } from '@/models/feedback';
 
 import validate from '@/utils/validate';
@@ -47,7 +47,7 @@ const Feedback: FunctionComponent<{}> = () => {
         onSubmit={handleSubmit}
       >
         <h1 className="app-form__title ">Форма обратной связи</h1>
-        <FeedbackInput
+        <Input
           error={touched.name && errors.name}
           label="Имя"
           name="name"
@@ -55,7 +55,7 @@ const Feedback: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.name}
         />
-        <FeedbackInput
+        <Input
           error={touched.email && errors.email}
           label="Почта"
           name="email"
@@ -64,7 +64,7 @@ const Feedback: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.email}
         />
-        <FeedbackInput
+        <Input
           error={touched.phone && errors.phone}
           label="Телефон"
           name="phone"
@@ -73,7 +73,7 @@ const Feedback: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.phone}
         />
-        <FeedbackTextarea
+        <Textarea
           error={touched.message && errors.message}
           label="Сообщение"
           name="message"

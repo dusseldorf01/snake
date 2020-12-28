@@ -3,7 +3,7 @@ import {
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
-import RegistrationInput from '@/components/RegistrationInput';
+import Input from '@/components/Input';
 import {
   IRegistrationModel,
   registrationInitialModel,
@@ -53,7 +53,7 @@ const Registration: FunctionComponent<{}> = () => {
         onSubmit={handleSubmit}
       >
         <h1 className="registration-form__title">Регистрация</h1>
-        <RegistrationInput
+        <Input
           error={touched.firstName && errors.firstName}
           label="Имя"
           name="firstName"
@@ -61,7 +61,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.firstName}
         />
-        <RegistrationInput
+        <Input
           error={touched.secondName && errors.secondName}
           label="Фамилия"
           name="secondName"
@@ -69,7 +69,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.secondName}
         />
-        <RegistrationInput
+        <Input
           error={touched.login && errors.login}
           label="Логин"
           name="login"
@@ -77,7 +77,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.login}
         />
-        <RegistrationInput
+        <Input
           error={touched.email && errors.email}
           label="Почта"
           name="email"
@@ -85,7 +85,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.email}
         />
-        <RegistrationInput
+        <Input
           error={touched.phone && errors.phone}
           label="Телефон"
           name="phone"
@@ -93,7 +93,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.phone}
         />
-        <RegistrationInput
+        <Input
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
@@ -101,7 +101,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.password}
         />
-        <RegistrationInput
+        <Input
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"

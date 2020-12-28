@@ -1,6 +1,6 @@
 import { SyntheticEvent } from 'react';
 
-export interface IFeedbackTextareaProps {
+export interface IFormTextarea {
   label: string;
   name: string;
   onBlur: (e: SyntheticEvent) => void;
