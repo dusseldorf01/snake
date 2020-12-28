@@ -4,7 +4,22 @@
   padding-top: 15px;
   padding-bottom: 5px;
   margin-bottom: 16px;
+}
+
+.feedback-input__input {
+  transition: .2s;
+}
+
+html.light .feedback-input__input {
+  background-color: var(--background-color);
+  color: var(--gray-1);
   border-bottom: 1px solid var(--blue-1);
+}
+
+html.dark .feedback-input__input {
+  background-color: var(--background-color);
+  color: var(--gray-1);
+  border-bottom: 1px solid var(--gray-1);
 }
 
 .feedback-input__label {

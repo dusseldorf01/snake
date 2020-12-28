@@ -1,28 +1,29 @@
-.feedback-input {
+.avatar-settings {
   display: block;
   position: relative;
   padding-top: 15px;
   padding-bottom: 5px;
   margin-bottom: 16px;
+}
+
+.avatar-settings__input {
+  padding: 15px 0;
+  transition: .2s;
+}
+
+html.light .avatar-settings__input {
+  background-color: var(--background-color);
+  color: var(--gray-1);
   border-bottom: 1px solid var(--blue-1);
 }
 
-.feedback-input__label {
-  position: absolute;
-  top: 17px;
-  left: 0;
-  pointer-events: none;
+html.dark .avatar-settings__input {
+  background-color: var(--background-color);
   color: var(--gray-1);
-  transition: .3s;
+  border-bottom: 1px solid var(--gray-1);
 }
 
-.feedback-input_with-value .feedback-input__label,
-.feedback-input__input:focus ~ .feedback-input__label {
-  top: 0;
-  font-size: var(--extra-small-font-size);
-}
-
-.feedback-input__error {
+.avatar-settings__error {
   position: absolute;
   left: 0;
   color: var(--red-1);
@@ -31,14 +32,11 @@
 }
 
 .current-avatar {
+  display: block;
   height: 130px;
   width: 130px;
   margin: auto;
   background-size: cover;
   background-position: 50% 50%;
   cursor: pointer;
-}
-
-.avatar-file-input {
-  visibility: hidden;
 }

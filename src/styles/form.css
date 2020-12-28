@@ -1,0 +1,43 @@
+.app-form {
+  width: 340px;
+  font-size: 13px;
+  padding: 50px 30px;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-form__title {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.app-form__button {
+  text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 70px;
+  margin-bottom: 14px;
+  font-size: inherit;
+  transition: .3s;
+}
+
+html.light .app-form__button {
+  color: var(--white-1);
+  background-color: var(--blue-1);
+  border: 1px solid var(--blue-1);
+}
+
+html.dark .app-form__button {
+  color: var(--white-1);
+  background-color: transparent;
+  border: 1px solid var(--white-1);
+}
+
+.app-form__link {
+  align-self: center;
+}

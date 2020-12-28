@@ -1,5 +1,5 @@
-import { PureComponent } from 'react';
-import { Formik } from 'formik';
+import { FunctionComponent, useEffect } from 'react';
+import { useFormik } from 'formik';
 import FeedbackInput from '@/components/Feedbackinput';
 import FeedbackTextarea from '@/components/Feedbacktextarea';
 import { feedbackInitialModel, IFeedbackModel } from '@/models/feedback';
@@ -9,81 +9,87 @@ import isRequired from '@/utils/isRequired';
 import isEmail from '@/utils/isEmail';
 import isPhone from '@/utils/isPhone';
 
+import '@/styles/form.css';
 import './index.css';
 
-export default class Feedback extends PureComponent <IFeedbackModel, {}> {
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(props:IFeedbackModel) {
-    super(props);
-  }
+const Feedback: FunctionComponent<{}> = () => {
+  const {
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    touched,
+    validateForm,
+    values,
+  } = useFormik<IFeedbackModel>({
+    initialValues: feedbackInitialModel,
+    validate: (v) => (
+      validate<IFeedbackModel>({
+        name: [isRequired(v.name)],
+        email: [isRequired(v.email), isEmail(v.email)],
+        phone: [isRequired(v.email), isPhone(v.phone)],
+        message: [isRequired(v.message)],
+      })
+    ),
+    onSubmit: (v) => {
+      console.log(v);
+    },
+  });
 
-  render() {
-    return (
-      <div className="center-content">
-        <Formik
-          initialValues={feedbackInitialModel}
-          onSubmit={(values, actions) => {
-            console.log(values);
-            actions.setSubmitting(false);
-          }}
-          validate={(v) => (
-            validate<IFeedbackModel>({
-              name: [isRequired(v.name)],
-              email: [isRequired(v.email), isEmail(v.email)],
-              phone: [isRequired(v.email), isPhone(v.phone)],
-            })
-          )}
+  useEffect(() => {
+    validateForm();
+  }, []);
 
+  return (
+    <div className="center-content">
+      <form
+        className="feedback-form"
+        onSubmit={handleSubmit}
+      >
+        <h1 className="app-form__title ">Форма обратной связи</h1>
+        <FeedbackInput
+          error={touched.name && errors.name}
+          label="Имя"
+          name="name"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.name}
+        />
+        <FeedbackInput
+          error={touched.email && errors.email}
+          label="Почта"
+          name="email"
+          type="email"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.email}
+        />
+        <FeedbackInput
+          error={touched.phone && errors.phone}
+          label="Телефон"
+          name="phone"
+          type="tel"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.phone}
+        />
+        <FeedbackTextarea
+          error={touched.message && errors.message}
+          label="Сообщение"
+          name="message"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.message}
+        />
+        <button
+          type="submit"
+          className="app-form__button"
         >
-          {(props) => (
-            <form
-              className="feedback-form"
-              onSubmit={props.handleSubmit}
-            >
-              <h2 className="registration-form__title">Форма обратной связи</h2>
-              <FeedbackInput
-                error={props.touched.name && props.errors.name}
-                label="Имя"
-                name="name"
-                onBlur={props.handleBlur}
-                onChange={props.handleChange}
-                value={props.values.name}
-              />
-              <FeedbackInput
-                error={props.touched.email && props.errors.email}
-                label="Почта"
-                name="email"
-                type="email"
-                onBlur={props.handleBlur}
-                onChange={props.handleChange}
-                value={props.values.email}
-              />
-              <FeedbackInput
-                error={props.touched.phone && props.errors.phone}
-                label="Телефон"
-                name="phone"
-                type="tel"
-                onBlur={props.handleBlur}
-                onChange={props.handleChange}
-                value={props.values.phone}
-              />
-              <FeedbackTextarea
-                label="Сообщение"
-                name="message"
-                onBlur={props.handleBlur}
-                onChange={props.handleChange}
-                value={props.values.message}
-              />
-              <button
-                type="submit"
-                className="registration-form__button"
-              >
-                Отправить
-              </button>
-            </form>
-          )}
-        </Formik>
-      </div>
-    );
-  }
-}
+          Отправить
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Feedback;

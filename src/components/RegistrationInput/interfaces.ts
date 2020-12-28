@@ -7,5 +7,5 @@ export interface IRegistrationInput {
   onChange: (e: SyntheticEvent) => void;
   value: string;
   error?: string | boolean;
-  type?: 'email' | 'tel' | 'text';
+  type?: 'email' | 'tel' | 'text' | 'password';
 }

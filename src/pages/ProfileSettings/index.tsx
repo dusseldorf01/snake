@@ -8,13 +8,15 @@ import {
   IProfileSettingsModel,
   profileSettingsInitialModel,
 } from '@/models/profileSettings';
-import '@/styles/registration-form.css';
 import validate from '@/utils/validate';
 import isRequired from '@/utils/isRequired';
 import isPhone from '@/utils/isPhone';
 import isEmail from '@/utils/isEmail';
 import areEqualPasswords from '@/utils/areEqualPasswords';
 import AvatarSettings from '@/components/AvatarSettings';
+
+import '@/styles/form.css';
+import './index.css';
 
 const ProfileSettings: FunctionComponent<{}> = () => {
   let inputFile:HTMLInputElement;
@@ -60,13 +62,12 @@ const ProfileSettings: FunctionComponent<{}> = () => {
   return (
     <div className="center-content">
       <form
-        className="registration-form"
+        className="profile-settings-form"
         onSubmit={handleSubmit}
       >
-        <h1 className="registration-form__title">Изменение данных профиля</h1>
+        <h1 className="app-form__title">Изменение данных профиля</h1>
 
         <AvatarSettings
-          label="Аватар"
           name="avatar"
           onChange={handleChange}
           value={values.avatar}
@@ -118,6 +119,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
+          type="password"
           onBlur={handleBlur}
           onChange={handleChange}
           value={values.password}
@@ -126,13 +128,14 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"
+          type="password"
           onBlur={handleBlur}
           onChange={handleChange}
           value={values.passwordRepeat}
         />
         <button
           type="submit"
-          className="registration-form__button"
+          className="app-form__button"
         >
           Изменить данные
         </button>

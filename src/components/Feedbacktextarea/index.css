@@ -4,7 +4,22 @@
   padding-top: 15px;
   padding-bottom: 5px;
   margin-bottom: 16px;
+}
+
+.feedback-textarea__input {
+  transition: .2s;
+}
+
+html.light .feedback-textarea__input {
+  background-color: var(--background-color);
+  color: var(--gray-1);
   border-bottom: 1px solid var(--blue-1);
+}
+
+html.dark .feedback-textarea__input {
+  background-color: var(--background-color);
+  color: var(--gray-1);
+  border-bottom: 1px solid var(--gray-1);
 }
 
 .feedback-textarea__label {
