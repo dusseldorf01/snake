@@ -3,16 +3,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const public = 'public';
 
 module.exports = {
   entry: {
-    main: './src/index.ts',
+    main: './src/index.tsx',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].min.js',
+    filename: '[name].[contenthash].js',
+    publicPath: '/',
+    assetModuleFilename: '[name].[hash][ext]',
   },
   devServer: {
     historyApiFallback: true,
@@ -25,7 +28,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.pcss$/i,
+        test: /\.css$/i,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
@@ -41,10 +44,14 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ico|woff|woff2|ttf)$/,
+        type: 'asset/resource',
+      },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', '.json'],
+    extensions: ['.tsx', '.ts', '.js', '.json'],
     alias: {
       '@': path.resolve(__dirname, 'src/'),
     },
@@ -58,11 +65,17 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].min.css',
+      filename: '[name].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
       inject: true,
       template: `${public}/index.html`,
+    }),
+    new CopyPlugin({
+      patterns: [{
+        from: 'public/favicon.ico',
+        to: 'favicon.ico',
+      }],
     }),
   ],
 };
