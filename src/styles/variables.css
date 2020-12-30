@@ -1,6 +1,5 @@
 $blue-1: #3369F3;
-$blue-2: #124DE2;
-$blue-3: #E4EDFD;
+$blue-2: #E4EDFD;
 $black-1: #1E1E1E;
 $black-2: #282C35;
 $black-3: #000000;
@@ -16,6 +15,7 @@ $gray-8: #DDDDDD;
 $red-1: #FF2F2F;
 $red-2: #D62222;
 $white-1: #FFFFFF;
+$white-1-80: rgba(255, 255, 255, 0.8);
 
 :root {
   --link-color: $blue-1;
@@ -27,10 +27,12 @@ $white-1: #FFFFFF;
   --black-1: $black-1;
   --white-1: $white-1;
   --red-1: $red-1;
+  --red-2: $red-2;
   --gray-1: $gray-1;
   --gray-2: $gray-2;
   --gray-3: $gray-3;
   --blue-1: $blue-1;
+  --blue-2: $blue-2;
   --box-shadow: 0 0 6px 0 $black-3-14;
   --text-secondary-color: $gray-1;
 }
@@ -40,11 +42,13 @@ $white-1: #FFFFFF;
   --background-color: $white-1;
   --menu-item-color: $blue-1;
   --loader-color: $black-1;
+  --game-modal-bg-color: $white-1-80;
 }
 
 .dark:root {
   --text-primary-color: $white-1;
   --background-color: $black-2;
-  --menu-item-color: $blue-3;
+  --menu-item-color: $blue-2;
   --loader-color: $white-1;
+  --game-modal-bg-color: $black-3-14;
 }

@@ -1,0 +1,12 @@
+.game-container {
+  position: relative;
+  font-family: 'Press Start 2P', sans-serif;
+}
+
+.game-information {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 40px;
+  width: max-content;
+  padding: 20px;
+}
