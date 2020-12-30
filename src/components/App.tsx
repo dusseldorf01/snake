@@ -13,7 +13,11 @@ import { userInfoActions } from '@/actions/user';
 import Loader from './Loader';
 import Header from './Header';
 
-const renderRoute = (route:IRoute) => {
+interface AppRouteProps {
+  route: IRoute
+}
+
+const AppRoute = ({ route }: AppRouteProps) => {
   let RouteComponent;
   switch (route.type) {
     case 'guest':
@@ -37,6 +41,12 @@ const renderRoute = (route:IRoute) => {
   );
 };
 
+const AppLoader = () => (
+  <div className="center-content">
+    <Loader />
+  </div>
+);
+
 export default () => {
   const dispatch = useDispatch();
   const userState = useSelector(userStateSelector);
@@ -45,21 +55,15 @@ export default () => {
     dispatch(userInfoActions.request());
   }, []);
 
-  const renderLoader = () => (
-    <div className="center-content">
-      <Loader />
-    </div>
-  );
-
   return (
     <div className="page-container">
       <Header />
       <main className="page-content">
         <ErrorBoundary>
-          {userState.loading ? renderLoader() : (
-            <Suspense fallback={renderLoader()}>
+          {userState.loading ? <AppLoader /> : (
+            <Suspense fallback={<AppLoader />}>
               <Switch>
-                {routes.map(renderRoute)}
+                {routes.map((item) => <AppRoute key={item.path} route={item} />)}
               </Switch>
             </Suspense>
           )}

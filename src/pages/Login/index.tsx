@@ -68,6 +68,7 @@ const Login: FunctionComponent<{}> = () => {
         <RegistrationInput
           error={touched.password && errors.password}
           label="Пароль"
+          type="password"
           name="password"
           onBlur={handleBlur}
           onChange={handleChange}
