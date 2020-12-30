@@ -9,9 +9,11 @@ import {
   registrationInitialModel,
 } from '@/models/registration';
 import '@/styles/registration-form.css';
-import checkRequiredFields from '@/utils/checkRequiredFields';
+import validate from '@/utils/validate';
+import isRequired from '@/utils/isRequired';
 import isPhone from '@/utils/isPhone';
 import isEmail from '@/utils/isEmail';
+import areEqualPasswords from '@/utils/areEqualPasswords';
 
 const Registration: FunctionComponent<{}> = () => {
   const {
@@ -24,27 +26,17 @@ const Registration: FunctionComponent<{}> = () => {
     values,
   } = useFormik<IRegistrationModel>({
     initialValues: registrationInitialModel,
-    validate: (v) => {
-      const newErrors: Partial<Record<keyof IRegistrationModel, string>> = checkRequiredFields(v, ['phone', 'email', 'passwordRepeat']);
-
-      if (v.phone === '') {
-        newErrors.phone = 'Обязательное поле';
-      } else if (!isPhone(v.phone)) {
-        newErrors.phone = 'Укажите телефон в формате +7 XXX XXX XXXX';
-      }
-
-      if (v.email === '') {
-        newErrors.email = 'Обязательное поле';
-      } else if (!isEmail(v.email)) {
-        newErrors.email = 'Укажите валидный email';
-      }
-
-      if (v.password !== v.passwordRepeat) {
-        newErrors.passwordRepeat = 'Пароли не совпадают';
-      }
-
-      return newErrors;
-    },
+    validate: (v) => (
+      validate<IRegistrationModel>({
+        firstName: [isRequired(v.firstName)],
+        secondName: [isRequired(v.secondName)],
+        login: [isRequired(v.login)],
+        email: [isRequired(v.email), isEmail(v.email)],
+        phone: [isRequired(v.phone), isPhone(v.phone)],
+        password: [isRequired(v.password)],
+        passwordRepeat: [areEqualPasswords(v.password, v.passwordRepeat)],
+      })
+    ),
     onSubmit: (v) => {
       console.log(v);
     },
