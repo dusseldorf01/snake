@@ -1,4 +1,3 @@
-import { FunctionComponent } from 'react';
 import gameParams from '@/gameParams';
 import { IGameModal } from './interfaces';
 import './index.css';
@@ -8,7 +7,7 @@ const {
   boardWidth,
 } = gameParams;
 
-const GameModal: FunctionComponent<IGameModal> = ({
+const GameModal = ({
   buttonLabel,
   children,
   onClick,

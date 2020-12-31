@@ -1,5 +1,4 @@
 import {
-  FunctionComponent,
   Reducer,
   useReducer,
 } from 'react';
@@ -18,7 +17,7 @@ import useKeyboardChangeDirection from '@/hooks/useKeyboardChangeDirection';
 import useGameAnimation from '@/hooks/useGameAnimation';
 import './index.css';
 
-const Game: FunctionComponent = () => {
+const Game = () => {
   const [{
     bigFood,
     food,

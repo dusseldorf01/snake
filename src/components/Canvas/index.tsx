@@ -1,5 +1,4 @@
 import {
-  FunctionComponent,
   useEffect,
   useRef,
 } from 'react';
@@ -13,7 +12,7 @@ const {
   boardWidth,
 } = gameParams;
 
-const Canvas: FunctionComponent<ICanvas> = ({
+const Canvas = ({
   bigFood,
   food,
   snake,
