@@ -23,19 +23,10 @@
   margin-top: 70px;
   margin-bottom: 14px;
   font-size: inherit;
-  transition: .3s;
-}
-
-html.light .app-form__button {
+  transition: .2s;
   color: var(--white-1);
-  background-color: var(--blue-1);
-  border: 1px solid var(--blue-1);
-}
-
-html.dark .app-form__button {
-  color: var(--white-1);
-  background-color: transparent;
-  border: 1px solid var(--white-1);
+  background-color: var(--form-btn-background-color);
+  border: 1px solid var(--form-btn-border-color);
 }
 
 .app-form__link {
@@ -48,22 +39,17 @@ html.dark .app-form__button {
   padding-top: 15px;
   padding-bottom: 5px;
   margin-bottom: 16px;
-}
-
-.input-group__input {
+  background-color: var(--background-color);
+  color: var(--gray-1);
+  border-bottom: 1px solid var(--input-border-bottom-color);
+  font-size: var(--small-font-size);
   transition: .2s;
 }
 
-html.light .input-group__input {
+.input-group__input {
+  color: var(--input-text-color);
   background-color: var(--background-color);
-  color: var(--gray-1);
-  border-bottom: 1px solid var(--blue-1);
-}
-
-html.dark .input-group__input {
-  background-color: var(--background-color);
-  color: var(--gray-1);
-  border-bottom: 1px solid var(--gray-1);
+  transition: .2s;
 }
 
 .input-group__label {
@@ -72,7 +58,7 @@ html.dark .input-group__input {
   left: 0;
   pointer-events: none;
   color: var(--gray-1);
-  transition: .3s;
+  transition: .2s;
 }
 
 .input-group_with-value .input-group__label,

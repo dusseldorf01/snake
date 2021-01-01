@@ -9,10 +9,7 @@ import {
   profileSettingsInitialModel,
 } from '@/models/profileSettings';
 import validate from '@/utils/validate';
-import isRequired from '@/utils/isRequired';
-import isPhone from '@/utils/isPhone';
-import isEmail from '@/utils/isEmail';
-import areEqualPasswords from '@/utils/areEqualPasswords';
+import { checkFormField } from '@/utils/checkFormField';
 import AvatarSettings from '@/components/AvatarSettings';
 
 import '@/styles/form.css';
@@ -32,13 +29,14 @@ const ProfileSettings: FunctionComponent<{}> = () => {
     initialValues: profileSettingsInitialModel,
     validate: (v) => (
       validate<IProfileSettingsModel>({
-        firstName: [isRequired(v.firstName)],
-        secondName: [isRequired(v.secondName)],
-        login: [isRequired(v.login)],
-        email: [isRequired(v.email), isEmail(v.email)],
-        phone: [isRequired(v.phone), isPhone(v.phone)],
-        password: [isRequired(v.password)],
-        passwordRepeat: [areEqualPasswords(v.password, v.passwordRepeat)],
+        firstName: [checkFormField.requiredField(v.firstName)],
+        secondName: [checkFormField.requiredField(v.secondName)],
+        login: [checkFormField.requiredField(v.login)],
+        email: [checkFormField.requiredField(v.email), checkFormField.email(v.email)],
+        phone: [checkFormField.requiredField(v.phone), checkFormField.phone(v.phone)],
+        password: [checkFormField.requiredField(v.password)],
+        passwordRepeat: [checkFormField.requiredField(v.passwordRepeat),
+          checkFormField.passwordRepeat(v.password, v.passwordRepeat)],
       })
     ),
     onSubmit: (v) => {

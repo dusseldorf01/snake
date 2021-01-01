@@ -5,9 +5,7 @@ import Textarea from '@/components/Textarea';
 import { feedbackInitialModel, IFeedbackModel } from '@/models/feedback';
 
 import validate from '@/utils/validate';
-import isRequired from '@/utils/isRequired';
-import isEmail from '@/utils/isEmail';
-import isPhone from '@/utils/isPhone';
+import { checkFormField } from '@/utils/checkFormField';
 
 import '@/styles/form.css';
 import './index.css';
@@ -25,10 +23,10 @@ const Feedback: FunctionComponent<{}> = () => {
     initialValues: feedbackInitialModel,
     validate: (v) => (
       validate<IFeedbackModel>({
-        name: [isRequired(v.name)],
-        email: [isRequired(v.email), isEmail(v.email)],
-        phone: [isRequired(v.email), isPhone(v.phone)],
-        message: [isRequired(v.message)],
+        name: [checkFormField.requiredField(v.name)],
+        email: [checkFormField.requiredField(v.email), checkFormField.email(v.email)],
+        phone: [checkFormField.requiredField(v.phone), checkFormField.phone(v.phone)],
+        message: [checkFormField.requiredField(v.message)],
       })
     ),
     onSubmit: (v) => {

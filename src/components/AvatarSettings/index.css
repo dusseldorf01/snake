@@ -8,19 +8,10 @@
 
 .avatar-settings__input {
   padding: 15px 0;
-  transition: .2s;
-}
-
-html.light .avatar-settings__input {
   background-color: var(--background-color);
   color: var(--gray-1);
-  border-bottom: 1px solid var(--blue-1);
-}
-
-html.dark .avatar-settings__input {
-  background-color: var(--background-color);
-  color: var(--gray-1);
-  border-bottom: 1px solid var(--gray-1);
+  border-bottom: 1px solid var(--input-border-bottom-color);
+  transition: all .2s;
 }
 
 .avatar-settings__error {
