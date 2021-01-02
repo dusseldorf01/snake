@@ -1,5 +1,4 @@
 FROM node:14
-#RUN npm install -g yarn
 WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
