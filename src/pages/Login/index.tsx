@@ -11,6 +11,7 @@ import { ILoginModel, loginInitialModel } from '@/models/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStateSelector } from '@/selectors/user';
 import { signInActions } from '@/actions/user';
+import Alert from '@/components/Alert';
 
 const Login: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
@@ -72,6 +73,7 @@ const Login: FunctionComponent<{}> = () => {
         >
           Войти
         </button>
+        {signInState.status === 401 && <Alert>Вы ввели неправильный логин или пароль</Alert>}
         <a
           href="/register"
           className="registration-form__link"
