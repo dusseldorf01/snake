@@ -4,11 +4,9 @@ import {
 } from 'react';
 import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
-import {
-  IRegistrationModel,
-} from '@/models/registration';
 import '@/styles/registration-form.css';
-import checkRequiredFields from '@/utils/checkRequiredFields';
+import validate from '@/utils/validate';
+import isRequired from '@/utils/isRequired';
 import { ILoginModel, loginInitialModel } from '@/models/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStateSelector } from '@/selectors/user';
@@ -28,19 +26,12 @@ const Login: FunctionComponent<{}> = () => {
     values,
   } = useFormik<ILoginModel>({
     initialValues: loginInitialModel,
-    validate: (v) => {
-      const newErrors: Partial<Record<keyof IRegistrationModel, string>> = checkRequiredFields(v);
-
-      if (!v.login) {
-        newErrors.login = 'Введите логин';
-      }
-
-      if (!v.password) {
-        newErrors.passwordRepeat = 'Введите пароль';
-      }
-
-      return newErrors;
-    },
+    validate: (v) => (
+      validate<ILoginModel>({
+        login: [isRequired(v.login)],
+        password: [isRequired(v.password)],
+      })
+    ),
     onSubmit: (v) => {
       dispatch(signInActions.request({ params: { data: v } }));
     },
