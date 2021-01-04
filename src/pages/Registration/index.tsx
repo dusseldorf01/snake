@@ -116,7 +116,7 @@ const Registration: FunctionComponent<{}> = () => {
           Зарегистрироваться
         </button>
         <a
-          href="/"
+          href="/login"
           className="registration-form__link"
         >
           Войти

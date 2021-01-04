@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": { "@/*": ["src/*"]  },
     "outDir": "dist",
@@ -12,7 +13,6 @@
     "strictNullChecks": true,
     "alwaysStrict": true,
     "strict": true,
-    "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node"
   }

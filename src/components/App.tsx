@@ -1,41 +1,32 @@
-import { Suspense } from 'react';
-import {
-  Route,
-  Switch,
-} from 'react-router';
-import routes, { IRoute } from '@/routes';
+import { Suspense, useEffect } from 'react';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import Header from './Header';
+import Routes from '@/routes';
+import { useDispatch, useSelector } from 'react-redux';
+import { userStateSelector } from '@/selectors/user';
+import { userInfoActions } from '@/actions/user';
 import Loader from './Loader';
 
-export default () => (
-  <div className="page-container">
-    <Header />
-    <main className="page-content">
-      <ErrorBoundary>
-        <Suspense
-          fallback={(
-            <div className="center-content">
-              <Loader />
-            </div>
-          )}
-        >
-          <Switch>
-            {routes.map(({
-              exact,
-              path,
-              view,
-            }: IRoute) => (
-              <Route
-                key={path || '404'}
-                exact={!!exact}
-                path={path}
-                component={view}
-              />
-            ))}
-          </Switch>
-        </Suspense>
-      </ErrorBoundary>
-    </main>
+const AppLoader = () => (
+  <div className="center-content">
+    <Loader />
   </div>
 );
+
+export default () => {
+  const dispatch = useDispatch();
+  const userState = useSelector(userStateSelector);
+
+  useEffect(() => {
+    dispatch(userInfoActions.request());
+  }, []);
+
+  return (
+    <ErrorBoundary>
+      {userState.loading ? <AppLoader /> : (
+        <Suspense fallback={<AppLoader />}>
+          <Routes />
+        </Suspense>
+      )}
+    </ErrorBoundary>
+  );
+};
