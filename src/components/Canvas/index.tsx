@@ -4,13 +4,19 @@ import {
 } from 'react';
 import gameParams from '@/gameParams';
 import Painter from '@/lib/Painter';
+import colors from '@/styles/colors';
 import { ICanvas } from './interfaces';
 import './index.css';
 
 const {
-  boardHeight,
-  boardWidth,
+  BOARD_HEIGHT,
+  BOARD_WIDTH,
 } = gameParams;
+
+const {
+  BLACK_1,
+  WHITE_1,
+} = colors;
 
 const Canvas = ({
   bigFood,
@@ -30,10 +36,10 @@ const Canvas = ({
       return;
     }
 
-    context.clearRect(0, 0, boardWidth, boardHeight);
+    context.clearRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
     const html = document.querySelector('html');
-    context.fillStyle = html?.classList.contains('light') ? '#1E1E1E' : '#FFFFFF';
+    context.fillStyle = html?.classList.contains('light') ? BLACK_1 : WHITE_1;
 
     Painter.setContext(context);
 
@@ -51,8 +57,8 @@ const Canvas = ({
       id="canvas"
       className="game-canvas"
       ref={canvas}
-      width={boardWidth}
-      height={boardHeight}
+      width={BOARD_WIDTH}
+      height={BOARD_HEIGHT}
     />
   );
 };

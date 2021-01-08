@@ -6,7 +6,7 @@ import {
   ISnakePart,
 } from './interfaces';
 
-const { boardItemSize } = gameParams;
+const { BOARD_ITEM_SIZE } = gameParams;
 
 export default abstract class Painter {
   private static ctx: CanvasRenderingContext2D | null;
@@ -27,14 +27,14 @@ export default abstract class Painter {
     switch (direction) {
       case Direction.RIGHT: {
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE + 4,
           changeDirection ? 8 : 12,
           4,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize - 4,
-          y * boardItemSize + 8,
+          x * BOARD_ITEM_SIZE - 4,
+          y * BOARD_ITEM_SIZE + 8,
           changeDirection ? 12 : 16,
           4,
         );
@@ -42,14 +42,14 @@ export default abstract class Painter {
       }
       case Direction.LEFT: {
         Painter.ctx.fillRect(
-          changeDirection ? x * boardItemSize + 4 : x * boardItemSize,
-          y * boardItemSize + 4,
+          changeDirection ? x * BOARD_ITEM_SIZE + 4 : x * BOARD_ITEM_SIZE,
+          y * BOARD_ITEM_SIZE + 4,
           changeDirection ? 8 : 12,
           4,
         );
         Painter.ctx.fillRect(
-          changeDirection ? x * boardItemSize + 8 : x * boardItemSize + 4,
-          y * boardItemSize + 8,
+          changeDirection ? x * BOARD_ITEM_SIZE + 8 : x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE + 8,
           changeDirection ? 12 : 16,
           4,
         );
@@ -57,14 +57,14 @@ export default abstract class Painter {
       }
       case Direction.BOTTOM: {
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize - 4,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE - 4,
           4,
           changeDirection ? 12 : 16,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 8,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 8,
+          y * BOARD_ITEM_SIZE + 4,
           4,
           changeDirection ? 8 : 12,
         );
@@ -72,14 +72,14 @@ export default abstract class Painter {
       }
       case Direction.TOP: {
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          changeDirection ? y * boardItemSize + 8 : y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 4,
+          changeDirection ? y * BOARD_ITEM_SIZE + 8 : y * BOARD_ITEM_SIZE + 4,
           4,
           changeDirection ? 12 : 16,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 8,
-          changeDirection ? y * boardItemSize + 4 : y * boardItemSize,
+          x * BOARD_ITEM_SIZE + 8,
+          changeDirection ? y * BOARD_ITEM_SIZE + 4 : y * BOARD_ITEM_SIZE,
           4,
           changeDirection ? 8 : 12,
         );
@@ -102,14 +102,14 @@ export default abstract class Painter {
     switch (direction) {
       case Direction.RIGHT: {
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE + 4,
           changeDirection ? 8 : 12,
           4,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize,
-          y * boardItemSize + 8,
+          x * BOARD_ITEM_SIZE,
+          y * BOARD_ITEM_SIZE + 8,
           changeDirection ? 8 : 12,
           4,
         );
@@ -117,14 +117,14 @@ export default abstract class Painter {
       }
       case Direction.LEFT: {
         Painter.ctx.fillRect(
-          changeDirection ? x * boardItemSize + 4 : x * boardItemSize,
-          y * boardItemSize + 4,
+          changeDirection ? x * BOARD_ITEM_SIZE + 4 : x * BOARD_ITEM_SIZE,
+          y * BOARD_ITEM_SIZE + 4,
           changeDirection ? 8 : 12,
           4,
         );
         Painter.ctx.fillRect(
-          changeDirection ? x * boardItemSize + 8 : x * boardItemSize + 4,
-          y * boardItemSize + 8,
+          changeDirection ? x * BOARD_ITEM_SIZE + 8 : x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE + 8,
           changeDirection ? 8 : 12,
           4,
         );
@@ -132,14 +132,14 @@ export default abstract class Painter {
       }
       case Direction.BOTTOM: {
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE,
           4,
           changeDirection ? 8 : 12,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 8,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 8,
+          y * BOARD_ITEM_SIZE + 4,
           4,
           changeDirection ? 8 : 12,
         );
@@ -147,14 +147,14 @@ export default abstract class Painter {
       }
       case Direction.TOP: {
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          changeDirection ? y * boardItemSize + 8 : y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 4,
+          changeDirection ? y * BOARD_ITEM_SIZE + 8 : y * BOARD_ITEM_SIZE + 4,
           4,
           changeDirection ? 8 : 12,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 8,
-          changeDirection ? y * boardItemSize + 4 : y * boardItemSize,
+          x * BOARD_ITEM_SIZE + 8,
+          changeDirection ? y * BOARD_ITEM_SIZE + 4 : y * BOARD_ITEM_SIZE,
           4,
           changeDirection ? 8 : 12,
         );
@@ -177,26 +177,26 @@ export default abstract class Painter {
     switch (direction) {
       case Direction.RIGHT: {
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE,
           8,
           4,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE + 4,
           12,
           4,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize,
-          y * boardItemSize + 8,
+          x * BOARD_ITEM_SIZE,
+          y * BOARD_ITEM_SIZE + 8,
           changeDirection ? 16 : 12,
           4,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize + 12,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE + 12,
           8,
           4,
         );
@@ -204,26 +204,26 @@ export default abstract class Painter {
       }
       case Direction.LEFT: {
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE,
           8,
           4,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE,
+          y * BOARD_ITEM_SIZE + 4,
           12,
           4,
         );
         Painter.ctx.fillRect(
-          changeDirection ? x * boardItemSize : x * boardItemSize + 4,
-          y * boardItemSize + 8,
+          changeDirection ? x * BOARD_ITEM_SIZE : x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE + 8,
           changeDirection ? 16 : 12,
           4,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize + 12,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE + 12,
           8,
           4,
         );
@@ -231,26 +231,26 @@ export default abstract class Painter {
       }
       case Direction.BOTTOM: {
         Painter.ctx.fillRect(
-          x * boardItemSize,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE,
+          y * BOARD_ITEM_SIZE + 4,
           4,
           8,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          y * boardItemSize,
+          x * BOARD_ITEM_SIZE + 4,
+          y * BOARD_ITEM_SIZE,
           4,
           changeDirection ? 16 : 12,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 8,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 8,
+          y * BOARD_ITEM_SIZE + 4,
           4,
           12,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 12,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 12,
+          y * BOARD_ITEM_SIZE + 4,
           4,
           8,
         );
@@ -258,26 +258,26 @@ export default abstract class Painter {
       }
       case Direction.TOP: {
         Painter.ctx.fillRect(
-          x * boardItemSize,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE,
+          y * BOARD_ITEM_SIZE + 4,
           4,
           8,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 4,
-          changeDirection ? y * boardItemSize : y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 4,
+          changeDirection ? y * BOARD_ITEM_SIZE : y * BOARD_ITEM_SIZE + 4,
           4,
           changeDirection ? 16 : 12,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 8,
-          y * boardItemSize,
+          x * BOARD_ITEM_SIZE + 8,
+          y * BOARD_ITEM_SIZE,
           4,
           12,
         );
         Painter.ctx.fillRect(
-          x * boardItemSize + 12,
-          y * boardItemSize + 4,
+          x * BOARD_ITEM_SIZE + 12,
+          y * BOARD_ITEM_SIZE + 4,
           4,
           8,
         );
@@ -298,31 +298,31 @@ export default abstract class Painter {
     }
     switch (direction) {
       case Direction.RIGHT: {
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 12, y * boardItemSize + 4, 8, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 4, y * boardItemSize + 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize, y * boardItemSize + 8, 20, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 4, 8, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE + 8, 20, 4);
         break;
       }
       case Direction.LEFT: {
-        Painter.ctx.fillRect(x * boardItemSize + 4, y * boardItemSize, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize + 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize - 4, y * boardItemSize + 4, 8, 4);
-        Painter.ctx.fillRect(x * boardItemSize - 4, y * boardItemSize + 8, 20, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE - 4, y * BOARD_ITEM_SIZE + 4, 8, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE - 4, y * BOARD_ITEM_SIZE + 8, 20, 4);
         break;
       }
       case Direction.BOTTOM: {
-        Painter.ctx.fillRect(x * boardItemSize + 4, y * boardItemSize, 4, 20);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize + 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize + 12, 4, 8);
-        Painter.ctx.fillRect(x * boardItemSize + 12, y * boardItemSize + 8, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 20);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 12, 4, 8);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 8, 4, 4);
         break;
       }
       case Direction.TOP: {
-        Painter.ctx.fillRect(x * boardItemSize + 4, y * boardItemSize - 4, 4, 20);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize - 4, 4, 8);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize + 8, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 12, y * boardItemSize + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE - 4, 4, 20);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE - 4, 4, 8);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 8, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 4, 4, 4);
         break;
       }
       default:
@@ -340,39 +340,39 @@ export default abstract class Painter {
     }
     switch (direction) {
       case Direction.RIGHT: {
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 16, y * boardItemSize, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 12, y * boardItemSize + 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 4, y * boardItemSize + 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize, y * boardItemSize + 8, 16, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 16, y * boardItemSize + 12, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 16, y * BOARD_ITEM_SIZE, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE + 8, 16, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 16, y * BOARD_ITEM_SIZE + 12, 4, 4);
         break;
       }
       case Direction.LEFT: {
-        Painter.ctx.fillRect(x * boardItemSize - 4, y * boardItemSize, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 4, y * boardItemSize, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize + 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize, y * boardItemSize + 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize, y * boardItemSize + 8, 16, 4);
-        Painter.ctx.fillRect(x * boardItemSize - 4, y * boardItemSize + 12, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE - 4, y * BOARD_ITEM_SIZE, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE + 8, 16, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE - 4, y * BOARD_ITEM_SIZE + 12, 4, 4);
         break;
       }
       case Direction.BOTTOM: {
-        Painter.ctx.fillRect(x * boardItemSize, y * boardItemSize + 16, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 4, y * boardItemSize, 4, 16);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize + 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize + 12, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 12, y * boardItemSize + 8, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 12, y * boardItemSize + 16, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE + 16, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 16);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 12, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 8, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 16, 4, 4);
         break;
       }
       case Direction.TOP: {
-        Painter.ctx.fillRect(x * boardItemSize, y * boardItemSize - 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 4, y * boardItemSize, 4, 16);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 8, y * boardItemSize + 8, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 12, y * boardItemSize - 4, 4, 4);
-        Painter.ctx.fillRect(x * boardItemSize + 12, y * boardItemSize + 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE - 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 16);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 8, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE - 4, 4, 4);
+        Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 4, 4, 4);
         break;
       }
       default:
@@ -438,10 +438,10 @@ export default abstract class Painter {
     if (Painter.ctx === null) {
       return;
     }
-    Painter.ctx.fillRect(x * boardItemSize + 6, y * boardItemSize + 2, 4, 4);
-    Painter.ctx.fillRect(x * boardItemSize + 2, y * boardItemSize + 6, 4, 4);
-    Painter.ctx.fillRect(x * boardItemSize + 10, y * boardItemSize + 6, 4, 4);
-    Painter.ctx.fillRect(x * boardItemSize + 6, y * boardItemSize + 10, 4, 4);
+    Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 6, y * BOARD_ITEM_SIZE + 2, 4, 4);
+    Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 2, y * BOARD_ITEM_SIZE + 6, 4, 4);
+    Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 10, y * BOARD_ITEM_SIZE + 6, 4, 4);
+    Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 6, y * BOARD_ITEM_SIZE + 10, 4, 4);
   }
 
   public static renderBigFood({
@@ -451,8 +451,8 @@ export default abstract class Painter {
     if (Painter.ctx === null) {
       return;
     }
-    Painter.ctx.fillRect(x * boardItemSize + 5.5, y * boardItemSize + 0.5, 5, 5);
-    Painter.ctx.fillRect(x * boardItemSize + 0.5, y * boardItemSize + 5.5, 15, 5);
-    Painter.ctx.fillRect(x * boardItemSize + 5.5, y * boardItemSize + 10.5, 5, 5);
+    Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 5.5, y * BOARD_ITEM_SIZE + 0.5, 5, 5);
+    Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 0.5, y * BOARD_ITEM_SIZE + 5.5, 15, 5);
+    Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 5.5, y * BOARD_ITEM_SIZE + 10.5, 5, 5);
   }
 }

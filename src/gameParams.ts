@@ -1,20 +1,20 @@
-const boardItemSize = 16;
+const BOARD_ITEM_SIZE = 16;
 
-const boardWidthItemsCount = 62;
+const BOARD_WIDTH_ITEMS_COUNT = 62;
 
-const boardWidth = boardWidthItemsCount * boardItemSize;
+const BOARD_WIDTH = BOARD_WIDTH_ITEMS_COUNT * BOARD_ITEM_SIZE;
 
-const boardHeightItemsCount = 31;
+const BOARD_HEIGHT_ITEMS_COUNT = 31;
 
-const boardHeight = boardHeightItemsCount * boardItemSize;
+const BOARD_HEIGHT = BOARD_HEIGHT_ITEMS_COUNT * BOARD_ITEM_SIZE;
 
-const maxLevel = 7;
+const MAX_LEVEL = 7;
 
 export default {
-  boardItemSize,
-  boardWidthItemsCount,
-  boardWidth,
-  boardHeightItemsCount,
-  boardHeight,
-  maxLevel,
+  BOARD_ITEM_SIZE,
+  BOARD_WIDTH_ITEMS_COUNT,
+  BOARD_WIDTH,
+  BOARD_HEIGHT_ITEMS_COUNT,
+  BOARD_HEIGHT,
+  MAX_LEVEL,
 };

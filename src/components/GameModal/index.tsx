@@ -3,8 +3,8 @@ import { IGameModal } from './interfaces';
 import './index.css';
 
 const {
-  boardHeight,
-  boardWidth,
+  BOARD_HEIGHT,
+  BOARD_WIDTH,
 } = gameParams;
 
 const GameModal = ({
@@ -15,7 +15,7 @@ const GameModal = ({
 }: IGameModal) => (
   <div
     className="game-modal-wrapper"
-    style={{ width: boardWidth + 2, height: boardHeight + 2 }}
+    style={{ width: BOARD_WIDTH + 2, height: BOARD_HEIGHT + 2 }}
   >
     <div className="game-modal">
       <h2 className="game-modal__title">{title}</h2>

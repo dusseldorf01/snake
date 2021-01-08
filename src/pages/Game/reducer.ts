@@ -18,8 +18,8 @@ import {
 } from '@/pages/Game/helpers';
 
 const {
-  boardHeightItemsCount,
-  boardWidthItemsCount,
+  BOARD_HEIGHT_ITEMS_COUNT,
+  BOARD_WIDTH_ITEMS_COUNT,
 } = gameParams;
 
 export enum GameStatus {
@@ -68,6 +68,49 @@ export const initialGameState: IGameState = {
   timeToRemoveBigFood: 0,
 };
 
+const changeDirection = (
+  payload: Direction,
+  direction: Direction,
+  state: IGameState,
+): IGameState => {
+  switch (payload) {
+    case Direction.RIGHT:
+      return (
+        direction !== Direction.LEFT && direction !== Direction.RIGHT ? (
+          { ...state, direction: payload }
+        ) : (
+          state
+        )
+      );
+    case Direction.LEFT:
+      return (
+        direction !== Direction.RIGHT && direction !== Direction.LEFT ? (
+          { ...state, direction: payload }
+        ) : (
+          state
+        )
+      );
+    case Direction.TOP:
+      return (
+        direction !== Direction.BOTTOM && direction !== Direction.TOP ? (
+          { ...state, direction: payload }
+        ) : (
+          state
+        )
+      );
+    case Direction.BOTTOM:
+      return (
+        direction !== Direction.TOP && direction !== Direction.BOTTOM ? (
+          { ...state, direction: payload }
+        ) : (
+          state
+        )
+      );
+    default:
+      throw new Error('Unknown direction');
+  }
+};
+
 export const gameReducer: Reducer<IGameState, IGameReducerAction> = (
   state, {
     payload,
@@ -87,42 +130,7 @@ export const gameReducer: Reducer<IGameState, IGameReducerAction> = (
 
   switch (type) {
     case GameReducerType.CHANGE_DIRECTION: {
-      switch (payload) {
-        case Direction.RIGHT:
-          return (
-            direction !== Direction.LEFT && direction !== Direction.RIGHT ? (
-              { ...state, direction: payload }
-            ) : (
-              state
-            )
-          );
-        case Direction.LEFT:
-          return (
-            direction !== Direction.RIGHT && direction !== Direction.LEFT ? (
-              { ...state, direction: payload }
-            ) : (
-              state
-            )
-          );
-        case Direction.TOP:
-          return (
-            direction !== Direction.BOTTOM && direction !== Direction.TOP ? (
-              { ...state, direction: payload }
-            ) : (
-              state
-            )
-          );
-        case Direction.BOTTOM:
-          return (
-            direction !== Direction.TOP && direction !== Direction.BOTTOM ? (
-              { ...state, direction: payload }
-            ) : (
-              state
-            )
-          );
-        default:
-          throw new Error('Unknown direction');
-      }
+      return changeDirection(payload as Direction, direction, state);
     }
     case GameReducerType.CHANGE_GAME_STATUS: {
       return {
@@ -144,7 +152,7 @@ export const gameReducer: Reducer<IGameState, IGameReducerAction> = (
 
         const existOrNeedToCreateBigFood = newScore % 5 === 0 || timeToRemoveBigFood > 0;
 
-        const boardItemsCount = boardHeightItemsCount * boardWidthItemsCount;
+        const boardItemsCount = BOARD_HEIGHT_ITEMS_COUNT * BOARD_WIDTH_ITEMS_COUNT;
 
         if (!existOrNeedToCreateBigFood && newSnake.length === boardItemsCount) {
           return {

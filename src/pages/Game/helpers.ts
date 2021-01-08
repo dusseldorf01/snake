@@ -9,25 +9,25 @@ import getRandom from '@/utils/getRandom';
 import getLast from '@/utils/getLast';
 
 const {
-  boardHeightItemsCount,
-  boardWidthItemsCount,
-  maxLevel,
+  BOARD_HEIGHT_ITEMS_COUNT,
+  BOARD_WIDTH_ITEMS_COUNT,
+  MAX_LEVEL,
 } = gameParams;
 
 const getNextXCoordinate = (x: number) => (
-  x < boardWidthItemsCount - 1 ? x + 1 : 0
+  x < BOARD_WIDTH_ITEMS_COUNT - 1 ? x + 1 : 0
 );
 
 const getPrevXCoordinate = (x: number) => (
-  x > 0 ? x - 1 : boardWidthItemsCount - 1
+  x > 0 ? x - 1 : BOARD_WIDTH_ITEMS_COUNT - 1
 );
 
 const getNextYCoordinate = (y: number) => (
-  y < boardHeightItemsCount - 1 ? y + 1 : 0
+  y < BOARD_HEIGHT_ITEMS_COUNT - 1 ? y + 1 : 0
 );
 
 const getPrevYCoordinate = (y: number) => (
-  y > 0 ? y - 1 : boardHeightItemsCount - 1
+  y > 0 ? y - 1 : BOARD_HEIGHT_ITEMS_COUNT - 1
 );
 
 export const getNewSnakePart = (
@@ -56,20 +56,17 @@ export const checkReadyToEat = (
   bigFood: null | IFood,
 ): ISnakePart => {
   const { x, y } = head;
-  if (
-    ((x === getNextXCoordinate(food.x) || x === getPrevXCoordinate(food.x)) && y === food.y)
-    || ((y === getNextYCoordinate(food.y) || y === getPrevYCoordinate(food.y)) && x === food.x)
-    || (
-      bigFood && (
-        x === getNextXCoordinate(bigFood.x) || x === getPrevXCoordinate(bigFood.x)
-      ) && y === bigFood.y
-    )
-    || (
-      bigFood && (
-        y === getNextYCoordinate(bigFood.y) || y === getPrevYCoordinate(bigFood.y)
-      ) && x === bigFood.x
-    )
-  ) {
+  const isFoodNearOnX = (x === getNextXCoordinate(food.x) || x === getPrevXCoordinate(food.x))
+    && y === food.y;
+  const isFoodNearOnY = (y === getNextYCoordinate(food.y) || y === getPrevYCoordinate(food.y))
+    && x === food.x;
+  const isBigFoodNearOnX = bigFood && y === bigFood.y && (
+    x === getNextXCoordinate(bigFood.x) || x === getPrevXCoordinate(bigFood.x)
+  );
+  const isBigFoodNearOnY = bigFood && x === bigFood.x && (
+    y === getNextYCoordinate(bigFood.y) || y === getPrevYCoordinate(bigFood.y)
+  );
+  if (isFoodNearOnX || isFoodNearOnY || isBigFoodNearOnX || isBigFoodNearOnY) {
     return {
       ...head,
       readyToEat: true,
@@ -85,8 +82,8 @@ export const createFood = (snake: ISnakePart[], existingFood: IFood | null): IFo
 
   do {
     newFood = {
-      x: getRandom(0, boardWidthItemsCount - 1),
-      y: getRandom(0, boardHeightItemsCount - 1),
+      x: getRandom(0, BOARD_WIDTH_ITEMS_COUNT - 1),
+      y: getRandom(0, BOARD_HEIGHT_ITEMS_COUNT - 1),
     };
 
     // eslint-disable-next-line @typescript-eslint/no-loop-func
@@ -109,7 +106,7 @@ export const createBigFood = (
 });
 
 export const getLevel = (currentLevel: number, score: number): number => {
-  if (score % 20 === 0 && currentLevel < maxLevel) {
+  if (score % 20 === 0 && currentLevel < MAX_LEVEL) {
     return currentLevel + 1;
   }
   return currentLevel;
@@ -139,8 +136,8 @@ export const isDead = (head: ISnakeCoordinate, snake: ISnakePart[]): boolean => 
 );
 
 export const createSnake = (): ISnakePart[] => {
-  const x = getRandom(0, boardWidthItemsCount - 1);
-  const y = getRandom(0, boardHeightItemsCount - 1);
+  const x = getRandom(0, BOARD_WIDTH_ITEMS_COUNT - 1);
+  const y = getRandom(0, BOARD_HEIGHT_ITEMS_COUNT - 1);
   const snake: ISnakePart[] = [{ x, y, direction: Direction.RIGHT }];
 
   for (let i = 0; i < 3; i += 1) {
