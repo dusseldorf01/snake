@@ -1,0 +1,51 @@
+.game-modal-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--game-modal-bg-color);
+}
+
+.game-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-color);
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.game-modal__title {
+  font-size: var(--big-font-size);
+  font-weight: 500;
+  margin-bottom: 10px;
+  transition: 0.2s;
+}
+
+.game-modal__content {
+  margin-top: 10px;
+  text-align: center;
+  line-height: 1.75;
+}
+
+.game-modal__button {
+  margin-top: 30px;
+  font-size: var(--small-font-size);
+  color: var(--white-1);
+  background-color: var(--red-1);
+  padding: 14px 40px 12px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.game-modal__button:hover,
+.game-modal__button:focus,
+.game-modal__button:active {
+  background-color: var(--red-2);
+}

@@ -1,50 +1,35 @@
-$blue-1: #3369F3;
-$blue-2: #124DE2;
-$blue-3: #E4EDFD;
-$black-1: #1E1E1E;
-$black-2: #282C35;
-$black-3: #000000;
-$black-3-14: rgba(0, 0, 0, 0.14);
-$gray-1: #999999;
-$gray-2: #A9A9A9;
-$gray-3: #EAEAEA;
-$gray-4: #EFEFEF;
-$gray-5: #FBFBFB;
-$gray-6: #F5F5F5;
-$gray-7: #F8F8F8;
-$gray-8: #DDDDDD;
-$red-1: #FF2F2F;
-$red-2: #D62222;
-$white-1: #FFFFFF;
-
 :root {
-  --link-color: $blue-1;
+  --link-color: $BLUE_1;
   --extra-big-font-size: 40px;
   --big-font-size: 20px;
   --normal-font-size: 15px;
   --small-font-size: 13px;
   --extra-small-font-size: 9px;
-  --black-1: $black-1;
-  --white-1: $white-1;
-  --red-1: $red-1;
-  --gray-1: $gray-1;
-  --gray-2: $gray-2;
-  --gray-3: $gray-3;
-  --blue-1: $blue-1;
-  --box-shadow: 0 0 6px 0 $black-3-14;
-  --text-secondary-color: $gray-1;
+  --black-1: $BLACK_1;
+  --white-1: $WHITE_1;
+  --red-1: $RED_1;
+  --red-2: $RED_2;
+  --gray-1: $GRAY_1;
+  --gray-2: $GRAY_2;
+  --gray-3: $GRAY_3;
+  --blue-1: $BLUE_1;
+  --blue-2: $BLUE_2;
+  --box-shadow: 0 0 6px 0 $BLACK_3_14;
+  --text-secondary-color: $GRAY_1;
 }
 
 .light:root {
-  --text-primary-color: $black-1;
-  --background-color: $white-1;
-  --menu-item-color: $blue-1;
-  --loader-color: $black-1;
+  --text-primary-color: $BLACK_1;
+  --background-color: $WHITE_1;
+  --menu-item-color: $BLUE_1;
+  --loader-color: $BLACK_1;
+  --game-modal-bg-color: $WHITE_1_80;
 }
 
 .dark:root {
-  --text-primary-color: $white-1;
-  --background-color: $black-2;
-  --menu-item-color: $blue-3;
-  --loader-color: $white-1;
+  --text-primary-color: $WHITE_1;
+  --background-color: $BLACK_2;
+  --menu-item-color: $BLUE_2;
+  --loader-color: $WHITE_1;
+  --game-modal-bg-color: $BLACK_3_14;
 }
