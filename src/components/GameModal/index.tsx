@@ -1,16 +1,15 @@
-import gameParams from '@/gameParams';
+import gameConfig from '@/game/config';
 import { IGameModal } from './interfaces';
 import './index.css';
 
 const {
   BOARD_HEIGHT,
   BOARD_WIDTH,
-} = gameParams;
+} = gameConfig;
 
 const GameModal = ({
-  buttonLabel,
+  buttons,
   children,
-  onClick,
   title,
 }: IGameModal) => (
   <div
@@ -24,13 +23,18 @@ const GameModal = ({
           {children}
         </div>
       )}
-      <button
-        className="game-modal__button"
-        onClick={onClick}
-        type="button"
-      >
-        {buttonLabel}
-      </button>
+      <div className="game-modal-button-group">
+        {buttons.map(({ label, onClick }, index) => (
+          <button
+            key={label}
+            className="game-modal-button-group__item"
+            onClick={onClick}
+            type={index === 0 ? 'submit' : 'button'}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
     </div>
   </div>
 );

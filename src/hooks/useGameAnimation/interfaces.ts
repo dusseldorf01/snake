@@ -2,7 +2,7 @@ import { Dispatch } from 'react';
 import {
   GameStatus,
   IGameReducerAction,
-} from '@/pages/Game/reducer';
+} from '@/game/interfaces';
 
 export interface IUseGameAnimation {
   dispatch: Dispatch<IGameReducerAction>;

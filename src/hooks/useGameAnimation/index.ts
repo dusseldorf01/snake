@@ -6,7 +6,7 @@ import { IUseGameAnimation } from '@/hooks/useGameAnimation/interfaces';
 import {
   GameReducerType,
   GameStatus,
-} from '@/pages/Game/reducer';
+} from '@/game/interfaces';
 
 export default ({
   dispatch,
@@ -41,5 +41,5 @@ export default ({
     return () => {
       cancelAnimationFrame(animationRef.current);
     };
-  }, [status]);
+  }, [status, level]);
 };

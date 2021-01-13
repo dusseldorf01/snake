@@ -3,7 +3,7 @@ import { IUseKeyboardChangeDirection } from '@/hooks/useKeyboardChangeDirection/
 import {
   GameReducerType,
   GameStatus,
-} from '@/pages/Game/reducer';
+} from '@/game/interfaces';
 import { Direction } from '@/lib/Painter/interfaces';
 
 export default ({
@@ -12,10 +12,12 @@ export default ({
   keyLeft,
   keyRight,
   keyUp,
+  number,
   status,
+  trueCondition,
 }: IUseKeyboardChangeDirection) => {
   useEffect(() => {
-    if (status !== GameStatus.RUNNING) {
+    if (!trueCondition) {
       return;
     }
 
@@ -23,28 +25,40 @@ export default ({
       switch (key) {
         case keyUp: {
           dispatch({
-            payload: Direction.TOP,
+            payload: {
+              dir: Direction.TOP,
+              number,
+            },
             type: GameReducerType.CHANGE_DIRECTION,
           });
           break;
         }
         case keyDown: {
           dispatch({
-            payload: Direction.BOTTOM,
+            payload: {
+              dir: Direction.BOTTOM,
+              number,
+            },
             type: GameReducerType.CHANGE_DIRECTION,
           });
           break;
         }
         case keyRight: {
           dispatch({
-            payload: Direction.RIGHT,
+            payload: {
+              dir: Direction.RIGHT,
+              number,
+            },
             type: GameReducerType.CHANGE_DIRECTION,
           });
           break;
         }
         case keyLeft: {
           dispatch({
-            payload: Direction.LEFT,
+            payload: {
+              dir: Direction.LEFT,
+              number,
+            },
             type: GameReducerType.CHANGE_DIRECTION,
           });
           break;

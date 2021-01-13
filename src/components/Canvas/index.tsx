@@ -1,17 +1,19 @@
 import {
+  memo,
   useEffect,
   useRef,
 } from 'react';
-import gameParams from '@/gameParams';
+import gameConfig from '@/game/config';
 import Painter from '@/lib/Painter';
 import colors from '@/styles/colors';
+import maps from '@/game/maps';
 import { ICanvas } from './interfaces';
 import './index.css';
 
 const {
   BOARD_HEIGHT,
   BOARD_WIDTH,
-} = gameParams;
+} = gameConfig;
 
 const {
   BLACK_1,
@@ -21,7 +23,8 @@ const {
 const Canvas = ({
   bigFood,
   food,
-  snake,
+  map: mapIndex,
+  snakes,
 }: ICanvas) => {
   const canvas = useRef<HTMLCanvasElement>(null);
 
@@ -43,9 +46,13 @@ const Canvas = ({
 
     Painter.setContext(context);
 
-    Painter.renderSnake(snake);
+    snakes.forEach((snake) => {
+      Painter.renderSnake(snake);
+    });
 
     Painter.renderFood(food);
+
+    Painter.renderMap(maps[mapIndex]);
 
     if (bigFood !== null) {
       Painter.renderBigFood(bigFood);
@@ -63,4 +70,4 @@ const Canvas = ({
   );
 };
 
-export default Canvas;
+export default memo(Canvas);

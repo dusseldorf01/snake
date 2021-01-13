@@ -5,11 +5,11 @@ interface DefaultLayoutProps {
 }
 
 const GuestLayout = ({ children }: DefaultLayoutProps) => (
-  <div className="page-container">
+  <>
     <main className="page-content">
       {children}
     </main>
-  </div>
+  </>
 );
 
 export default GuestLayout;

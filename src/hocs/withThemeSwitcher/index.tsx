@@ -2,6 +2,7 @@ import {
   FunctionComponent,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import './index.css';
@@ -12,19 +13,29 @@ export enum Themes {
 }
 
 const withThemeSwitcher = (Component: FunctionComponent<any>) => (props: any) => {
+  const mounted = useRef<boolean>(false);
+
   const [theme, setTheme] = useState<Themes>(Themes.LIGHT);
   const toggleTheme = () => setTheme((t) => (t === Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
   useEffect(() => {
+    if (!mounted.current) {
+      return;
+    }
+
     const html = document.querySelector('html');
 
     if (theme === Themes.DARK) {
-      html?.classList.add('dark');
-      html?.classList.remove('light');
+      html?.classList.add(Themes.DARK);
+      html?.classList.remove(Themes.LIGHT);
     } else {
-      html?.classList.add('light');
-      html?.classList.remove('dark');
+      html?.classList.add(Themes.LIGHT);
+      html?.classList.remove(Themes.DARK);
     }
   }, [theme]);
+
+  useEffect(() => {
+    mounted.current = true;
+  }, []);
 
   const Switcher: FunctionComponent<{}> = useCallback(() => (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control

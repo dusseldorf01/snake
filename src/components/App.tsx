@@ -4,6 +4,7 @@ import Routes from '@/routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { userStateSelector } from '@/selectors/user';
 import { userInfoActions } from '@/actions/user';
+import { Themes } from '@/hocs/withThemeSwitcher';
 import Loader from './Loader';
 
 const AppLoader = () => (
@@ -18,15 +19,20 @@ export default () => {
 
   useEffect(() => {
     dispatch(userInfoActions.request());
+
+    const html = document.querySelector('html');
+    html?.classList.add(Themes.LIGHT);
   }, []);
 
   return (
-    <ErrorBoundary>
-      {userState.loading ? <AppLoader /> : (
-        <Suspense fallback={<AppLoader />}>
-          <Routes />
-        </Suspense>
-      )}
-    </ErrorBoundary>
+    <div className="page-container">
+      <ErrorBoundary>
+        {userState.loading ? <AppLoader /> : (
+          <Suspense fallback={<AppLoader />}>
+            <Routes />
+          </Suspense>
+        )}
+      </ErrorBoundary>
+    </div>
   );
 };
