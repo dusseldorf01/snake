@@ -116,7 +116,7 @@ const Registration = () => {
           Зарегистрироваться
         </button>
         <a
-          href="/"
+          href="/login"
           className={cssRegistrationForm.registrationFormLink}
         >
           Войти
