@@ -1,23 +1,19 @@
 import {
-  FunctionComponent,
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
-import RegistrationInput from '@/components/RegistrationInput';
+import Input from '@/components/Input';
 import {
   IRegistrationModel,
   registrationInitialModel,
 } from '@/models/registration';
-import cssRegistrationForm from '@/styles/registration-form.css';
 import validate from '@/utils/validate';
-import isRequired from '@/utils/isRequired';
-import isPhone from '@/utils/isPhone';
-import isEmail from '@/utils/isEmail';
-import areEqualPasswords from '@/utils/areEqualPasswords';
+import { checkFormField } from '@/utils/checkFormField';
 
+import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';
 
-const Registration: FunctionComponent<{}> = () => {
+const Registration = () => {
   const {
     errors,
     handleBlur,
@@ -30,13 +26,14 @@ const Registration: FunctionComponent<{}> = () => {
     initialValues: registrationInitialModel,
     validate: (v) => (
       validate<IRegistrationModel>({
-        firstName: [isRequired(v.firstName)],
-        secondName: [isRequired(v.secondName)],
-        login: [isRequired(v.login)],
-        email: [isRequired(v.email), isEmail(v.email)],
-        phone: [isRequired(v.phone), isPhone(v.phone)],
-        password: [isRequired(v.password)],
-        passwordRepeat: [areEqualPasswords(v.password, v.passwordRepeat)],
+        firstName: [checkFormField.requiredField(v.firstName)],
+        secondName: [checkFormField.requiredField(v.secondName)],
+        login: [checkFormField.requiredField(v.login)],
+        email: [checkFormField.requiredField(v.email), checkFormField.email(v.email)],
+        phone: [checkFormField.requiredField(v.phone), checkFormField.phone(v.phone)],
+        password: [checkFormField.requiredField(v.password)],
+        passwordRepeat: [checkFormField.requiredField(v.passwordRepeat),
+          checkFormField.passwordRepeat(v.password, v.passwordRepeat)],
       })
     ),
     onSubmit: (v) => {
@@ -51,11 +48,11 @@ const Registration: FunctionComponent<{}> = () => {
   return (
     <div className={cssCommon.centerContent}>
       <form
-        className={cssRegistrationForm.registrationForm}
+        className={cssForm.appForm}
         onSubmit={handleSubmit}
       >
-        <h1 className={cssRegistrationForm.registrationFormTitle}>Регистрация</h1>
-        <RegistrationInput
+        <h1 className={cssForm.appFormTitle}>Регистрация</h1>
+        <Input
           error={touched.firstName && errors.firstName}
           label="Имя"
           name="firstName"
@@ -63,7 +60,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.firstName}
         />
-        <RegistrationInput
+        <Input
           error={touched.secondName && errors.secondName}
           label="Фамилия"
           name="secondName"
@@ -71,7 +68,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.secondName}
         />
-        <RegistrationInput
+        <Input
           error={touched.login && errors.login}
           label="Логин"
           name="login"
@@ -79,7 +76,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.login}
         />
-        <RegistrationInput
+        <Input
           error={touched.email && errors.email}
           label="Почта"
           name="email"
@@ -87,7 +84,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.email}
         />
-        <RegistrationInput
+        <Input
           error={touched.phone && errors.phone}
           label="Телефон"
           name="phone"
@@ -95,7 +92,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.phone}
         />
-        <RegistrationInput
+        <Input
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
@@ -103,7 +100,7 @@ const Registration: FunctionComponent<{}> = () => {
           onChange={handleChange}
           value={values.password}
         />
-        <RegistrationInput
+        <Input
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"
@@ -113,13 +110,13 @@ const Registration: FunctionComponent<{}> = () => {
         />
         <button
           type="submit"
-          className={cssRegistrationForm.registrationFormButton}
+          className={cssForm.appFormButton}
         >
           Зарегистрироваться
         </button>
         <a
-          href="/login"
-          className={cssRegistrationForm.registrationFormLink}
+          href="/"
+          className={cssForm.appFormLink}
         >
           Войти
         </a>

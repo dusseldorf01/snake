@@ -1,36 +1,37 @@
 import {
   lazy,
-  LazyExoticComponent,
 } from 'react';
+import { Switch } from 'react-router';
+import { Route } from 'react-router-dom';
+import PrivateRoute from '@/components/Route/PrivateRoute';
+import GuestRoute from '@/components/Route/GuestRoute';
+import DefaultLayout from '@/components/Layout/DefaultLayout';
+import GuestLayout from '@/components/Layout/GuestLayout';
 
-export interface IRoute {
-  view: LazyExoticComponent<any>;
-  exact?: boolean;
-  path?: string,
-}
+const Routes = () => (
+  <Switch>
+    <Route path={['/login', '/register']}>
+      <GuestLayout>
+        <Switch>
+          <GuestRoute path="/register" component={lazy(() => import('./pages/Registration'))} />
+          <GuestRoute path="/login" component={lazy(() => import('./pages/Login'))} />
+        </Switch>
+      </GuestLayout>
+    </Route>
+    <Route>
+      <DefaultLayout>
+        <Switch>
+          <PrivateRoute path="/profile/edit" component={lazy(() => import('./pages/ProfileSettings'))} />
+          <PrivateRoute path="/profile" component={lazy(() => import('./pages/Profile'))} />
+          <PrivateRoute path="/leaderboard" component={lazy(() => import('./pages/Leaderboard'))} />
+          <PrivateRoute path="/forum" component={lazy(() => import('./pages/Forum'))} />
+          <PrivateRoute path="/feedback" component={lazy(() => import('./pages/Feedback'))} />
+          <PrivateRoute path="/" component={lazy(() => import('./pages/Game'))} />
+          <Route path="*" component={lazy(() => import('./pages/Error404'))} />
+        </Switch>
+      </DefaultLayout>
+    </Route>
+  </Switch>
+);
 
-const routes: IRoute[] = [{
-  exact: true,
-  path: '/',
-  view: lazy(() => import('./pages/Game')),
-}, {
-  path: '/profile/edit',
-  view: lazy(() => import('./pages/ProfileSettings')),
-}, {
-  path: '/profile',
-  view: lazy(() => import('./pages/Profile')),
-}, {
-  path: '/leaderboard',
-  view: lazy(() => import('./pages/Leaderboard')),
-}, {
-  path: '/forum',
-  view: lazy(() => import('./pages/Forum')),
-}, {
-  path: '/feedback',
-  view: lazy(() => import('./pages/Feedback')),
-}, {
-  // этот роут должен быть последним, тк будет отображаться, если предыдущие роуты не подойдут
-  view: lazy(() => import('./pages/Error404')),
-}];
-
-export default routes;
+export default Routes;

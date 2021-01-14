@@ -5,8 +5,10 @@ import {
 import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
 
+import { checkFormField } from '@/utils/checkFormField';
+
 import validate from '@/utils/validate';
-import isRequired from '@/utils/isRequired';
+
 import { ILoginModel, loginInitialModel } from '@/models/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStateSelector } from '@/selectors/user';
@@ -32,8 +34,8 @@ const Login: FunctionComponent<{}> = () => {
     initialValues: loginInitialModel,
     validate: (v) => (
       validate<ILoginModel>({
-        login: [isRequired(v.login)],
-        password: [isRequired(v.password)],
+        login: [checkFormField.requiredField(v.login)],
+        password: [checkFormField.requiredField(v.password)],
       })
     ),
     onSubmit: (v) => {
