@@ -6,5 +6,5 @@ export interface IFormTextarea {
   onBlur: (e: SyntheticEvent) => void;
   onChange: (e: SyntheticEvent) => void;
   value: string;
-  error?: string | boolean;
+  error?: string | false;
 }

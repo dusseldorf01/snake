@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import Input from '@/components/Input';
 import Textarea from '@/components/Textarea';
@@ -7,10 +7,11 @@ import { feedbackInitialModel, IFeedbackModel } from '@/models/feedback';
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
 
-import '@/styles/form.css';
-import './index.css';
+import cssForm from '@/styles/form.css';
+import cssCommon from '@/styles/common.css';
+import css from './index.css';
 
-const Feedback: FunctionComponent<{}> = () => {
+const Feedback = () => {
   const {
     errors,
     handleBlur,
@@ -39,12 +40,12 @@ const Feedback: FunctionComponent<{}> = () => {
   }, []);
 
   return (
-    <div className="center-content">
+    <div className={cssCommon.centerContent}>
       <form
-        className="feedback-form"
+        className={css.feedbackForm}
         onSubmit={handleSubmit}
       >
-        <h1 className="app-form__title ">Форма обратной связи</h1>
+        <h1 className={cssForm.appFormTitle}>Форма обратной связи</h1>
         <Input
           error={touched.name && errors.name}
           label="Имя"
@@ -81,7 +82,7 @@ const Feedback: FunctionComponent<{}> = () => {
         />
         <button
           type="submit"
-          className="app-form__button"
+          className={cssForm.appFormButton}
         >
           Отправить
         </button>

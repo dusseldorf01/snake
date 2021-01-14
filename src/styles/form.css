@@ -1,4 +1,6 @@
-.app-form {
+@import "variables.css";
+
+.appForm {
   width: 340px;
   font-size: 13px;
   padding: 50px 30px;
@@ -8,13 +10,13 @@
   flex-direction: column;
 }
 
-.app-form__title {
+.appFormTitle {
   font-size: 20px;
   text-align: center;
   margin-bottom: 40px;
 }
 
-.app-form__button {
+.appFormButton {
   text-align: center;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -29,11 +31,11 @@
   border: 1px solid var(--form-btn-border-color);
 }
 
-.app-form__link {
+.appFormLink {
   align-self: center;
 }
 
-.input-group {
+.inputGroup {
   display: block;
   position: relative;
   padding-top: 15px;
@@ -46,13 +48,13 @@
   transition: .2s;
 }
 
-.input-group__input {
+.inputGroupInput {
   color: var(--input-text-color);
   background-color: var(--background-color);
   transition: .2s;
 }
 
-.input-group__label {
+.inputGroupLabel {
   position: absolute;
   top: 17px;
   left: 0;
@@ -61,13 +63,13 @@
   transition: .2s;
 }
 
-.input-group_with-value .input-group__label,
-.input-group__input:focus ~ .input-group__label {
+.inputGroupWithValue .inputGroupLabel,
+.inputGroupInput:focus ~ .inputGroupLabel {
   top: 0;
   font-size: var(--extra-small-font-size);
 }
 
-.input-group__error {
+.inputGroupError {
   position: absolute;
   left: 0;
   color: var(--red-1);

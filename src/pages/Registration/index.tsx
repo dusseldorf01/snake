@@ -1,5 +1,4 @@
 import {
-  FunctionComponent,
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
@@ -8,11 +7,13 @@ import {
   IRegistrationModel,
   registrationInitialModel,
 } from '@/models/registration';
-import '@/styles/form.css';
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
 
-const Registration: FunctionComponent<{}> = () => {
+import cssForm from '@/styles/form.css';
+import cssCommon from '@/styles/common.css';
+
+const Registration = () => {
   const {
     errors,
     handleBlur,
@@ -45,12 +46,12 @@ const Registration: FunctionComponent<{}> = () => {
   }, []);
 
   return (
-    <div className="center-content">
+    <div className={cssCommon.centerContent}>
       <form
-        className="app-form"
+        className={cssForm.appForm}
         onSubmit={handleSubmit}
       >
-        <h1 className="app-form__title">Регистрация</h1>
+        <h1 className={cssForm.appFormTitle}>Регистрация</h1>
         <Input
           error={touched.firstName && errors.firstName}
           label="Имя"
@@ -109,13 +110,13 @@ const Registration: FunctionComponent<{}> = () => {
         />
         <button
           type="submit"
-          className="app-form__button"
+          className={cssForm.appFormButton}
         >
           Зарегистрироваться
         </button>
         <a
           href="/"
-          className="app-form__link"
+          className={cssForm.appFormLink}
         >
           Войти
         </a>

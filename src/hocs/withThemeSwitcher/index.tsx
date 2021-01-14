@@ -4,7 +4,10 @@ import {
   useEffect,
   useState,
 } from 'react';
-import './index.css';
+
+import cssRoot from '@/styles/variables.css';
+import cssCommon from '@/styles/common.css';
+import css from './index.css';
 
 export enum Themes {
   LIGHT = 'light',
@@ -18,25 +21,25 @@ const withThemeSwitcher = (Component: FunctionComponent<any>) => (props: any) =>
     const html = document.querySelector('html');
 
     if (theme === Themes.DARK) {
-      html?.classList.add('dark');
-      html?.classList.remove('light');
+      html?.classList.add(cssRoot.dark);
+      html?.classList.remove(cssRoot.light);
     } else {
-      html?.classList.add('light');
-      html?.classList.remove('dark');
+      html?.classList.add(cssRoot.light);
+      html?.classList.remove(cssRoot.dark);
     }
   }, [theme]);
 
   const Switcher: FunctionComponent<{}> = useCallback(() => (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control
-    <label className="theme-switcher">
+    <label className={css['theme-switcher']}>
       <input
-        className="theme-switcher__input"
+        className={css['theme-switcher__input']}
         name="theme-switcher"
         onChange={toggleTheme}
         type="checkbox"
       />
-      <span className="theme-switcher__bounce" />
-      <span className="visually-hidden">Переключить тему</span>
+      <span className={css['theme-switcher__bounce']} />
+      <span className={cssCommon.visuallyHidden}>Переключить тему</span>
     </label>
   ), []);
 

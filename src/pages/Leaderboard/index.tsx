@@ -1,6 +1,4 @@
-import { FunctionComponent } from 'react';
-
-const Leaderboard: FunctionComponent<{}> = () => (
+const Leaderboard = () => (
   <div>Таблица лидеров</div>
 );
 

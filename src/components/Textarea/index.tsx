@@ -1,10 +1,9 @@
-import {
-  FunctionComponent, memo,
-} from 'react';
+import { memo } from 'react';
+import cssForm from '@/styles/form.css';
 import { IFormTextarea } from './interfaces';
-import './index.css';
+import cssTextarea from './index.css';
 
-const Textarea: FunctionComponent<IFormTextarea> = ({
+const Textarea = ({
   label,
   name,
   onChange,
@@ -13,17 +12,17 @@ const Textarea: FunctionComponent<IFormTextarea> = ({
   error,
 }: IFormTextarea) => (
   // eslint-disable-next-line jsx-a11y/label-has-associated-control
-  <label className={`input-group${value ? ' input-group_with-value' : ''}`}>
+  <label className={`${cssForm.inputGroup} ${value ? cssForm.inputGroupWithValue : ''}`}>
     <textarea
-      className="input-group__input form-message"
+      className={`${cssForm.inputGroupInput} ${cssTextarea.formMessage}`}
       name={name}
       onChange={onChange}
       onBlur={onBlur}
       value={value}
     />
-    <span className="input-group__label">{label}</span>
+    <span className={cssForm.inputGroupLabel}>{label}</span>
     {error && (
-      <span className="input-group__error">{error}</span>
+      <span className={cssForm.inputGroupError}>{error}</span>
     )}
   </label>
 );

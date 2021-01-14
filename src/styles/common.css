@@ -68,7 +68,7 @@ button:not(:focus-visible) {
   background-color: rgba(var(--gray-1), 0.5);
 }
 
-.visually-hidden {
+.visuallyHidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -81,7 +81,7 @@ button:not(:focus-visible) {
   clip-path: inset(100%);
 }
 
-.page-container {
+.pageContainer {
   width: 1040px;
   display: flex;
   flex-direction: column;
@@ -92,14 +92,14 @@ button:not(:focus-visible) {
   min-height: 100vh;
 }
 
-.page-content {
+.pageContent {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding-top: 20px;
 }
 
-.center-content {
+.centerContent {
   display: flex;
   justify-content: center;
   align-items: center;

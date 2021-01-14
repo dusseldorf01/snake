@@ -1,5 +1,4 @@
 import {
-  FunctionComponent,
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
@@ -10,12 +9,12 @@ import {
 } from '@/models/profileSettings';
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
-import AvatarSettings from '@/components/AvatarSettings';
 
-import '@/styles/form.css';
-import './index.css';
+import cssForm from '@/styles/form.css';
+import cssCommon from '@/styles/common.css';
+import cssPage from './index.css';
 
-const ProfileSettings: FunctionComponent<{}> = () => {
+const ProfileSettings = () => {
   let inputFile:HTMLInputElement;
   const {
     errors,
@@ -29,6 +28,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
     initialValues: profileSettingsInitialModel,
     validate: (v) => (
       validate<IProfileSettingsModel>({
+        avatar: [checkFormField.avatar(inputFile)],
         firstName: [checkFormField.requiredField(v.firstName)],
         secondName: [checkFormField.requiredField(v.secondName)],
         login: [checkFormField.requiredField(v.login)],
@@ -48,7 +48,6 @@ const ProfileSettings: FunctionComponent<{}> = () => {
           formData.append('avatar', file);
         }
       }
-
       console.log(v);
     },
   });
@@ -58,14 +57,17 @@ const ProfileSettings: FunctionComponent<{}> = () => {
   }, []);
 
   return (
-    <div className="center-content">
+    <div className={cssCommon.centerContent}>
       <form
-        className="profile-settings-form"
+        className={cssPage.profileSettingsForm}
         onSubmit={handleSubmit}
       >
-        <h1 className="app-form__title">Изменение данных профиля</h1>
-        <AvatarSettings
+        <h1 className={cssForm.appFormTitle}>Изменение данных профиля</h1>
+        <Input
+          error={touched.avatar && errors.avatar}
           name="avatar"
+          type="file"
+          onBlur={handleBlur}
           onChange={handleChange}
           value={values.avatar}
           /* eslint-disable-next-line no-return-assign */
@@ -131,7 +133,7 @@ const ProfileSettings: FunctionComponent<{}> = () => {
         />
         <button
           type="submit"
-          className="app-form__button"
+          className={cssForm.appFormButton}
         >
           Изменить данные
         </button>

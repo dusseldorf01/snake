@@ -1,8 +1,8 @@
-import { FunctionComponent } from 'react';
 import Error from '@/components/Error';
+import cssCommon from '@/styles/common.css';
 
-const Error500: FunctionComponent<{}> = () => (
-  <div className="center-content">
+const Error500 = () => (
+  <div className={cssCommon.centerContent}>
     <Error
       description="Мы уже фиксим"
       title="Ошибка 500"

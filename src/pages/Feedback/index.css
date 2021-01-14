@@ -1,4 +1,5 @@
-.feedback-form {
+.feedbackForm {
   width: 50%;
   min-width: 320px;
+  margin: auto;
 }

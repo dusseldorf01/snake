@@ -5,17 +5,18 @@ import {
 } from 'react-router';
 import routes, { IRoute } from '@/routes';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import css from '@/styles/index.css';
 import Header from './Header';
 import Loader from './Loader';
 
 export default () => (
-  <div className="page-container">
+  <div className={css.pageContainer}>
     <Header />
-    <main className="page-content">
+    <main className={css.pageContent}>
       <ErrorBoundary>
         <Suspense
           fallback={(
-            <div className="center-content">
+            <div className={css.centerContent}>
               <Loader />
             </div>
           )}
