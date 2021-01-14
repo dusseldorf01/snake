@@ -1,10 +1,9 @@
-import { FunctionComponent } from 'react';
 import cssCommon from '@/styles/common.css';
 import { IProfile } from './interfaces';
 import defaultAvatar from './images/avatar.png';
 import css from './index.css';
 
-const Profile: FunctionComponent<IProfile> = ({
+const Profile = ({
   avatar = defaultAvatar,
   children,
   displayName,

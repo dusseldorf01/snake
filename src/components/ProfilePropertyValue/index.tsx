@@ -1,8 +1,7 @@
-import { FunctionComponent } from 'react';
 import { IProfilePropertyValue } from './interfaces';
 import css from './index.css';
 
-const ProfilePropertyValue: FunctionComponent<IProfilePropertyValue> = ({
+const ProfilePropertyValue = ({
   title,
   value,
 }: IProfilePropertyValue) => (

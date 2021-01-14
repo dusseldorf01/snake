@@ -2,7 +2,7 @@ import {
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
-import Input from '@/components/Input';
+import RegistrationInput from '@/components/RegistrationInput';
 import {
   IRegistrationModel,
   registrationInitialModel,
@@ -11,6 +11,7 @@ import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
 
 import cssForm from '@/styles/form.css';
+import cssRegistrationForm from '@/styles/registration-form.css';
 import cssCommon from '@/styles/common.css';
 
 const Registration = () => {
@@ -52,7 +53,7 @@ const Registration = () => {
         onSubmit={handleSubmit}
       >
         <h1 className={cssForm.appFormTitle}>Регистрация</h1>
-        <Input
+        <RegistrationInput
           error={touched.firstName && errors.firstName}
           label="Имя"
           name="firstName"
@@ -60,7 +61,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.firstName}
         />
-        <Input
+        <RegistrationInput
           error={touched.secondName && errors.secondName}
           label="Фамилия"
           name="secondName"
@@ -68,7 +69,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.secondName}
         />
-        <Input
+        <RegistrationInput
           error={touched.login && errors.login}
           label="Логин"
           name="login"
@@ -76,7 +77,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.login}
         />
-        <Input
+        <RegistrationInput
           error={touched.email && errors.email}
           label="Почта"
           name="email"
@@ -84,7 +85,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.email}
         />
-        <Input
+        <RegistrationInput
           error={touched.phone && errors.phone}
           label="Телефон"
           name="phone"
@@ -92,7 +93,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.phone}
         />
-        <Input
+        <RegistrationInput
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
@@ -100,7 +101,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.password}
         />
-        <Input
+        <RegistrationInput
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"
@@ -110,13 +111,13 @@ const Registration = () => {
         />
         <button
           type="submit"
-          className={cssForm.appFormButton}
+          className={cssRegistrationForm.registrationFormButton}
         >
           Зарегистрироваться
         </button>
         <a
           href="/"
-          className={cssForm.appFormLink}
+          className={cssRegistrationForm.registrationFormLink}
         >
           Войти
         </a>

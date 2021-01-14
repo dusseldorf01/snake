@@ -1,11 +1,11 @@
 import {
-  FunctionComponent,
+
   memo,
 } from 'react';
 import { IRegistrationInput } from './interfaces';
 import css from './index.css';
 
-const RegistrationInput: FunctionComponent<IRegistrationInput> = ({
+const RegistrationInput = ({
   error,
   label,
   name,

@@ -1,4 +1,3 @@
-import { FunctionComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import withThemeSwitcher from '@/hocs/withThemeSwitcher';
 import {
@@ -24,7 +23,7 @@ const menu: IMenuItem[] = [{
   path: '/feedback',
 }];
 
-const Menu: FunctionComponent<IMenu> = ({
+const Menu = ({
   Switcher,
 }: IMenu) => (
   <div className={css.menuContainer}>

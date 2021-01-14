@@ -1,4 +1,3 @@
-import { FunctionComponent } from 'react';
 import css from './index.css';
 
 const circles: JSX.Element[] = [];
@@ -12,7 +11,7 @@ for (let i = 0; i < 12; i += 1) {
   );
 }
 
-const Loader: FunctionComponent<{}> = () => (
+const Loader = () => (
   <div className={css.loader}>
     {circles}
   </div>

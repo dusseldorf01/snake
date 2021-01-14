@@ -1,5 +1,4 @@
 import {
-  FunctionComponent,
   useCallback,
   useEffect,
   useState,
@@ -14,7 +13,7 @@ export enum Themes {
   DARK = 'dark',
 }
 
-const withThemeSwitcher = (Component: FunctionComponent<any>) => (props: any) => {
+const withThemeSwitcher = (Component:any) => (props: any) => {
   const [theme, setTheme] = useState<Themes>(Themes.LIGHT);
   const toggleTheme = () => setTheme((t) => (t === Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
   useEffect(() => {
@@ -29,7 +28,7 @@ const withThemeSwitcher = (Component: FunctionComponent<any>) => (props: any) =>
     }
   }, [theme]);
 
-  const Switcher: FunctionComponent<{}> = useCallback(() => (
+  const Switcher = useCallback(() => (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label className={css.themeSwitcher}>
       <input

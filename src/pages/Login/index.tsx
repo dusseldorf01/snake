@@ -1,5 +1,4 @@
 import {
-  FunctionComponent,
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
@@ -18,7 +17,7 @@ import Alert from '@/components/Alert';
 import cssCommon from '@/styles/common.css';
 import cssRegistration from '@/styles/registration-form.css';
 
-const Login: FunctionComponent<{}> = () => {
+const Login = () => {
   const dispatch = useDispatch();
   const signInState = useSelector(signInStateSelector);
 

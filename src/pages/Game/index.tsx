@@ -1,6 +1,4 @@
-import { FunctionComponent } from 'react';
-
-const Game: FunctionComponent<{}> = () => (
+const Game = () => (
   <div>Игра</div>
 );
 
