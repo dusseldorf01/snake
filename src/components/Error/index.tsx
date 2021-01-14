@@ -1,7 +1,8 @@
+import { FunctionComponent } from 'react';
 import { IError } from './interfaces';
 import css from './index.css';
 
-const Error = ({
+const Error: FunctionComponent<IError> = ({
   description,
   linkHref = '/',
   linkLabel = 'Назад на главную',

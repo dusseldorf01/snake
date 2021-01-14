@@ -1,4 +1,5 @@
 import {
+  FunctionComponent,
   useCallback,
 } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -6,9 +7,9 @@ import ProfileComponent from '@/components/Profile';
 import ProfilePropertyValue from '@/components/ProfilePropertyValue';
 
 import cssProfile from '@/components/Profile/index.css';
-import cssProfileValue from '@/components/ProfilePropertyValue/index.css';
+import cssProfileProp from '@/components/ProfilePropertyValue/index.css';
 
-const Profile = () => {
+const Profile: FunctionComponent<{}> = () => {
   const onButtonClick = useCallback(() => console.log('logout'), []);
 
   return (
@@ -45,13 +46,13 @@ const Profile = () => {
         </div>
         <div className={cssProfile.profileSection}>
           <NavLink
-            className={cssProfileValue.profileLink}
+            className={cssProfileProp.profileLink}
             to="/profile/edit"
           >
             Изменить данные
           </NavLink>
           <button
-            className={cssProfileValue.profileLogout}
+            className={cssProfileProp.profileLogout}
             type="button"
             onClick={onButtonClick}
           >

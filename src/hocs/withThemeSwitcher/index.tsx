@@ -31,14 +31,14 @@ const withThemeSwitcher = (Component: FunctionComponent<any>) => (props: any) =>
 
   const Switcher: FunctionComponent<{}> = useCallback(() => (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control
-    <label className={css['theme-switcher']}>
+    <label className={css.themeSwitcher}>
       <input
-        className={css['theme-switcher__input']}
+        className={css.themeSwitcherInput}
         name="theme-switcher"
         onChange={toggleTheme}
         type="checkbox"
       />
-      <span className={css['theme-switcher__bounce']} />
+      <span className={css.themeSwitcherBounce} />
       <span className={cssCommon.visuallyHidden}>Переключить тему</span>
     </label>
   ), []);
