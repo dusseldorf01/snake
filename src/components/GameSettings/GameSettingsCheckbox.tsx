@@ -3,6 +3,7 @@ import { IGameSettingsCheckbox } from '@/components/GameSettings/interfaces';
 
 const GameSettingsCheckbox = ({
   label,
+  name,
   onChange,
   value,
 }: IGameSettingsCheckbox) => (
@@ -11,6 +12,7 @@ const GameSettingsCheckbox = ({
     <input
       checked={value}
       className="game-settings-checkbox__input"
+      name={name}
       type="checkbox"
       onChange={onChange}
     />

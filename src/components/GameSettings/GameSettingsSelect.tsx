@@ -8,6 +8,7 @@ const GameSettingsSelect = ({
 }: IGameSettingSelect) => (
   <select
     className="game-settings__select"
+    name="map"
     onChange={onChange}
     value={value}
   >

@@ -53,11 +53,13 @@ const GameSettings = ({
       />
       <GameSettingsCheckbox
         label="Увеличивать уровень"
+        name="changingLevel"
         onChange={changeChangingLevel}
         value={changingLevel}
       />
       <GameSettingsCheckbox
         label="Мультиплеер"
+        name="multiplayer"
         onChange={changeMultiplayer}
         value={multiplayer}
       />

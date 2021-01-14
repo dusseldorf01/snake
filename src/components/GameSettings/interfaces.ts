@@ -24,6 +24,7 @@ export interface IGameSettingsInput {
 
 export interface IGameSettingsCheckbox {
   label: string;
+  name: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   value: boolean;
 }
