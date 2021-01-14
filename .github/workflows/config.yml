@@ -31,6 +31,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run test:unit
+      - run: npm run test:e2e
   build:
     runs-on: ubuntu-latest
     strategy:
