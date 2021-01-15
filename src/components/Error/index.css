@@ -2,17 +2,17 @@
   text-align: center;
 }
 
-.error__title {
+.errorTitle {
   font-size: var(--extra-big-font-size);
   font-weight: 500;
 }
 
-.error__description {
+.errorDescription {
   font-size: var(--big-font-size);
   margin-top: 20px;
 }
 
-.error__link {
+.errorLink {
   display: block;
   margin-top: 70px;
 }

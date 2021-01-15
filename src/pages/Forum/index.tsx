@@ -1,6 +1,4 @@
-import { FunctionComponent } from 'react';
-
-const Forum: FunctionComponent<{}> = () => (
+const Forum = () => (
   <div>Форум</div>
 );
 

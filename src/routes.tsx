@@ -21,6 +21,7 @@ const Routes = () => (
     <Route>
       <DefaultLayout>
         <Switch>
+          <PrivateRoute path="/profile/edit" component={lazy(() => import('./pages/ProfileSettings'))} />
           <PrivateRoute path="/profile" component={lazy(() => import('./pages/Profile'))} />
           <PrivateRoute path="/leaderboard" component={lazy(() => import('./pages/Leaderboard'))} />
           <PrivateRoute path="/forum" component={lazy(() => import('./pages/Forum'))} />

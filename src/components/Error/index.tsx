@@ -1,21 +1,20 @@
-import { FunctionComponent } from 'react';
 import { IError } from './interfaces';
-import './index.css';
+import css from './index.css';
 
-const Error: FunctionComponent<IError> = ({
+const Error = ({
   description,
   linkHref = '/',
   linkLabel = 'Назад на главную',
   title = 'Ошибка',
 }: IError) => (
-  <div className="error">
-    <h1 className="error__title">{title}</h1>
+  <div className={css.error}>
+    <h1 className={css.errorTitle}>{title}</h1>
     {description && (
-      <div className="error__description">
+      <div className={css.errorDescription}>
         {description}
       </div>
     )}
-    <a href={linkHref} className="error__link">{linkLabel}</a>
+    <a href={linkHref} className={css.errorLink}>{linkLabel}</a>
   </div>
 );
 

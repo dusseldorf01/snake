@@ -1,10 +1,9 @@
-import { FunctionComponent } from 'react';
 import Logo from '../Logo';
 import Menu from '../Menu';
-import './index.css';
+import css from './index.css';
 
-const Header: FunctionComponent<{}> = () => (
-  <header className="header">
+const Header = () => (
+  <header className={css.header}>
     <Logo />
     <Menu />
   </header>

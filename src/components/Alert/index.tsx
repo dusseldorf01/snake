@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
-import './index.css';
+import css from './index.css';
 
 interface AlertProps {
   children: ReactNode
 }
 
 const Alert = ({ children }: AlertProps) => (
-  <div className="alert">{children}</div>
+  <div className={css.alert}>{children}</div>
 );
 
 export default Alert;

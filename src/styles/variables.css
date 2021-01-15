@@ -1,3 +1,23 @@
+$blue-1: #3369F3;
+$blue-2: #124DE2;
+$blue-3: #E4EDFD;
+$black-1: #1E1E1E;
+$black-2: #282C35;
+$black-3: #000000;
+$black-3-14: rgba(0, 0, 0, 0.14);
+$gray-1: #999999;
+$gray-2: #A9A9A9;
+$gray-3: #EAEAEA;
+$gray-4: #EFEFEF;
+$gray-5: #FBFBFB;
+$gray-6: #F5F5F5;
+$gray-7: #F8F8F8;
+$gray-8: #DDDDDD;
+$red-1: #FF2F2F;
+$red-2: #D62222;
+$white-1: #FFFFFF;
+$transparent: transparent;
+
 :root {
   --link-color: $BLUE_1;
   --extra-big-font-size: 40px;
@@ -24,6 +44,10 @@
   --menu-item-color: $BLUE_1;
   --loader-color: $BLACK_1;
   --game-modal-bg-color: $WHITE_1_80;
+  --input-text-color: $black-1;
+  --input-border-bottom-color: $blue-1;
+  --form-btn-background-color: $blue-1;
+  --form-btn-border-color: $blue-1;
 }
 
 .dark:root {
@@ -32,4 +56,8 @@
   --menu-item-color: $BLUE_2;
   --loader-color: $WHITE_1;
   --game-modal-bg-color: $BLACK_3_14;
+  --input-text-color: $white-1;
+  --input-border-bottom-color: $gray-1;
+  --form-btn-background-color: $transparent;
+  --form-btn-border-color: $white-1;
 }
