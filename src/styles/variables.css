@@ -16,7 +16,6 @@ $gray-8: #DDDDDD;
 $red-1: #FF2F2F;
 $red-2: #D62222;
 $white-1: #FFFFFF;
-$transparent: transparent;
 
 :root {
   --link-color: $blue-1;
@@ -41,10 +40,6 @@ $transparent: transparent;
   --background-color: $white-1;
   --menu-item-color: $blue-1;
   --loader-color: $black-1;
-  --input-text-color: $black-1;
-  --input-border-bottom-color: $blue-1;
-  --form-btn-background-color: $blue-1;
-  --form-btn-border-color: $blue-1;
 }
 
 .dark:root {
@@ -52,8 +47,4 @@ $transparent: transparent;
   --background-color: $black-2;
   --menu-item-color: $blue-3;
   --loader-color: $white-1;
-  --input-text-color: $white-1;
-  --input-border-bottom-color: $gray-1;
-  --form-btn-background-color: $transparent;
-  --form-btn-border-color: $white-1;
 }

@@ -1,1 +1,6 @@
-export default (str: string) => (str !== '');
+export default (str: string) => () => {
+  if (str === '') {
+    return 'Обязательное поле';
+  }
+  return '';
+};

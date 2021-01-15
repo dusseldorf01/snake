@@ -1,11 +1,11 @@
 import {
-
+  FunctionComponent,
   memo,
 } from 'react';
 import { IRegistrationInput } from './interfaces';
-import css from './index.css';
+import './index.css';
 
-const RegistrationInput = ({
+const RegistrationInput: FunctionComponent<IRegistrationInput> = ({
   error,
   label,
   name,
@@ -15,18 +15,18 @@ const RegistrationInput = ({
   value,
 }: IRegistrationInput) => (
   // eslint-disable-next-line jsx-a11y/label-has-associated-control
-  <label className={`${css.registrationInput} ${value ? css.registrationInputWithValue : ''}`}>
+  <label className={`registration-input${value ? ' registration-input_with-value' : ''}`}>
     <input
-      className={css.registrationInputField}
+      className="registration-input__input"
       name={name}
       onBlur={onBlur}
       onChange={onChange}
       type={type}
       value={value}
     />
-    <span className={css.registrationInputLabel}>{label}</span>
+    <span className="registration-input__label">{label}</span>
     {error && (
-      <span className={css.registrationInputError}>{error}</span>
+      <span className="registration-input__error">{error}</span>
     )}
   </label>
 );
