@@ -1,6 +1,6 @@
 # Проектная работа №2. Игра "Змейка"
 
-<img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fdusseldorf01%2Fsnake%2Fbadge%3Fref%3Dadd-jest-and-cypress&label=build&logo=none" />
+<img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fdusseldorf01%2Fsnake%2Fbadge%3Fref%3Ddevelop&label=build&logo=none" />
 
 1. [Описание](#описание)
 2. [Игровой процесс](#игровой-процесс)
