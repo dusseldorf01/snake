@@ -1,15 +1,14 @@
 import Header from '@/components/Header';
 import { ReactNode } from 'react';
-import cssCommon from '@/styles/common.css';
 
 interface DefaultLayoutProps {
   children:ReactNode
 }
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => (
-  <div className={cssCommon.pageContainer}>
+  <div className="page-container">
     <Header />
-    <main className={cssCommon.pageContent}>
+    <main className="page-content">
       {children}
     </main>
   </div>

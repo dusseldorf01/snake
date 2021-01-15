@@ -1,4 +1,5 @@
 import {
+  FunctionComponent,
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
@@ -7,14 +8,14 @@ import {
   IRegistrationModel,
   registrationInitialModel,
 } from '@/models/registration';
+import '@/styles/registration-form.css';
 import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
+import isRequired from '@/utils/isRequired';
+import isPhone from '@/utils/isPhone';
+import isEmail from '@/utils/isEmail';
+import areEqualPasswords from '@/utils/areEqualPasswords';
 
-import cssForm from '@/styles/form.css';
-import cssRegistrationForm from '@/styles/registration-form.css';
-import cssCommon from '@/styles/common.css';
-
-const Registration = () => {
+const Registration: FunctionComponent<{}> = () => {
   const {
     errors,
     handleBlur,
@@ -27,14 +28,13 @@ const Registration = () => {
     initialValues: registrationInitialModel,
     validate: (v) => (
       validate<IRegistrationModel>({
-        firstName: [checkFormField.requiredField(v.firstName)],
-        secondName: [checkFormField.requiredField(v.secondName)],
-        login: [checkFormField.requiredField(v.login)],
-        email: [checkFormField.requiredField(v.email), checkFormField.email(v.email)],
-        phone: [checkFormField.requiredField(v.phone), checkFormField.phone(v.phone)],
-        password: [checkFormField.requiredField(v.password)],
-        passwordRepeat: [checkFormField.requiredField(v.passwordRepeat),
-          checkFormField.passwordRepeat(v.password, v.passwordRepeat)],
+        firstName: [isRequired(v.firstName)],
+        secondName: [isRequired(v.secondName)],
+        login: [isRequired(v.login)],
+        email: [isRequired(v.email), isEmail(v.email)],
+        phone: [isRequired(v.phone), isPhone(v.phone)],
+        password: [isRequired(v.password)],
+        passwordRepeat: [areEqualPasswords(v.password, v.passwordRepeat)],
       })
     ),
     onSubmit: (v) => {
@@ -47,12 +47,12 @@ const Registration = () => {
   }, []);
 
   return (
-    <div className={cssCommon.centerContent}>
+    <div className="center-content">
       <form
-        className={cssForm.appForm}
+        className="registration-form"
         onSubmit={handleSubmit}
       >
-        <h1 className={cssForm.appFormTitle}>Регистрация</h1>
+        <h1 className="registration-form__title">Регистрация</h1>
         <RegistrationInput
           error={touched.firstName && errors.firstName}
           label="Имя"
@@ -111,13 +111,13 @@ const Registration = () => {
         />
         <button
           type="submit"
-          className={cssRegistrationForm.registrationFormButton}
+          className="registration-form__button"
         >
           Зарегистрироваться
         </button>
         <a
           href="/login"
-          className={cssRegistrationForm.registrationFormLink}
+          className="registration-form__link"
         >
           Войти
         </a>

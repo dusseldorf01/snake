@@ -1,4 +1,4 @@
-.registrationForm {
+.registration-form {
   width: 340px;
   font-size: 13px;
   padding: 50px 30px;
@@ -8,13 +8,13 @@
   flex-direction: column;
 }
 
-.registrationFormTitle {
+.registration-form__title {
   font-size: 20px;
   text-align: center;
   margin-bottom: 40px;
 }
 
-.registrationFormButton {
+.registration-form__button {
   color: var(--white-1);
   text-align: center;
   padding-top: 12px;
@@ -28,6 +28,6 @@
   transition: .3s;
 }
 
-.registrationFormLink {
+.registration-form__link {
   align-self: center;
 }

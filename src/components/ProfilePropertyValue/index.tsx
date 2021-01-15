@@ -1,13 +1,14 @@
+import { FunctionComponent } from 'react';
 import { IProfilePropertyValue } from './interfaces';
-import css from './index.css';
+import './index.css';
 
-const ProfilePropertyValue = ({
+const ProfilePropertyValue: FunctionComponent<IProfilePropertyValue> = ({
   title,
   value,
 }: IProfilePropertyValue) => (
-  <div className={css.profilePropertyValue}>
-    <div className={css.profilePropertyValueTitle}>{title}</div>
-    <div className={css.profilePropertyValueVal}>{value}</div>
+  <div className="profile-property-value">
+    <div className="profile-property-value__title">{title}</div>
+    <div className="profile-property-value__value">{value}</div>
   </div>
 );
 

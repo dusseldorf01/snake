@@ -1,23 +1,19 @@
 import {
+  FunctionComponent,
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
-
-import { checkFormField } from '@/utils/checkFormField';
-
+import '@/styles/registration-form.css';
 import validate from '@/utils/validate';
-
+import isRequired from '@/utils/isRequired';
 import { ILoginModel, loginInitialModel } from '@/models/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStateSelector } from '@/selectors/user';
 import { signInActions } from '@/actions/user';
 import Alert from '@/components/Alert';
 
-import cssCommon from '@/styles/common.css';
-import cssRegistration from '@/styles/registration-form.css';
-
-const Login = () => {
+const Login: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
   const signInState = useSelector(signInStateSelector);
 
@@ -33,8 +29,8 @@ const Login = () => {
     initialValues: loginInitialModel,
     validate: (v) => (
       validate<ILoginModel>({
-        login: [checkFormField.requiredField(v.login)],
-        password: [checkFormField.requiredField(v.password)],
+        login: [isRequired(v.login)],
+        password: [isRequired(v.password)],
       })
     ),
     onSubmit: (v) => {
@@ -47,12 +43,12 @@ const Login = () => {
   }, []);
 
   return (
-    <div className={cssCommon.centerContent}>
+    <div className="center-content">
       <form
-        className={cssRegistration.registrationForm}
+        className="registration-form"
         onSubmit={handleSubmit}
       >
-        <h1 className={cssRegistration.registrationFormTitle}>Авторизация</h1>
+        <h1 className="registration-form__title">Авторизация</h1>
         <RegistrationInput
           error={touched.login && errors.login}
           label="Логин"
@@ -72,7 +68,7 @@ const Login = () => {
         />
         <button
           type="submit"
-          className={cssRegistration.registrationFormButton}
+          className="registration-form__button"
           disabled={signInState.loading}
         >
           Войти
@@ -80,7 +76,7 @@ const Login = () => {
         {signInState.status === 401 && <Alert>Вы ввели неправильный логин или пароль</Alert>}
         <a
           href="/register"
-          className={cssRegistration.registrationFormLink}
+          className="registration-form__link"
         >
           Зарегистрироваться
         </a>

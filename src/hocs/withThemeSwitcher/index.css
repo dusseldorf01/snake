@@ -1,4 +1,4 @@
-.themeSwitcher {
+.theme-switcher {
   width: 50px;
   height: 24px;
   border-radius: 12px;
@@ -7,12 +7,12 @@
   background: url(./images/sun.png) 29px center no-repeat, url(./images/moon.png) 5px center no-repeat var(--black-1);
 }
 
-.themeSwitcherInput {
+.theme-switcher__input {
   opacity: 0;
   cursor: pointer;
 }
 
-.themeSwitcherBounce {
+.theme-switcher__bounce {
   position: absolute;
   width: 22px;
   height: 22px;
@@ -23,11 +23,11 @@
   transition: 0.2s;
 }
 
-.themeSwitcherInput:checked ~ .themeSwitcherBounce {
+.theme-switcher__input:checked ~ .theme-switcher__bounce {
   left: 27px;
 }
 
-.themeSwitcherInput:active ~ .themeSwitcherBounce,
-.themeSwitcherInput:focus ~ .themeSwitcherBounce {
+.theme-switcher__input:active ~ .theme-switcher__bounce,
+.theme-switcher__input:focus ~ .theme-switcher__bounce {
   box-shadow: 0 0 4px 4px var(--red-1);
 }

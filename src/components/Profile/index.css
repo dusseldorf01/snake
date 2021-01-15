@@ -9,14 +9,14 @@
   margin-top: 40px;
 }
 
-.profileTitle {
+.profile__title {
   font-size: var(--big-font-size);
   font-weight: 600;
   margin-top: 40px;
   margin-bottom: 20px;
 }
 
-.profileSection {
+.profile__section {
   align-self: stretch;
   margin-top: 20px;
   margin-bottom: 20px;
