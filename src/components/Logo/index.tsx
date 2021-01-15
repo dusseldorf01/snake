@@ -1,11 +1,10 @@
-import { FunctionComponent } from 'react';
 import { NavLink } from 'react-router-dom';
-import './index.css';
+import css from './index.css';
 
-const Logo: FunctionComponent<{}> = () => (
+const Logo = () => (
   <NavLink
     to="/"
-    className="logo"
+    className={css.logo}
   >
     Змейка
   </NavLink>

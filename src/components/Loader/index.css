@@ -14,7 +14,7 @@
   position: relative;
 }
 
-.loader__circle {
+.loaderCircle {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -22,7 +22,7 @@
   right: 0;
 }
 
-.loader__circle::before {
+.loaderCircle::before {
   content: '';
   display: block;
   margin: 0 auto;
@@ -34,11 +34,11 @@
 }
 
 @for $i from 1 to 12 {
-  .loader__circle:nth-child($i) {
+  .loaderCircle:nth-child($i) {
     transform: rotate(calc(360deg / 12 * ($i - 1)));
   }
 
-  .loader__circle:nth-child($i)::before {
+  .loaderCircle:nth-child($i)::before {
     animation-delay: calc(-2s + 2s / 12 * ($i - 1));
   }
 }

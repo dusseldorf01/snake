@@ -1,4 +1,4 @@
-.menu-container {
+.menuContainer {
   display: grid;
   grid-template-columns: repeat(2, max-content);
   grid-column-gap: 40px;
@@ -11,6 +11,6 @@
   grid-column-gap: 20px;
 }
 
-.menu__item {
+.menuItem {
   color: var(--menu-item-color);
 }

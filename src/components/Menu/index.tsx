@@ -1,11 +1,10 @@
-import { FunctionComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import withThemeSwitcher from '@/hocs/withThemeSwitcher';
 import {
   IMenu,
   IMenuItem,
 } from './interfaces';
-import './index.css';
+import css from './index.css';
 
 const menu: IMenuItem[] = [{
   title: 'Игра',
@@ -24,14 +23,14 @@ const menu: IMenuItem[] = [{
   path: '/feedback',
 }];
 
-const Menu: FunctionComponent<IMenu> = ({
+const Menu = ({
   Switcher,
 }: IMenu) => (
-  <div className="menu-container">
-    <nav className="menu">
+  <div className={css.menuContainer}>
+    <nav className={css.menu}>
       {menu.map(({ title, path }) => (
         <NavLink
-          className="menu__item"
+          className={css.menuItem}
           key={title}
           to={path}
         >
