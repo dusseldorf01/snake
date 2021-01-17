@@ -2,19 +2,20 @@ import {
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
-import RegistrationInput from '@/components/RegistrationInput';
+import Input from '@/components/Input';
 import {
-  IRegistrationModel,
-  registrationInitialModel,
-} from '@/models/registration';
+  IProfileSettingsModel,
+  profileSettingsInitialModel,
+} from '@/models/profileSettings';
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
 
 import cssForm from '@/styles/form.css';
-import cssRegistrationForm from '@/styles/registration-form.css';
 import cssCommon from '@/styles/common.css';
+import cssPage from './index.css';
 
-const Registration = () => {
+const ProfileSettings = () => {
+  let inputFile:HTMLInputElement;
   const {
     errors,
     handleBlur,
@@ -23,10 +24,11 @@ const Registration = () => {
     touched,
     validateForm,
     values,
-  } = useFormik<IRegistrationModel>({
-    initialValues: registrationInitialModel,
+  } = useFormik<IProfileSettingsModel>({
+    initialValues: profileSettingsInitialModel,
     validate: (v) => (
-      validate<IRegistrationModel>({
+      validate<IProfileSettingsModel>({
+        avatar: [checkFormField.avatar(inputFile)],
         firstName: [checkFormField.requiredField(v.firstName)],
         secondName: [checkFormField.requiredField(v.secondName)],
         login: [checkFormField.requiredField(v.login)],
@@ -38,6 +40,14 @@ const Registration = () => {
       })
     ),
     onSubmit: (v) => {
+      if (inputFile) {
+        const formData = new FormData();
+        const fileElm :HTMLInputElement = inputFile;
+        if (fileElm && fileElm.files) {
+          const file = fileElm.files[0];
+          formData.append('avatar', file);
+        }
+      }
       console.log(v);
     },
   });
@@ -49,11 +59,21 @@ const Registration = () => {
   return (
     <div className={cssCommon.centerContent}>
       <form
-        className={cssForm.appForm}
+        className={cssPage.profileSettingsForm}
         onSubmit={handleSubmit}
       >
-        <h1 className={cssForm.appFormTitle}>Регистрация</h1>
-        <RegistrationInput
+        <h1 className={cssForm.appFormTitle}>Изменение данных профиля</h1>
+        <Input
+          error={touched.avatar && errors.avatar}
+          name="avatar"
+          type="file"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.avatar}
+          /* eslint-disable-next-line no-return-assign */
+          inputFile={(element:HTMLInputElement) => inputFile = element}
+        />
+        <Input
           error={touched.firstName && errors.firstName}
           label="Имя"
           name="firstName"
@@ -61,7 +81,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.firstName}
         />
-        <RegistrationInput
+        <Input
           error={touched.secondName && errors.secondName}
           label="Фамилия"
           name="secondName"
@@ -69,7 +89,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.secondName}
         />
-        <RegistrationInput
+        <Input
           error={touched.login && errors.login}
           label="Логин"
           name="login"
@@ -77,7 +97,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.login}
         />
-        <RegistrationInput
+        <Input
           error={touched.email && errors.email}
           label="Почта"
           name="email"
@@ -85,7 +105,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.email}
         />
-        <RegistrationInput
+        <Input
           error={touched.phone && errors.phone}
           label="Телефон"
           name="phone"
@@ -93,37 +113,33 @@ const Registration = () => {
           onChange={handleChange}
           value={values.phone}
         />
-        <RegistrationInput
+        <Input
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
+          type="password"
           onBlur={handleBlur}
           onChange={handleChange}
           value={values.password}
         />
-        <RegistrationInput
+        <Input
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"
+          type="password"
           onBlur={handleBlur}
           onChange={handleChange}
           value={values.passwordRepeat}
         />
         <button
           type="submit"
-          className={cssRegistrationForm.registrationFormButton}
+          className={cssForm.appFormButton}
         >
-          Зарегистрироваться
+          Изменить данные
         </button>
-        <a
-          href="/login"
-          className={cssRegistrationForm.registrationFormLink}
-        >
-          Войти
-        </a>
       </form>
     </div>
   );
 };
 
-export default Registration;
+export default ProfileSettings;

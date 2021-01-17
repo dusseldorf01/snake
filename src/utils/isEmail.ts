@@ -1,6 +1,1 @@
-export default (str: string) => () => {
-  if (!(/^\S+@\S+$/.test(str))) {
-    return 'Укажите валидный email';
-  }
-  return '';
-};
+export default (str: string): boolean => /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(str);

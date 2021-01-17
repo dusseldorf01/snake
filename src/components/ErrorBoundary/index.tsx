@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import cssCommon from '@/styles/common.css';
 import { IErrorBoundaryState } from './interfaces';
 import Error from '../Error';
 
@@ -22,7 +23,7 @@ export default class ErrorBoundary extends Component<{}, IErrorBoundaryState> {
 
     if (hasError) {
       return (
-        <div className="center-content">
+        <div className={cssCommon.centerContent}>
           <Error description="Похоже, что-то пошло не так" />
         </div>
       );

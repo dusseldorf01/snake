@@ -1,19 +1,23 @@
 import {
-  FunctionComponent,
   useEffect,
 } from 'react';
 import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
-import '@/styles/registration-form.css';
+
+import { checkFormField } from '@/utils/checkFormField';
+
 import validate from '@/utils/validate';
-import isRequired from '@/utils/isRequired';
+
 import { ILoginModel, loginInitialModel } from '@/models/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStateSelector } from '@/selectors/user';
 import { signInActions } from '@/actions/user';
 import Alert from '@/components/Alert';
 
-const Login: FunctionComponent<{}> = () => {
+import cssCommon from '@/styles/common.css';
+import cssRegistration from '@/styles/registration-form.css';
+
+const Login = () => {
   const dispatch = useDispatch();
   const signInState = useSelector(signInStateSelector);
 
@@ -29,8 +33,8 @@ const Login: FunctionComponent<{}> = () => {
     initialValues: loginInitialModel,
     validate: (v) => (
       validate<ILoginModel>({
-        login: [isRequired(v.login)],
-        password: [isRequired(v.password)],
+        login: [checkFormField.requiredField(v.login)],
+        password: [checkFormField.requiredField(v.password)],
       })
     ),
     onSubmit: (v) => {
@@ -43,12 +47,12 @@ const Login: FunctionComponent<{}> = () => {
   }, []);
 
   return (
-    <div className="center-content">
+    <div className={cssCommon.centerContent}>
       <form
-        className="registration-form"
+        className={cssRegistration.registrationForm}
         onSubmit={handleSubmit}
       >
-        <h1 className="registration-form__title">Авторизация</h1>
+        <h1 className={cssRegistration.registrationFormTitle}>Авторизация</h1>
         <RegistrationInput
           error={touched.login && errors.login}
           label="Логин"
@@ -68,7 +72,7 @@ const Login: FunctionComponent<{}> = () => {
         />
         <button
           type="submit"
-          className="registration-form__button"
+          className={cssRegistration.registrationFormButton}
           disabled={signInState.loading}
         >
           Войти
@@ -76,7 +80,7 @@ const Login: FunctionComponent<{}> = () => {
         {signInState.status === 401 && <Alert>Вы ввели неправильный логин или пароль</Alert>}
         <a
           href="/register"
-          className="registration-form__link"
+          className={cssRegistration.registrationFormLink}
         >
           Зарегистрироваться
         </a>

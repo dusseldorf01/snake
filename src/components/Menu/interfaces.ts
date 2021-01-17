@@ -1,7 +1,5 @@
-import { FunctionComponent } from 'react';
-
 export interface IMenu {
-  Switcher: FunctionComponent<{}>;
+  Switcher: CallableFunction;
 }
 
 export interface IMenuItem {
