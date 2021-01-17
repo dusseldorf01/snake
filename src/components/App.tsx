@@ -9,7 +9,7 @@ import cssCommon from '@/styles/common.css';
 import Loader from './Loader';
 
 const AppLoader = () => (
-  <div className="center-content">
+  <div className={cssCommon.centerContent}>
     <Loader />
   </div>
 );
