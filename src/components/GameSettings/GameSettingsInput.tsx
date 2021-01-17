@@ -1,6 +1,7 @@
 import { memo } from 'react';
-import { IGameSettingsInput } from '@/components/GameSettings/interfaces';
+import type { IGameSettingsInput } from '@/components/GameSettings/interfaces';
 import gameConfig from '@/game/config';
+import css from './index.css';
 
 const {
   MAX_LEVEL,
@@ -11,7 +12,7 @@ const GameSettingsInput = ({
   value,
 }: IGameSettingsInput) => (
   // eslint-disable-next-line jsx-a11y/label-has-associated-control
-  <label className="game-settings-input">
+  <label className={css.gameSettingsInput}>
     Уровень:
     <input
       type="number"

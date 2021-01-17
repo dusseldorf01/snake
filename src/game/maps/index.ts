@@ -1,4 +1,4 @@
-import { WallType } from './interfaces';
+import type { WallType } from './interfaces';
 import map1 from './map1';
 import map2 from './map2';
 import map3 from './map3';

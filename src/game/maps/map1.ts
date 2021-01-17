@@ -1,4 +1,4 @@
-import { WallType } from './interfaces';
+import type { WallType } from './interfaces';
 
 const map: WallType[] = [];
 

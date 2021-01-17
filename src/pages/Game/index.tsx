@@ -11,14 +11,15 @@ import {
 } from '@/game/interfaces';
 import gameReducer from '@/game/reducer';
 import GameModal from '@/components/GameModal';
-import { IGameModal } from '@/components/GameModal/interfaces';
+import type { IGameModal } from '@/components/GameModal/interfaces';
 import useKeyboardChangeDirection from '@/hooks/useKeyboardChangeDirection';
 import useGameAnimation from '@/hooks/useGameAnimation';
 import GameInformation from '@/components/GameInformation';
 import GameSettings from '@/components/GameSettings';
 import { getInitialGameState } from '@/game/helpers';
 import useLocalStorageSaving from '@/hooks/useLocalStorageSaving';
-import './index.css';
+import cssCommon from '@/styles/common.css';
+import css from './index.css';
 
 const getScoreLabel = (scores: number[], label: string): JSX.Element => {
   if (scores.length === 1) {
@@ -151,8 +152,8 @@ const Game = () => {
   };
 
   return (
-    <div className="game-container">
-      <h1 className="visually-hidden">Игра</h1>
+    <div className={css.gameContainer}>
+      <h1 className={cssCommon.visuallyHidden}>Игра</h1>
       <GameInformation
         level={level}
         score={score}

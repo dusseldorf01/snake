@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { IUseKeyboardChangeDirection } from '@/hooks/useKeyboardChangeDirection/interfaces';
+import type { IUseKeyboardChangeDirection } from '@/hooks/useKeyboardChangeDirection/interfaces';
 import {
   GameReducerType,
   GameStatus,

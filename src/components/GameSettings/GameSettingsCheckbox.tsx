@@ -1,5 +1,6 @@
 import { memo } from 'react';
-import { IGameSettingsCheckbox } from '@/components/GameSettings/interfaces';
+import type { IGameSettingsCheckbox } from '@/components/GameSettings/interfaces';
+import css from './index.css';
 
 const GameSettingsCheckbox = ({
   label,
@@ -7,10 +8,10 @@ const GameSettingsCheckbox = ({
   value,
 }: IGameSettingsCheckbox) => (
   // eslint-disable-next-line jsx-a11y/label-has-associated-control
-  <label className="game-settings-checkbox">
+  <label className={css.gameSettingsCheckbox}>
     <input
       checked={value}
-      className="game-settings-checkbox__input"
+      className={css.gameSettingsCheckboxInput}
       type="checkbox"
       onChange={onChange}
     />

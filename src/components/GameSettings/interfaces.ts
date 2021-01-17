@@ -1,8 +1,8 @@
-import {
+import type {
   ChangeEvent,
   Dispatch,
 } from 'react';
-import { IGameReducerAction } from '@/game/interfaces';
+import type { IGameReducerAction } from '@/game/interfaces';
 
 export interface IGameSettings {
   changingLevel: boolean;

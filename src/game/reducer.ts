@@ -1,4 +1,4 @@
-import { Reducer } from 'react';
+import type { Reducer } from 'react';
 import { Direction, IFood, ISnakePart } from '@/lib/Painter/interfaces';
 import getLast from '@/utils/getLast';
 import getMaxItem from '@/utils/getMaxItem';
@@ -23,7 +23,7 @@ import {
   isDead,
 } from './helpers';
 import maps from './maps';
-import { WallType } from './maps/interfaces';
+import type { WallType } from './maps/interfaces';
 
 const {
   BIG_FOOD_POINTS,

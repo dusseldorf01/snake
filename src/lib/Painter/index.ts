@@ -1,5 +1,5 @@
 import gameConfig from '@/game/config';
-import { WallType } from '@/game/maps/interfaces';
+import type { WallType } from '@/game/maps/interfaces';
 import {
   Direction,
   ICanvasSnakePart,

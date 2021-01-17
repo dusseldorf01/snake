@@ -7,8 +7,9 @@ import gameConfig from '@/game/config';
 import Painter from '@/lib/Painter';
 import colors from '@/styles/colors';
 import maps from '@/game/maps';
-import { ICanvas } from './interfaces';
-import './index.css';
+import cssRoot from '@/styles/variables.css';
+import type { ICanvas } from './interfaces';
+import css from './index.css';
 
 const {
   BOARD_HEIGHT,
@@ -42,7 +43,7 @@ const Canvas = ({
     context.clearRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
     const html = document.querySelector('html');
-    context.fillStyle = html?.classList.contains('light') ? BLACK_1 : WHITE_1;
+    context.fillStyle = html?.classList.contains(cssRoot.light) ? BLACK_1 : WHITE_1;
 
     Painter.setContext(context);
 
@@ -62,7 +63,7 @@ const Canvas = ({
   return (
     <canvas
       id="canvas"
-      className="game-canvas"
+      className={css.gameCanvas}
       ref={canvas}
       width={BOARD_WIDTH}
       height={BOARD_HEIGHT}
