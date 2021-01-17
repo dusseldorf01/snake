@@ -1,5 +1,4 @@
 import {
-  FunctionComponent,
   useEffect,
 } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -9,14 +8,14 @@ import {
   IRegistrationModel,
   registrationInitialModel,
 } from '@/models/registration';
-import '@/styles/registration-form.css';
 import validate from '@/utils/validate';
-import isRequired from '@/utils/isRequired';
-import isPhone from '@/utils/isPhone';
-import isEmail from '@/utils/isEmail';
-import areEqualPasswords from '@/utils/areEqualPasswords';
+import { checkFormField } from '@/utils/checkFormField';
 
-const Registration: FunctionComponent<{}> = () => {
+import cssForm from '@/styles/form.css';
+import cssRegistrationForm from '@/styles/registration-form.css';
+import cssCommon from '@/styles/common.css';
+
+const Registration = () => {
   const {
     errors,
     handleBlur,
@@ -29,13 +28,14 @@ const Registration: FunctionComponent<{}> = () => {
     initialValues: registrationInitialModel,
     validate: (v) => (
       validate<IRegistrationModel>({
-        firstName: [isRequired(v.firstName)],
-        secondName: [isRequired(v.secondName)],
-        login: [isRequired(v.login)],
-        email: [isRequired(v.email), isEmail(v.email)],
-        phone: [isRequired(v.phone), isPhone(v.phone)],
-        password: [isRequired(v.password)],
-        passwordRepeat: [areEqualPasswords(v.password, v.passwordRepeat)],
+        firstName: [checkFormField.requiredField(v.firstName)],
+        secondName: [checkFormField.requiredField(v.secondName)],
+        login: [checkFormField.requiredField(v.login)],
+        email: [checkFormField.requiredField(v.email), checkFormField.email(v.email)],
+        phone: [checkFormField.requiredField(v.phone), checkFormField.phone(v.phone)],
+        password: [checkFormField.requiredField(v.password)],
+        passwordRepeat: [checkFormField.requiredField(v.passwordRepeat),
+          checkFormField.passwordRepeat(v.password, v.passwordRepeat)],
       })
     ),
     onSubmit: (v) => {
@@ -48,12 +48,12 @@ const Registration: FunctionComponent<{}> = () => {
   }, []);
 
   return (
-    <div className="center-content">
+    <div className={cssCommon.centerContent}>
       <form
-        className="registration-form"
+        className={cssForm.appForm}
         onSubmit={handleSubmit}
       >
-        <h1 className="registration-form__title">Регистрация</h1>
+        <h1 className={cssForm.appFormTitle}>Регистрация</h1>
         <RegistrationInput
           error={touched.firstName && errors.firstName}
           label="Имя"
@@ -112,13 +112,13 @@ const Registration: FunctionComponent<{}> = () => {
         />
         <button
           type="submit"
-          className="registration-form__button"
+          className={cssRegistrationForm.registrationFormButton}
         >
           Зарегистрироваться
         </button>
         <NavLink
           to="/login"
-          className="registration-form__link"
+          className={cssRegistrationForm.registrationFormLink}
         >
           Войти
         </NavLink>

@@ -1,4 +1,4 @@
-.game-modal-wrapper {
+.gameModalWrapper {
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -6,7 +6,7 @@
   background-color: var(--game-modal-bg-color);
 }
 
-.game-modal {
+.gameModal {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -21,28 +21,28 @@
   transition: 0.2s;
 }
 
-.game-modal__title {
+.gameModalTitle {
   font-size: var(--big-font-size);
   font-weight: 500;
   margin-bottom: 10px;
   transition: 0.2s;
 }
 
-.game-modal__content {
+.gameModalContent {
   margin-top: 20px;
   text-align: center;
   line-height: 1.75;
   white-space: nowrap;
 }
 
-.game-modal-button-group {
+.gameModalButtonGroup {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
-.game-modal-button-group__item {
+.gameModalButtonGroupItem {
   margin-top: 10px;
   font-size: var(--small-font-size);
   color: var(--white-1);
@@ -52,8 +52,8 @@
   transition: 0.2s;
 }
 
-.game-modal-button-group__item:hover,
-.game-modal-button-group__item:focus,
-.game-modal-button-group__item:active {
+.gameModalButtonGroupItem:hover,
+.gameModalButtonGroupItem:focus,
+.gameModalButtonGroupItem:active {
   background-color: var(--red-2);
 }

@@ -6,8 +6,8 @@ import { GameReducerType } from '@/game/interfaces';
 import GameSettingsSelect from './GameSettingsSelect';
 import GameSettingsInput from './GameSettingsInput';
 import GameSettingsCheckbox from './GameSettingsCheckbox';
-import { IGameSettings } from './interfaces';
-import './index.css';
+import type { IGameSettings } from './interfaces';
+import css from './index.css';
 
 const GameSettings = ({
   changingLevel,
@@ -42,7 +42,7 @@ const GameSettings = ({
   }, []);
 
   return (
-    <div className="game-settings">
+    <div className={css.gameSettings}>
       <GameSettingsSelect
         onChange={selectMap}
         value={map}

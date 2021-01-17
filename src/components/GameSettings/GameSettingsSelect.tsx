@@ -1,13 +1,14 @@
 import { memo } from 'react';
 import maps from '@/game/maps';
-import { IGameSettingSelect } from './interfaces';
+import type { IGameSettingSelect } from './interfaces';
+import css from './index.css';
 
 const GameSettingsSelect = ({
   onChange,
   value,
 }: IGameSettingSelect) => (
   <select
-    className="game-settings__select"
+    className={css.gameSettingsSelect}
     name="map"
     onChange={onChange}
     value={value}

@@ -1,23 +1,23 @@
-.profile__link,
-.profile__logout,
-.profile-property-value {
+.profileLink,
+.profileLogout,
+.profilePropertyValue {
   display: grid;
   grid-template-columns: max-content 1fr;
   padding-top: 13px;
   padding-bottom: 13px;
 }
 
-.profile__link,
-.profile-property-value:not(:Last-child) {
+.profileLink,
+.profilePropertyValue:not(:Last-child) {
   border-bottom: 1px solid var(--gray-3);
 }
 
-.profile-property-value__value {
+.profilePropertyValueVal {
   text-align: right;
   color: var(--text-secondary-color);
 }
 
-.profile__logout {
+.profileLogout {
   color: var(--red-1);
   text-align: left;
 }

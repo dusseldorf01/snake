@@ -2,7 +2,7 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { IUseGameAnimation } from '@/hooks/useGameAnimation/interfaces';
+import type { IUseGameAnimation } from '@/hooks/useGameAnimation/interfaces';
 import {
   GameReducerType,
   GameStatus,

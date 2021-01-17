@@ -6,7 +6,7 @@ import {
 } from '@/lib/Painter/interfaces';
 import getRandom from '@/utils/getRandom';
 import getLast from '@/utils/getLast';
-import { WallType } from './maps/interfaces';
+import type { WallType } from './maps/interfaces';
 import maps from './maps';
 import gameConfig from './config';
 import {

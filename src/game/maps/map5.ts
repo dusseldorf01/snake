@@ -1,5 +1,5 @@
 import gameConfig from '../config';
-import { WallType } from './interfaces';
+import type { WallType } from './interfaces';
 
 const {
   BOARD_HEIGHT_ITEMS_COUNT,

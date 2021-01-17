@@ -1,11 +1,11 @@
-.game-settings {
+.gameSettings {
   display: grid;
   gap: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-.game-settings__select {
+.gameSettingsSelect {
   padding: 5px;
   border: 1px solid var(--gray-3);
   border-radius: 3px;
@@ -15,14 +15,14 @@
   background-position: 100% 50%;
 }
 
-.game-settings-input,
-.game-settings-checkbox {
+.gameSettingsInput,
+.gameSettingsCheckbox {
   display: grid;
   grid-template-columns: repeat(2, max-content);
   gap: 10px;
   align-items: center;
 }
 
-.game-settings-checkbox__input {
+.gameSettingsCheckboxInput {
   width: auto;
 }
