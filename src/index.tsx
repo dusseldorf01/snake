@@ -10,7 +10,6 @@ import rootSaga from './saga';
 import './styles/variables.css';
 import './styles/index.css';
 
-// fetch('https://ya-praktikum.tech/api/v2/auth/user', { credentials: 'same-origin' });
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: rootReducer,
