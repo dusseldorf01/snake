@@ -45,8 +45,8 @@ jobs:
       - run: npm ci
       - run: npm run build
   deploy:
-    # if: ${{ github.event_name == 'pull_request' }}
-    # needs: [lint, test, build]
+    if: ${{ github.event_name != 'pull_request' }}
+    needs: [lint, test, build]
     runs-on: ubuntu-latest
     strategy:
       matrix:
