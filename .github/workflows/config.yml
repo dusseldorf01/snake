@@ -45,14 +45,19 @@ jobs:
       - run: npm ci
       - run: npm run build
   deploy:
-    if: ${{ github.event_name == 'pull_request' }}
-    needs: [lint, test, build]
+    # if: ${{ github.event_name == 'pull_request' }}
+    # needs: [lint, test, build]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [ 14.x ]
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+        - run: npm ci
+        - run: npm run build
       - uses: akhileshns/heroku-deploy@v3.8.9
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
