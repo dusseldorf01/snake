@@ -4,10 +4,12 @@ import Routes from '@/routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { userStateSelector } from '@/selectors/user';
 import { userInfoActions } from '@/actions/user';
+import cssRoot from '@/styles/variables.css';
+import cssCommon from '@/styles/common.css';
 import Loader from './Loader';
 
 const AppLoader = () => (
-  <div className="center-content">
+  <div className={cssCommon.centerContent}>
     <Loader />
   </div>
 );
@@ -18,6 +20,9 @@ export default () => {
 
   useEffect(() => {
     dispatch(userInfoActions.request());
+
+    const html = document.querySelector('html');
+    html?.classList.add(cssRoot.light);
   }, []);
 
   return (
