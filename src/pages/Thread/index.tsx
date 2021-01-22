@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { RouteComponentProps } from 'react-router';
 import Comment from '@/components/Comment';
 import AddComment from '@/components/AddComment';
@@ -17,20 +18,28 @@ const Thread = ({ match: { params: { id } } }: RouteComponentProps<{ id: string 
     title,
   } = thread as IThread;
 
+  const authorLabel = useMemo(() => (
+    `Автор: ${login}`
+  ), [login]);
+
+  const createdAtLabel = useMemo(() => (
+    <>
+      Создано:
+      {' '}
+      <time>{getDateTime(createdAt)}</time>
+    </>
+  ), [createdAt]);
+
   return (
     <div className={cssCommon.pageHalfContent}>
       <h1 className={css.title}>{title}</h1>
       <div className={css.block}>
         <h2 className={cssCommon.visuallyHidden}>Общая информация о теме</h2>
         <div className={css.row}>
-          Автор:
-          {' '}
-          {login}
+          {authorLabel}
         </div>
         <div className={css.row}>
-          Создано
-          {' '}
-          <time>{getDateTime(createdAt)}</time>
+          {createdAtLabel}
         </div>
         <div className={css.text}>{text}</div>
       </div>

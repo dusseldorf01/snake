@@ -1,6 +1,3 @@
-export default (number: number): string => {
-  if (number < 10) {
-    return `0${number}`;
-  }
-  return String(number);
-};
+export default (number: number): string => (
+  number < 10 ? `0${number}` : String(number)
+);
