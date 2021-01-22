@@ -118,7 +118,10 @@ const useGamepadChangeDirection = ({
     const listener = () => {
       interval = window.setInterval(() => {
         const gamepad = navigator.getGamepads()[0];
-        if (!gamepad) return;
+        if (!gamepad) {
+          window.clearInterval(interval);
+          return;
+        }
         const {
           stickX, stickY, up, down, left, right,
         } = setKeysFromMap(xboxKeyMap, gamepad);
