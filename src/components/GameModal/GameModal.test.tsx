@@ -12,7 +12,7 @@ describe('GameModal', () => {
     onClick,
   }];
 
-  afterEach(() => {
+  beforeEach(() => {
     onClick.mockReset();
   });
 
@@ -37,7 +37,7 @@ describe('GameModal', () => {
 
     fireEvent.click(screen.getByText('Button'));
 
-    expect(onClick).toBeCalled();
+    expect(onClick).toBeCalledTimes(1);
   });
 
   it('checking content', () => {

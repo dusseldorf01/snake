@@ -9,7 +9,7 @@ import GameSettings from './index';
 describe('GameSettings', () => {
   const dispatch = jest.fn();
 
-  afterEach(() => {
+  beforeEach(() => {
     dispatch.mockReset();
   });
 

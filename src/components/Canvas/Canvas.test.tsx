@@ -53,18 +53,10 @@ describe('Canvas', () => {
   });
 
   describe('checking big food rendering', () => {
-    let spyRenderBigFood: jest.SpyInstance<void, [IFood]>;
+    const spyRenderBigFood = jest.spyOn(Painter, 'renderBigFood');
 
-    beforeAll(() => {
-      spyRenderBigFood = jest.spyOn(Painter, 'renderBigFood');
-    });
-
-    afterEach(() => {
+    beforeEach(() => {
       spyRenderBigFood.mockReset();
-    });
-
-    afterAll(() => {
-      spyRenderBigFood.mockRestore();
     });
 
     it('checking that there was no big food rendering', () => {
