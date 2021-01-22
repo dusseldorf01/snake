@@ -19,6 +19,7 @@ import GameSettings from '@/components/GameSettings';
 import { getInitialGameState } from '@/game/helpers';
 import useLocalStorageSaving from '@/hooks/useLocalStorageSaving';
 import cssCommon from '@/styles/common.css';
+import useGamepadChangeDirection from '@/hooks/useGamepadChangeDirection';
 import css from './index.css';
 
 const getScoreLabel = (scores: number[], label: string): JSX.Element => {
@@ -81,6 +82,13 @@ const Game = () => {
     number: 1,
     status,
     trueCondition: status === GameStatus.RUNNING && multiplayer,
+  });
+
+  useGamepadChangeDirection({
+    dispatch,
+    number: 0,
+    status,
+    trueCondition: status === GameStatus.RUNNING,
   });
 
   useGameAnimation({
