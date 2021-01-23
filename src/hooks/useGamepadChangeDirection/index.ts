@@ -130,11 +130,17 @@ const useGamepadChangeDirection = ({
       }, 100);
     };
 
-    window.addEventListener('gamepadconnected', listener);
-    window.addEventListener('gamepaddisconnected', () => { window.clearInterval(interval); });
+    if (navigator.getGamepads()[0]) {
+      listener();
+    } else {
+      window.addEventListener('gamepadconnected', listener);
+      window.addEventListener('gamepaddisconnected', () => { window.clearInterval(interval); });
+    }
 
     // eslint-disable-next-line consistent-return
     return () => {
+      window.removeEventListener('gamepadconnected', listener);
+      window.removeEventListener('gamepaddisconnected', () => { window.clearInterval(interval); });
       window.clearInterval(interval);
     };
   }, [status]);
