@@ -33,10 +33,10 @@ export const takeLatestRequest = (type: AsyncActionCreator, api: ApiFn) => fork(
   let lastTask;
   while (true) {
     const action = yield take(type.request.toString());
-
     if (lastTask) {
       yield cancel(lastTask);
     }
+
     lastTask = yield fork(loadData, type, api, action);
   }
 });
