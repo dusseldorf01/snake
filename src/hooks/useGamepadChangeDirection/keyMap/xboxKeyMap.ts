@@ -1,4 +1,4 @@
-import IGamepadKeyMap from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
+import { IGamepadKeyMap } from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
 
 const xboxKeyMap:IGamepadKeyMap = {
   stickX: 0,

@@ -1,15 +1,10 @@
 import { useEffect } from 'react';
 import type { IUseGamepadChangeDirection } from '@/hooks/useGamepadChangeDirection/interfaces';
-import IGamepadKeyMap from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
+import { IGamepadKeyMap, IActualGamepadKeyMap } from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
+import type { GamepadStick, GamepadButton } from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
 import { GameReducerType } from '@/game/interfaces';
 import { Direction } from '@/lib/Painter/interfaces';
 import xboxKeyMap from '@/hooks/useGamepadChangeDirection/keyMap/xboxKeyMap';
-
-type GamepadButton = {
-  pressed:boolean,
-  touched:boolean,
-  [key:string]:any,
-};
 
 const useGamepadChangeDirection = ({
   dispatch,
@@ -18,7 +13,7 @@ const useGamepadChangeDirection = ({
   trueCondition,
 }: IUseGamepadChangeDirection) => {
   const setKeysFromMap = (map:IGamepadKeyMap, gamepad:Gamepad) => {
-    const actualKeys:any = {};
+    const actualKeys:IActualGamepadKeyMap = {};
     // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (const key in map) {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -29,47 +24,49 @@ const useGamepadChangeDirection = ({
     return actualKeys;
   };
 
-  const checkButtons = (up:GamepadButton, down:GamepadButton,
-    left:GamepadButton, right:GamepadButton) => {
-    if (up.pressed) {
-      dispatch({
-        payload: {
-          dir: Direction.TOP,
-          number,
-        },
-        type: GameReducerType.CHANGE_DIRECTION,
-      });
-    } else
-    if (down.pressed) {
-      dispatch({
-        payload: {
-          dir: Direction.BOTTOM,
-          number,
-        },
-        type: GameReducerType.CHANGE_DIRECTION,
-      });
-    } else
-    if (left.pressed) {
-      dispatch({
-        payload: {
-          dir: Direction.LEFT,
-          number,
-        },
-        type: GameReducerType.CHANGE_DIRECTION,
-      });
-    } else
-    if (right.pressed) {
-      dispatch({
-        payload: {
-          dir: Direction.RIGHT,
-          number,
-        },
-        type: GameReducerType.CHANGE_DIRECTION,
-      });
+  const checkButtons = (up?:GamepadButton, down?:GamepadButton,
+    left?:GamepadButton, right?:GamepadButton) => {
+    if (up && down && left && right) {
+      if (up.pressed) {
+        dispatch({
+          payload: {
+            dir: Direction.TOP,
+            number,
+          },
+          type: GameReducerType.CHANGE_DIRECTION,
+        });
+      } else
+      if (down.pressed) {
+        dispatch({
+          payload: {
+            dir: Direction.BOTTOM,
+            number,
+          },
+          type: GameReducerType.CHANGE_DIRECTION,
+        });
+      } else
+      if (left.pressed) {
+        dispatch({
+          payload: {
+            dir: Direction.LEFT,
+            number,
+          },
+          type: GameReducerType.CHANGE_DIRECTION,
+        });
+      } else
+      if (right.pressed) {
+        dispatch({
+          payload: {
+            dir: Direction.RIGHT,
+            number,
+          },
+          type: GameReducerType.CHANGE_DIRECTION,
+        });
+      }
     }
   };
 
-  const checkStick = (stickX:number, stickY:number) => {
+  const checkStick = (stickX:GamepadStick = 0, stickY:GamepadStick = 1) => {
     if (stickX > 0.5) {
       dispatch({
         payload: {
@@ -116,12 +113,10 @@ const useGamepadChangeDirection = ({
     let interval:number;
 
     const listener = () => {
+      if (interval) return;
       interval = window.setInterval(() => {
         const gamepad = navigator.getGamepads()[0];
-        if (!gamepad) {
-          window.clearInterval(interval);
-          return;
-        }
+        if (!gamepad) return;
         const {
           stickX, stickY, up, down, left, right,
         } = setKeysFromMap(xboxKeyMap, gamepad);
@@ -130,12 +125,9 @@ const useGamepadChangeDirection = ({
       }, 100);
     };
 
-    if (navigator.getGamepads()[0]) {
-      listener();
-    } else {
-      window.addEventListener('gamepadconnected', listener);
-      window.addEventListener('gamepaddisconnected', () => { window.clearInterval(interval); });
-    }
+    if (navigator.getGamepads()[0]) listener();
+    window.addEventListener('gamepadconnected', listener);
+    window.addEventListener('gamepaddisconnected', () => { window.clearInterval(interval); });
 
     // eslint-disable-next-line consistent-return
     return () => {
