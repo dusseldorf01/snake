@@ -9,7 +9,6 @@ import { checkFormField } from '@/utils/checkFormField';
 
 import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';
-import css from './index.css';
 
 const Feedback = () => {
   const {
@@ -40,11 +39,8 @@ const Feedback = () => {
   }, []);
 
   return (
-    <div className={cssCommon.centerContent}>
-      <form
-        className={css.feedbackForm}
-        onSubmit={handleSubmit}
-      >
+    <div className={cssCommon.pageHalfContent}>
+      <form onSubmit={handleSubmit}>
         <h1 className={cssForm.appFormTitle}>Форма обратной связи</h1>
         <Input
           error={touched.name && errors.name}

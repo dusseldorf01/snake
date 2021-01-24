@@ -1,0 +1,19 @@
+.button {
+  text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 70px;
+  margin-bottom: 14px;
+  font-size: inherit;
+  transition: .2s;
+  color: var(--white-1);
+  background-color: var(--form-btn-background-color);
+  border: 1px solid var(--form-btn-border-color);
+}
+
+.button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
