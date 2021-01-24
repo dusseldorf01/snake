@@ -1,7 +1,9 @@
 import getLast from '@/utils/getLast';
 
-it('getLast', () => {
-  const arr = ['aa', 'bb', 'cc'];
+describe('getLast', () => {
+  it('returns last item', () => {
+    const arr = ['aa', 'bb', 'cc'];
 
-  expect(getLast(arr)).toBe('cc');
+    expect(getLast(arr)).toBe('cc');
+  });
 });
