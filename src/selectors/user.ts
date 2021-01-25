@@ -8,3 +8,4 @@ export const userIsAuthorizedSelector = createSelector(
 );
 
 export const signInStateSelector = (state:RootState) => state.user.signIn;
+export const signUpStateSelector = (state:RootState) => state.user.signUp;

@@ -5,16 +5,32 @@ import { useFormik } from 'formik';
 import Input from '@/components/Input';
 import {
   IProfileSettingsModel,
-  profileSettingsInitialModel,
 } from '@/models/profileSettings';
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
 
-import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';
+import cssForm from '@/styles/form.css';
+import { useSelector } from 'react-redux';
+import { userStateSelector } from '@/selectors/user';
 
 const ProfileSettings = () => {
   let inputFile:HTMLInputElement;
+
+  const {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    avatar, email, first_name, login, phone, second_name,
+  } = useSelector(userStateSelector).data;
+
+  const userData = {
+    avatar,
+    firstName: first_name,
+    secondName: second_name,
+    login,
+    email,
+    phone,
+  };
+
   const {
     errors,
     handleBlur,
@@ -24,7 +40,7 @@ const ProfileSettings = () => {
     validateForm,
     values,
   } = useFormik<IProfileSettingsModel>({
-    initialValues: profileSettingsInitialModel,
+    initialValues: userData,
     validate: (v) => (
       validate<IProfileSettingsModel>({
         avatar: [checkFormField.avatar(inputFile)],

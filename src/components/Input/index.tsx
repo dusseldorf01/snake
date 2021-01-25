@@ -34,7 +34,7 @@ const Input = ({
         onBlur={onBlur}
         onChange={onChange}
         type={type}
-        value={value}
+        value={(name === 'avatar') ? '' : value}
       />
       <span className={cssForm.inputGroupLabel}>{label}</span>
       {error && (

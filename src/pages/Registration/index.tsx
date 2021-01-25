@@ -10,10 +10,18 @@ import {
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpStateSelector } from '@/selectors/user';
+import { signUpActions } from '@/actions/user';
+import Alert from '@/components/Alert';
+
 import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';
 
 const Registration = () => {
+  const dispatch = useDispatch();
+  const signUpState = useSelector(signUpStateSelector);
+
   const {
     errors,
     handleBlur,
@@ -37,7 +45,24 @@ const Registration = () => {
       })
     ),
     onSubmit: (v) => {
-      console.log(v);
+      const {
+        firstName, secondName, login, email, password, phone,
+      } = v;
+
+      dispatch(
+        signUpActions.request({
+          params: {
+            data: {
+              first_name: firstName,
+              second_name: secondName,
+              login,
+              email,
+              password,
+              phone,
+            },
+          },
+        }),
+      );
     },
   });
 
@@ -93,6 +118,7 @@ const Registration = () => {
           value={values.phone}
         />
         <RegistrationInput
+          type="password"
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
@@ -101,6 +127,7 @@ const Registration = () => {
           value={values.password}
         />
         <RegistrationInput
+          type="password"
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"
@@ -114,6 +141,7 @@ const Registration = () => {
         >
           Зарегистрироваться
         </button>
+        { (signUpState.error && signUpState.data.reason) && <Alert>{`${signUpState.data.reason}`}</Alert>}
         <a
           href="/login"
           className={cssForm.appFormLink}
