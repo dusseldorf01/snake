@@ -12,7 +12,6 @@ import { checkFormField } from '@/utils/checkFormField';
 
 import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';
-import cssPage from './index.css';
 
 const ProfileSettings = () => {
   let inputFile:HTMLInputElement;
@@ -57,11 +56,8 @@ const ProfileSettings = () => {
   }, []);
 
   return (
-    <div className={cssCommon.centerContent}>
-      <form
-        className={cssPage.profileSettingsForm}
-        onSubmit={handleSubmit}
-      >
+    <div className={cssCommon.pageHalfContent}>
+      <form onSubmit={handleSubmit}>
         <h1 className={cssForm.appFormTitle}>Изменение данных профиля</h1>
         <Input
           error={touched.avatar && errors.avatar}
