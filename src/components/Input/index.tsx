@@ -8,6 +8,7 @@ import { IFormInput } from './interfaces';
 import cssInput from './index.css';
 
 const Input = ({
+  avatarImage,
   error,
   label,
   name,
@@ -18,14 +19,14 @@ const Input = ({
   inputFile,
 }: IFormInput) => {
   const backImage: CSSProperties = {
-    backgroundImage: `url(${value || defaultAvatar})`,
+    backgroundImage: (avatarImage) ? `url(https://ya-praktikum.tech/${avatarImage})` : `url(${defaultAvatar})`,
   };
 
   return (
   // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label className={`${cssForm.inputGroup} ${value ? cssForm.inputGroupWithValue : ''}`}>
       {
-        (name === 'avatar') && (<span style={backImage} className={cssInput.currentAvatar} />)
+        (avatarImage) && (<span style={backImage} className={cssInput.currentAvatar} />)
       }
       <input
         ref={inputFile}
@@ -34,7 +35,7 @@ const Input = ({
         onBlur={onBlur}
         onChange={onChange}
         type={type}
-        value={(name === 'avatar') ? '' : value}
+        value={value}
       />
       <span className={cssForm.inputGroupLabel}>{label}</span>
       {error && (
