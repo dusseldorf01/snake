@@ -26,7 +26,7 @@ const Input = ({
   // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label className={`${cssForm.inputGroup} ${value ? cssForm.inputGroupWithValue : ''}`}>
       {
-        (avatarImage) && (<span style={backImage} className={cssInput.currentAvatar} />)
+        (name === 'avatar') && (<span style={backImage} className={cssInput.currentAvatar} />)
       }
       <input
         ref={inputFile}

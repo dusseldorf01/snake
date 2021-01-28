@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   useEffect,
 } from 'react';
@@ -22,18 +21,26 @@ const ProfileSettings = () => {
 
   const dispatch = useDispatch();
   const {
+    avatar = '',
+    email = '',
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    avatar, email, first_name, login, phone, second_name,
+    first_name = '',
+    login = '',
+    phone = '',
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    second_name = '',
   } = useSelector(userStateSelector).data;
 
   const userData = {
-    avatar,
-    login,
-    email,
-    phone,
-    firstName: first_name,
-    secondName: second_name,
+    // eslint-disable-next-line no-nested-ternary
+    avatar: (typeof avatar === 'string') ? avatar : '',
+    login: (typeof login === 'string') ? login : '',
+    email: (typeof email === 'string') ? email : '',
+    phone: (typeof phone === 'string') ? phone : '',
+    firstName: (typeof first_name === 'string') ? first_name : '',
+    secondName: (typeof second_name === 'string') ? second_name : '',
     oldPassword: '',
+    newPassword: '',
   };
 
   const {
@@ -54,7 +61,7 @@ const ProfileSettings = () => {
         login: [checkFormField.requiredField(v.login)],
         email: [checkFormField.requiredField(v.email), checkFormField.email(v.email)],
         phone: [checkFormField.requiredField(v.phone), checkFormField.phone(v.phone)],
-        // newPassword: [checkFormField.requiredField(v.oldPassword)],
+        newPassword: [checkFormField.newPassword(v.newPassword, v.oldPassword)],
       })
     ),
     onSubmit: (v) => {
@@ -105,7 +112,7 @@ const ProfileSettings = () => {
         );
       }
 
-      if (avatar.has('avatar')) {
+      if (typeof avatar === 'object') {
         dispatch(
           userAvatarActions.request({
             params: {
@@ -131,11 +138,11 @@ const ProfileSettings = () => {
         <h1 className={cssForm.appFormTitle}>Изменение данных профиля</h1>
         <Input
           error={(touched.avatar && errors.avatar) || avatarUpdateState.error}
-          id="avatar"
           name="avatar"
           type="file"
           onBlur={handleBlur}
           avatarImage={avatarUpdateState.data.avatar || values.avatar}
+          onChange={handleChange}
           /* eslint-disable-next-line no-return-assign */
           inputFile={(element:HTMLInputElement) => inputFile = element}
         />
@@ -180,7 +187,7 @@ const ProfileSettings = () => {
           value={values.phone}
         />
         <Input
-          error={(touched.oldPassword && errors.oldPassword) || passwordError}
+          error={touched.newPassword && errors.oldPassword}
           label="Пароль старый"
           name="oldPassword"
           type="password"
@@ -197,6 +204,9 @@ const ProfileSettings = () => {
           onChange={handleChange}
           value={values.newPassword}
         />
+        {
+          passwordError && (<Alert>{passwordError}</Alert>)
+        }
         {
           other.error && (<Alert>{other.error}</Alert>)
         }

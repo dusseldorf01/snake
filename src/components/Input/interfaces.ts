@@ -9,5 +9,5 @@ export interface IFormInput {
   error?: string | false;
   type?: 'email' | 'tel' | 'text' | 'password' | 'file';
   inputFile?: (elm:HTMLInputElement) => HTMLInputElement;
-  avatarImage?: string;
+  avatarImage?: string | unknown;
 }
