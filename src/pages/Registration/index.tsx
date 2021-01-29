@@ -12,7 +12,6 @@ import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
 
 import cssForm from '@/styles/form.css';
-import cssRegistrationForm from '@/styles/registration-form.css';
 import cssCommon from '@/styles/common.css';
 
 const Registration = () => {
@@ -112,13 +111,13 @@ const Registration = () => {
         />
         <button
           type="submit"
-          className={cssRegistrationForm.registrationFormButton}
+          className={cssForm.appFormButton}
         >
           Зарегистрироваться
         </button>
         <NavLink
           to="/login"
-          className={cssRegistrationForm.registrationFormLink}
+          className={cssForm.appFormLink}
         >
           Войти
         </NavLink>

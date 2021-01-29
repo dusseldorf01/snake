@@ -3,10 +3,10 @@ import {
   useRef,
 } from 'react';
 import type { IUseGameAnimation } from '@/hooks/useGameAnimation/interfaces';
-import {
-  GameReducerType,
-  GameStatus,
-} from '@/game/interfaces';
+import { GameStatus } from '@/game/interfaces';
+import gameActions from '@/game/actionCreators';
+
+const { getNextTick } = gameActions;
 
 export default ({
   dispatch,
@@ -26,9 +26,7 @@ export default ({
       const current = performance.now();
 
       if (current - start >= 1000 / level) {
-        dispatch({
-          type: GameReducerType.NEXT_TICK,
-        });
+        dispatch(getNextTick());
         start = current;
       }
 

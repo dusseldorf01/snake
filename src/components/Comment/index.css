@@ -1,0 +1,14 @@
+.comment {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.commentHeader {
+  font-size: var(--small-font-size);
+  color: var(--text-secondary-color);
+  margin-bottom: 8px;
+}
+
+.commentContent {
+  line-height: 1.25em;
+}

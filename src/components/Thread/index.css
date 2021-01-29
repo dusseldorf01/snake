@@ -1,0 +1,11 @@
+.thread {
+  margin-bottom: 24px;
+}
+
+.threadTitle {
+  font-size: var(--big-font-size);
+}
+
+.threadTitle, .threadRow {
+  margin-bottom: 8px;
+}

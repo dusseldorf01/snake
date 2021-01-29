@@ -16,7 +16,7 @@ import { signInActions } from '@/actions/user';
 import Alert from '@/components/Alert';
 
 import cssCommon from '@/styles/common.css';
-import cssRegistration from '@/styles/registration-form.css';
+import cssForm from '@/styles/form.css';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -50,10 +50,10 @@ const Login = () => {
   return (
     <div className={cssCommon.centerContent}>
       <form
-        className={cssRegistration.registrationForm}
+        className={cssForm.appForm}
         onSubmit={handleSubmit}
       >
-        <h1 className={cssRegistration.registrationFormTitle}>Авторизация</h1>
+        <h1 className={cssForm.appFormTitle}>Авторизация</h1>
         <RegistrationInput
           error={touched.login && errors.login}
           label="Логин"
@@ -73,7 +73,7 @@ const Login = () => {
         />
         <button
           type="submit"
-          className={cssRegistration.registrationFormButton}
+          className={cssForm.appFormButton}
           disabled={signInState.loading}
         >
           Войти
@@ -81,7 +81,7 @@ const Login = () => {
         {signInState.status === 401 && <Alert>Вы ввели неправильный логин или пароль</Alert>}
         <NavLink
           to="/register"
-          className={cssRegistration.registrationFormLink}
+          className={cssForm.appFormLink}
         >
           Зарегистрироваться
         </NavLink>

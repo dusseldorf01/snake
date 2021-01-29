@@ -1,0 +1,9 @@
+.addThread {
+  width: 500px;
+  margin-top: 48px;
+}
+
+.addTreadTitle {
+  font-size: var(--big-font-size);
+  margin-bottom: 8px;
+}

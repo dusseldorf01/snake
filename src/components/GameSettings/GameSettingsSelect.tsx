@@ -15,7 +15,7 @@ const GameSettingsSelect = ({
   >
     {maps.map((_, index) => (
       <option
-        key={`${index + 1}`}
+        key={`map-option-${index + 1}`}
         value={index}
       >
         {`Карта ${index + 1}`}
