@@ -2,9 +2,15 @@ import { useEffect } from 'react';
 import type { IUseGamepadChangeDirection } from '@/hooks/useGamepadChangeDirection/interfaces';
 import { IGamepadKeyMap, IActualGamepadKeyMap } from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
 import type { GamepadStick, GamepadButton } from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
-import { GameReducerType } from '@/game/interfaces';
-import { Direction } from '@/lib/Painter/interfaces';
+import gameActions from '@/game/actionCreators';
 import xboxKeyMap from '@/hooks/useGamepadChangeDirection/keyMap/xboxKeyMap';
+
+const {
+  goToBottom,
+  goToLeft,
+  goToRight,
+  goToTop,
+} = gameActions;
 
 const useGamepadChangeDirection = ({
   dispatch,
@@ -28,80 +34,32 @@ const useGamepadChangeDirection = ({
     left?:GamepadButton, right?:GamepadButton) => {
     if (up && down && left && right) {
       if (up.pressed) {
-        dispatch({
-          payload: {
-            dir: Direction.TOP,
-            number,
-          },
-          type: GameReducerType.CHANGE_DIRECTION,
-        });
+        dispatch(goToTop(number));
       } else
       if (down.pressed) {
-        dispatch({
-          payload: {
-            dir: Direction.BOTTOM,
-            number,
-          },
-          type: GameReducerType.CHANGE_DIRECTION,
-        });
+        dispatch(goToBottom(number));
       } else
       if (left.pressed) {
-        dispatch({
-          payload: {
-            dir: Direction.LEFT,
-            number,
-          },
-          type: GameReducerType.CHANGE_DIRECTION,
-        });
+        dispatch(goToLeft(number));
       } else
       if (right.pressed) {
-        dispatch({
-          payload: {
-            dir: Direction.RIGHT,
-            number,
-          },
-          type: GameReducerType.CHANGE_DIRECTION,
-        });
+        dispatch(goToRight(number));
       }
     }
   };
 
   const checkStick = (stickX:GamepadStick = 0, stickY:GamepadStick = 1) => {
     if (stickX > 0.5) {
-      dispatch({
-        payload: {
-          dir: Direction.RIGHT,
-          number,
-        },
-        type: GameReducerType.CHANGE_DIRECTION,
-      });
+      dispatch(goToRight(number));
     } else
     if (stickX < -0.5) {
-      dispatch({
-        payload: {
-          dir: Direction.LEFT,
-          number,
-        },
-        type: GameReducerType.CHANGE_DIRECTION,
-      });
+      dispatch(goToLeft(number));
     } else
     if (stickY > 0.5) {
-      dispatch({
-        payload: {
-          dir: Direction.BOTTOM,
-          number,
-        },
-        type: GameReducerType.CHANGE_DIRECTION,
-      });
+      dispatch(goToBottom(number));
     } else
     if (stickY < -0.5) {
-      dispatch({
-        payload: {
-          dir: Direction.TOP,
-          number,
-        },
-        type: GameReducerType.CHANGE_DIRECTION,
-      });
+      dispatch(goToTop(number));
     }
   };
 
@@ -110,30 +68,30 @@ const useGamepadChangeDirection = ({
       return;
     }
 
-    let interval:number;
+    let animationFrame:number;
 
     const listener = () => {
-      if (interval) return;
-      interval = window.setInterval(() => {
-        const gamepad = navigator.getGamepads()[0];
-        if (!gamepad) return;
-        const {
-          stickX, stickY, up, down, left, right,
-        } = setKeysFromMap(xboxKeyMap, gamepad);
-        checkButtons(up, down, left, right);
-        checkStick(stickX, stickY);
-      }, 100);
+      const gamepad = navigator.getGamepads()[0];
+      if (!gamepad) return;
+      const {
+        stickX, stickY, up, down, left, right,
+      } = setKeysFromMap(xboxKeyMap, gamepad);
+      checkButtons(up, down, left, right);
+      checkStick(stickX, stickY);
+      animationFrame = window.requestAnimationFrame(listener);
     };
 
     if (navigator.getGamepads()[0]) listener();
     window.addEventListener('gamepadconnected', listener);
-    window.addEventListener('gamepaddisconnected', () => { window.clearInterval(interval); });
+    window.addEventListener('gamepaddisconnected', () => { window.cancelAnimationFrame(animationFrame); });
 
     // eslint-disable-next-line consistent-return
     return () => {
       window.removeEventListener('gamepadconnected', listener);
-      window.removeEventListener('gamepaddisconnected', () => { window.clearInterval(interval); });
-      window.clearInterval(interval);
+      window.removeEventListener('gamepaddisconnected', () => { window.cancelAnimationFrame(animationFrame); });
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+      }
     };
   }, [status]);
 };
