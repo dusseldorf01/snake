@@ -24,7 +24,8 @@ const Routes = () => (
           <PrivateRoute path="/profile/edit" component={lazy(() => import('./pages/ProfileSettings'))} />
           <PrivateRoute path="/profile" component={lazy(() => import('./pages/Profile'))} />
           <PrivateRoute path="/leaderboard" component={lazy(() => import('./pages/Leaderboard'))} />
-          <PrivateRoute path="/forum" component={lazy(() => import('./pages/Forum'))} />
+          <PrivateRoute path="/forum" component={lazy(() => import('./pages/Forum'))} exact />
+          <PrivateRoute path="/forum/:id" component={lazy(() => import('./pages/Thread'))} />
           <PrivateRoute path="/feedback" component={lazy(() => import('./pages/Feedback'))} />
           <PrivateRoute path="/" component={lazy(() => import('./pages/Game'))} />
           <Route path="*" component={lazy(() => import('./pages/Error404'))} />

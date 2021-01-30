@@ -19,9 +19,9 @@ $white-1: #FFFFFF;
 $transparent: transparent;
 
 :root {
-  --link-color: $BLUE_1;
   --extra-big-font-size: 40px;
   --big-font-size: 20px;
+  --medium-font-size: 17px;
   --normal-font-size: 15px;
   --small-font-size: 13px;
   --extra-small-font-size: 9px;
@@ -35,11 +35,12 @@ $transparent: transparent;
   --blue-1: $BLUE_1;
   --blue-2: $BLUE_2;
   --box-shadow: 0 0 6px 0 $BLACK_3_14;
-  --text-secondary-color: $GRAY_1;
 }
 
 .light:root {
+  --link-color: $BLUE_1;
   --text-primary-color: $BLACK_1;
+  --text-secondary-color: $GRAY_1;
   --background-color: $WHITE_1;
   --menu-item-color: $BLUE_1;
   --loader-color: $BLACK_1;
@@ -51,7 +52,9 @@ $transparent: transparent;
 }
 
 .dark:root {
+  --link-color: $BLUE_3;
   --text-primary-color: $WHITE_1;
+  --text-secondary-color: $GRAY_2;
   --background-color: $BLACK_2;
   --menu-item-color: $BLUE_2;
   --loader-color: $WHITE_1;

@@ -1,6 +1,7 @@
 module.exports = {
   BLUE_1: '#3369F3',
   BLUE_2: '#E4EDFD',
+  BLUE_3: '#3389F3',
   BLACK_1: '#1E1E1E',
   BLACK_2: '#282C35',
   BLACK_3: '#000000',

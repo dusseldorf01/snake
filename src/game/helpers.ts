@@ -104,7 +104,7 @@ export const createFood = (
     isSnake = snake.findIndex(({ x, y }) => x === newFood.x && y === newFood.y);
     isExistingFood = existingFood && existingFood.x === newFood.x && newFood.y;
     // eslint-disable-next-line @typescript-eslint/no-loop-func
-    isWall = !!walls.find(({ x, y }) => x === newFood.x && y === newFood.y);
+    isWall = walls.some(({ x, y }) => x === newFood.x && y === newFood.y);
   } while (isSnake !== -1 || isExistingFood || isWall);
 
   return newFood;

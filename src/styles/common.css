@@ -15,7 +15,7 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
-input, select {
+input, select, textarea {
   font-family: inherit;
   font-size: inherit;
   display: block;
@@ -45,18 +45,28 @@ button {
   color: inherit;
 }
 
-a, input, button {
+a, input, button, textarea {
   outline-offset: 3px;
 }
 
 a:not(:focus-visible),
 input:not(:focus-visible),
-button:not(:focus-visible) {
+button:not(:focus-visible),
+textarea:not(:focus-visible) {
   outline: 0;
 }
 
 * {
   box-sizing: border-box;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
 }
 
 ::-webkit-scrollbar {
@@ -97,7 +107,13 @@ button:not(:focus-visible) {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-top: 20px;
+  padding-top: 40px;
+}
+
+.pageHalfContent {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .centerContent {

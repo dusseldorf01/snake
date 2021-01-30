@@ -2,12 +2,19 @@ import {
   ChangeEvent,
   useCallback,
 } from 'react';
-import { GameReducerType } from '@/game/interfaces';
+import actions from '@/game/actionCreators';
 import GameSettingsSelect from './GameSettingsSelect';
 import GameSettingsInput from './GameSettingsInput';
 import GameSettingsCheckbox from './GameSettingsCheckbox';
 import type { IGameSettings } from './interfaces';
 import css from './index.css';
+
+const {
+  changeChangingLevel,
+  changeLevel,
+  changeMap,
+  changeMultiplayer,
+} = actions;
 
 const GameSettings = ({
   changingLevel,
@@ -16,49 +23,37 @@ const GameSettings = ({
   map,
   multiplayer,
 }: IGameSettings) => {
-  const selectMap = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch({
-      type: GameReducerType.CHANGE_MAP,
-      payload: Number(e.target.value),
-    });
+  const changeMapHandler = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    dispatch(changeMap(Number(e.target.value)));
   }, []);
-  const changeLevel = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: GameReducerType.CHANGE_LEVEL,
-      payload: Number(e.target.value),
-    });
+  const changeLevelHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeLevel(Number(e.target.value)));
   }, []);
-  const changeChangingLevel = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: GameReducerType.CHANGE_CHANGING_LEVEL,
-      payload: e.target.checked,
-    });
+  const changeChangingLevelHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeChangingLevel(e.target.checked));
   }, []);
-  const changeMultiplayer = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: GameReducerType.CHANGE_MULTIPLAYER,
-      payload: e.target.checked,
-    });
+  const changeMultiplayerHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeMultiplayer(e.target.checked));
   }, []);
 
   return (
     <div className={css.gameSettings}>
       <GameSettingsSelect
-        onChange={selectMap}
+        onChange={changeMapHandler}
         value={map}
       />
       <GameSettingsInput
-        onChange={changeLevel}
+        onChange={changeLevelHandler}
         value={level}
       />
       <GameSettingsCheckbox
         label="Увеличивать уровень"
-        onChange={changeChangingLevel}
+        onChange={changeChangingLevelHandler}
         value={changingLevel}
       />
       <GameSettingsCheckbox
         label="Мультиплеер"
-        onChange={changeMultiplayer}
+        onChange={changeMultiplayerHandler}
         value={multiplayer}
       />
     </div>

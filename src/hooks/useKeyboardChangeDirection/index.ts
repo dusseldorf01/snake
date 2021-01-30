@@ -1,10 +1,15 @@
 import { useEffect } from 'react';
 import type { IUseKeyboardChangeDirection } from '@/hooks/useKeyboardChangeDirection/interfaces';
-import {
-  GameReducerType,
-  GameStatus,
-} from '@/game/interfaces';
-import { Direction } from '@/lib/Painter/interfaces';
+import { GameStatus } from '@/game/interfaces';
+import gameActions from '@/game/actionCreators';
+
+const {
+  changeGameStatus,
+  goToBottom,
+  goToLeft,
+  goToRight,
+  goToTop,
+} = gameActions;
 
 export default ({
   dispatch,
@@ -24,50 +29,23 @@ export default ({
     const listener = ({ key }: KeyboardEvent) => {
       switch (key) {
         case keyUp: {
-          dispatch({
-            payload: {
-              dir: Direction.TOP,
-              number,
-            },
-            type: GameReducerType.CHANGE_DIRECTION,
-          });
+          dispatch(goToTop(number));
           break;
         }
         case keyDown: {
-          dispatch({
-            payload: {
-              dir: Direction.BOTTOM,
-              number,
-            },
-            type: GameReducerType.CHANGE_DIRECTION,
-          });
+          dispatch(goToBottom(number));
           break;
         }
         case keyRight: {
-          dispatch({
-            payload: {
-              dir: Direction.RIGHT,
-              number,
-            },
-            type: GameReducerType.CHANGE_DIRECTION,
-          });
+          dispatch(goToRight(number));
           break;
         }
         case keyLeft: {
-          dispatch({
-            payload: {
-              dir: Direction.LEFT,
-              number,
-            },
-            type: GameReducerType.CHANGE_DIRECTION,
-          });
+          dispatch(goToLeft(number));
           break;
         }
         case ' ': {
-          dispatch({
-            type: GameReducerType.CHANGE_GAME_STATUS,
-            payload: GameStatus.ON_PAUSE,
-          });
+          dispatch(changeGameStatus(GameStatus.ON_PAUSE));
           break;
         }
         default:

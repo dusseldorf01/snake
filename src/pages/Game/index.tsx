@@ -4,11 +4,11 @@ import {
 } from 'react';
 import Canvas from '@/components/Canvas';
 import {
-  GameReducerType,
   GameStatus,
   IGameReducerAction,
   IGameState,
 } from '@/game/interfaces';
+import gameActions from '@/game/actionCreators';
 import gameReducer from '@/game/reducer';
 import GameModal from '@/components/GameModal';
 import type { IGameModal } from '@/components/GameModal/interfaces';
@@ -19,8 +19,12 @@ import GameSettings from '@/components/GameSettings';
 import { getInitialGameState } from '@/game/helpers';
 import useLocalStorageSaving from '@/hooks/useLocalStorageSaving';
 import cssCommon from '@/styles/common.css';
-import useGamepadChangeDirection from '@/hooks/useGamepadChangeDirection';
 import css from './index.css';
+
+const {
+  changeGameStatus,
+  restartGame,
+} = gameActions;
 
 const getScoreLabel = (scores: number[], label: string): JSX.Element => {
   if (scores.length === 1) {
@@ -84,27 +88,15 @@ const Game = () => {
     trueCondition: status === GameStatus.RUNNING && multiplayer,
   });
 
-  useGamepadChangeDirection({
-    dispatch,
-    number: 0,
-    status,
-    trueCondition: status === GameStatus.RUNNING,
-  });
-
   useGameAnimation({
     dispatch,
     level,
     status,
   });
 
-  const startGame = () => dispatch({
-    type: GameReducerType.CHANGE_GAME_STATUS,
-    payload: GameStatus.RUNNING,
-  });
+  const startGameHandler = () => dispatch(changeGameStatus(GameStatus.RUNNING));
 
-  const restartGame = () => dispatch({
-    type: GameReducerType.RESTART_GAME,
-  });
+  const restartGameHandler = () => dispatch(restartGame());
 
   const gameModalProps: {
     [key in keyof Omit<typeof GameStatus, 'RUNNING'>]: IGameModal;
@@ -112,7 +104,7 @@ const Game = () => {
     [GameStatus.WAITING_FOR_START]: {
       buttons: [{
         label: 'Начать',
-        onClick: startGame,
+        onClick: startGameHandler,
       }],
       children: (
         <GameSettings
@@ -128,10 +120,10 @@ const Game = () => {
     [GameStatus.ON_PAUSE]: {
       buttons: [{
         label: 'Продолжить',
-        onClick: startGame,
+        onClick: startGameHandler,
       }, {
         label: 'Начать заново',
-        onClick: restartGame,
+        onClick: restartGameHandler,
       }],
       children: (
         <>
@@ -144,7 +136,7 @@ const Game = () => {
     [GameStatus.IS_OVER]: {
       buttons: [{
         label: 'Играть заново',
-        onClick: restartGame,
+        onClick: restartGameHandler,
       }],
       children: getScoreLabel(score, 'Набрано очков'),
       title: 'Игра окончена',
@@ -152,7 +144,7 @@ const Game = () => {
     [GameStatus.PASSED]: {
       buttons: [{
         label: 'Играть заново',
-        onClick: restartGame,
+        onClick: restartGameHandler,
       }],
       children: getScoreLabel(score, 'Набрано очков'),
       title: 'Игра пройдена',

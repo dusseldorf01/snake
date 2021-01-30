@@ -23,6 +23,10 @@
   align-items: center;
 }
 
+.gameSettingsCheckbox {
+  cursor: pointer;
+}
+
 .gameSettingsCheckboxInput {
   width: auto;
 }

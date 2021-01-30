@@ -1,8 +1,8 @@
 import type { Reducer } from 'react';
+import produce from 'immer';
 import { Direction, IFood, ISnakePart } from '@/lib/Painter/interfaces';
 import getLast from '@/utils/getLast';
 import getMaxItem from '@/utils/getMaxItem';
-import areEqualArrays from '@/utils/areEqualArrays';
 import {
   GameReducerType,
   GameStatus,
@@ -33,56 +33,20 @@ const {
 } = gameConfig;
 
 const changeDirection = (
-  dir: Direction,
+  newDirection: Direction,
+  oppositeDirection: Direction,
   number: number,
-  direction: Direction[],
-  lastDirection: Direction,
   state: IGameState,
-): IGameState => {
-  if (dir === direction[number]) {
-    return state;
-  }
-
-  const newDirection = direction.slice();
-  newDirection[number] = dir;
-
-  switch (dir) {
-    case Direction.RIGHT:
-      return (
-        lastDirection !== Direction.LEFT ? (
-          { ...state, direction: newDirection }
-        ) : (
-          state
-        )
-      );
-    case Direction.LEFT:
-      return (
-        lastDirection !== Direction.RIGHT ? (
-          { ...state, direction: newDirection }
-        ) : (
-          state
-        )
-      );
-    case Direction.TOP:
-      return (
-        lastDirection !== Direction.BOTTOM ? (
-          { ...state, direction: newDirection }
-        ) : (
-          state
-        )
-      );
-    case Direction.BOTTOM:
-      return (
-        lastDirection !== Direction.TOP ? (
-          { ...state, direction: newDirection }
-        ) : (
-          state
-        )
-      );
-    default:
-      throw new Error('Unknown direction');
-  }
-};
+): IGameState => (
+  produce<IGameState>(state, (currentState) => {
+    if (
+      newDirection !== state.direction[number] && state.lastDirection[number] !== oppositeDirection
+    ) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.direction[number] = newDirection;
+    }
+  })
+);
 
 const getSnakeNextTick = (
   bigFood: IFood | null,
@@ -113,7 +77,11 @@ const getSnakeNextTick = (
     };
   }
 
-  if (food !== null && newHead.x === food.x && newHead.y === food.y) {
+  const ateFood = (f: IFood | null) => (
+    f !== null && f.x === newHead.x && f.y === newHead.y
+  );
+
+  if (ateFood(food)) {
     newHead.eaten = true;
 
     return {
@@ -124,7 +92,7 @@ const getSnakeNextTick = (
     };
   }
 
-  if (bigFood !== null && newHead.x === bigFood.x && newHead.y === bigFood.y) {
+  if (ateFood(bigFood)) {
     newHead.eaten = true;
 
     return {
@@ -143,6 +111,200 @@ const getSnakeNextTick = (
   };
 };
 
+const getNextTick = (state: IGameState): IGameState => (
+  produce<IGameState>(state, (currentState) => {
+    const {
+      bigFood,
+      changingLevel,
+      direction,
+      food,
+      level,
+      map: mapIndex,
+      multiplayer,
+      snake,
+      startLevel,
+      timeToRemoveBigFood,
+    } = currentState;
+
+    const map = maps[mapIndex];
+
+    const {
+      bigFood: newBigFood,
+      timeToRemoveBigFood: newTimeToRemoveBigFood,
+    } = checkBigFood(bigFood, timeToRemoveBigFood);
+    let needToCreateBigFood = false;
+    let ate2 = false;
+    let ateBigFood2 = false;
+
+    // eslint-disable-next-line no-param-reassign
+    currentState.bigFood = newBigFood;
+    // eslint-disable-next-line no-param-reassign
+    currentState.timeToRemoveBigFood = newTimeToRemoveBigFood;
+
+    const {
+      ate: ate1,
+      ateBigFood: ateBigFood1,
+      isDead: isDead1,
+      snake: snake1,
+    } = getSnakeNextTick(bigFood, direction[0], food, snake[0], map);
+
+    // eslint-disable-next-line no-param-reassign,prefer-destructuring
+    currentState.lastDirection[0] = direction[0];
+
+    if (isDead1) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.status = GameStatus.IS_OVER;
+      return;
+    }
+
+    if (multiplayer) {
+      const snake2NextTick = getSnakeNextTick(bigFood, direction[1], food, snake[1], map);
+      const snake2 = snake2NextTick.snake;
+      const isDead2 = snake2NextTick.isDead;
+      ate2 = snake2NextTick.ate;
+      ateBigFood2 = snake2NextTick.ateBigFood;
+
+      // eslint-disable-next-line no-param-reassign,prefer-destructuring
+      currentState.lastDirection[1] = direction[1];
+
+      if (isDead2) {
+        // eslint-disable-next-line no-param-reassign
+        currentState.status = GameStatus.IS_OVER;
+        return;
+      }
+
+      if (snake1.find((sn1) => snake2.find((sn2) => (
+        sn1.x === sn2.x && sn1.y === sn2.y
+      )))) {
+        // eslint-disable-next-line no-param-reassign
+        currentState.status = GameStatus.IS_OVER;
+        return;
+      }
+
+      // eslint-disable-next-line no-param-reassign
+      currentState.snake[1] = snake2;
+    }
+
+    // eslint-disable-next-line no-param-reassign
+    currentState.snake[0] = snake1;
+
+    const boardItemsCount = BOARD_HEIGHT_ITEMS_COUNT * BOARD_WIDTH_ITEMS_COUNT;
+
+    if (currentState.snake.flat().length + map.length === boardItemsCount) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.status = GameStatus.PASSED;
+      return;
+    }
+
+    if (ate1) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.score[0] += 1;
+      // eslint-disable-next-line no-param-reassign
+      currentState.food = createFood(currentState.snake.flat(), currentState.bigFood, map);
+      needToCreateBigFood = currentState.score[0] % POINTS_FOR_BIG_FOOD === 0;
+    }
+
+    if (ate2) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.score[1] += 1;
+      // eslint-disable-next-line no-param-reassign
+      currentState.food = createFood(currentState.snake.flat(), currentState.bigFood, map);
+      needToCreateBigFood = currentState.score[1] % POINTS_FOR_BIG_FOOD === 0;
+    }
+
+    if (ateBigFood1) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.score[0] += BIG_FOOD_POINTS;
+    }
+
+    if (ateBigFood2) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.score[1] += BIG_FOOD_POINTS;
+    }
+
+    if ((ate1 || ate2 || ateBigFood1 || ateBigFood2) && changingLevel) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.level = getLevel(level, startLevel, getMaxItem(currentState.score));
+    }
+
+    if (currentState.bigFood === null && needToCreateBigFood) {
+      const createdBigFood = createBigFood(currentState.snake.flat(), currentState.food, map);
+      // eslint-disable-next-line no-param-reassign
+      currentState.bigFood = createdBigFood.bigFood;
+      // eslint-disable-next-line no-param-reassign
+      currentState.timeToRemoveBigFood = createdBigFood.timeToRemoveBigFood;
+    }
+
+    if (ateBigFood1 || ateBigFood2) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.bigFood = null;
+      // eslint-disable-next-line no-param-reassign
+      currentState.timeToRemoveBigFood = 0;
+    }
+  })
+);
+
+const changeMultiplayer = (state: IGameState, payload: boolean): IGameState => (
+  produce(state, (currentState) => {
+    const { snake } = currentState;
+
+    // eslint-disable-next-line no-param-reassign
+    currentState.multiplayer = payload;
+
+    if (payload) {
+      // eslint-disable-next-line no-param-reassign
+      currentState.direction = [Direction.RIGHT, Direction.RIGHT];
+      // eslint-disable-next-line no-param-reassign
+      currentState.score = [0, 0];
+      // eslint-disable-next-line no-param-reassign
+      currentState.snake = [...snake, createSnake(maps[currentState.map], snake[0])];
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      currentState.direction = [Direction.RIGHT];
+      // eslint-disable-next-line no-param-reassign
+      currentState.score = [0];
+      // eslint-disable-next-line no-param-reassign
+      currentState.snake = [snake[0]];
+    }
+  })
+);
+
+const changeMap = (state: IGameState, payload: number) => (
+  produce(state, (currentState) => {
+    const newMap = maps[payload];
+
+    // eslint-disable-next-line no-param-reassign
+    currentState.map = payload;
+
+    const isWall = (x: number, y: number) => (
+      !!newMap.find((w) => w.x === x && w.y === y)
+    );
+
+    currentState.snake.forEach((snake, index) => {
+      if (snake.some(({ x, y }) => (
+        isWall(x, y) || isWall(x + 1, y) || isWall(x + 2, y) || isWall(x + 3, y)
+        || isWall(x + 4, y)
+      ))) {
+        if (index === 0) {
+          // eslint-disable-next-line no-param-reassign
+          currentState.snake[0] = createSnake(newMap, currentState.snake[1] || []);
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          currentState.snake[1] = createSnake(newMap, currentState.snake[0]);
+        }
+
+        // eslint-disable-next-line no-param-reassign
+        currentState.food = createFood(currentState.snake.flat(), null, newMap);
+      }
+
+      if (isWall(currentState.food.x, currentState.food.y)) {
+        // eslint-disable-next-line no-param-reassign
+        currentState.food = createFood(currentState.snake.flat(), null, newMap);
+      }
+    });
+  })
+);
+
 const gameReducer: Reducer<IGameState, IGameReducerAction> = (
   state, {
     payload,
@@ -150,21 +312,11 @@ const gameReducer: Reducer<IGameState, IGameReducerAction> = (
   },
 ): IGameState => {
   const {
-    bigFood,
     changingLevel,
-    direction,
-    food,
-    lastDirection,
-    level,
     map: mapIndex,
     multiplayer,
-    score,
-    snake,
     startLevel,
-    timeToRemoveBigFood,
   } = state;
-
-  const map = maps[mapIndex];
 
   switch (type) {
     case GameReducerType.CHANGE_CHANGING_LEVEL: {
@@ -172,13 +324,6 @@ const gameReducer: Reducer<IGameState, IGameReducerAction> = (
         ...state,
         changingLevel: payload,
       };
-    }
-    case GameReducerType.CHANGE_DIRECTION: {
-      const {
-        dir,
-        number,
-      } = payload;
-      return changeDirection(dir, number, direction, lastDirection[number], state);
     }
     case GameReducerType.CHANGE_GAME_STATUS: {
       return {
@@ -193,177 +338,25 @@ const gameReducer: Reducer<IGameState, IGameReducerAction> = (
       };
     }
     case GameReducerType.CHANGE_MAP: {
-      let needToChangeSnake: boolean = false;
-      const newSnake = snake.slice();
-      const newMap = maps[payload];
-
-      const isWall = (x: number, y: number) => (
-        !!newMap.find((w) => w.x === x && w.y === y)
-      );
-
-      snake.forEach((sn, index) => {
-        if (sn.some(({ x, y }) => (
-          isWall(x, y) || isWall(x + 1, y) || isWall(x + 2, y) || isWall(x + 3, y)
-          || isWall(x + 4, y)
-        ))) {
-          needToChangeSnake = true;
-          if (index === 0) {
-            newSnake[0] = createSnake(newMap, newSnake[1] || []);
-          } else {
-            newSnake[1] = createSnake(newMap, newSnake[0]);
-          }
-        }
-      });
-
-      const newSn = needToChangeSnake ? newSnake : snake;
-
-      return {
-        ...state,
-        food: needToChangeSnake || isWall(food.x, food.y) ? (
-          createFood(newSn.flat(), null, newMap)
-        ) : food,
-        map: payload,
-        snake: newSn,
-      };
+      return changeMap(state, payload);
     }
     case GameReducerType.CHANGE_MULTIPLAYER: {
-      let variableState: Partial<IGameState> = {};
-
-      if (payload) {
-        variableState = {
-          direction: [...direction, Direction.RIGHT],
-          score: [0, 0],
-          snake: [...snake, createSnake(map, snake[0])],
-        };
-      } else {
-        variableState = {
-          direction: [direction[0]],
-          score: [0],
-          snake: [snake[0]],
-        };
-      }
-
-      return {
-        ...state,
-        ...variableState,
-        multiplayer: payload,
-      };
+      return changeMultiplayer(state, payload);
+    }
+    case GameReducerType.GO_TO_BOTTOM: {
+      return changeDirection(Direction.BOTTOM, Direction.TOP, payload, state);
+    }
+    case GameReducerType.GO_TO_LEFT: {
+      return changeDirection(Direction.LEFT, Direction.RIGHT, payload, state);
+    }
+    case GameReducerType.GO_TO_RIGHT: {
+      return changeDirection(Direction.RIGHT, Direction.LEFT, payload, state);
+    }
+    case GameReducerType.GO_TO_TOP: {
+      return changeDirection(Direction.TOP, Direction.BOTTOM, payload, state);
     }
     case GameReducerType.NEXT_TICK: {
-      const newLastDirection = lastDirection.slice();
-      const newSnake = snake.slice();
-      const newScore = score.slice();
-      const {
-        bigFood: newBigFood,
-        timeToRemoveBigFood: newTimeToRemoveBigFood,
-      } = checkBigFood(bigFood, timeToRemoveBigFood);
-      let newFood = food;
-      let needToCreateBigFood = false;
-      let ate2 = false;
-      let ateBigFood2 = false;
-
-      const {
-        ate: ate1,
-        ateBigFood: ateBigFood1,
-        isDead: isDead1,
-        snake: snake1,
-      } = getSnakeNextTick(bigFood, direction[0], food, snake[0], map);
-      // eslint-disable-next-line prefer-destructuring
-      newLastDirection[0] = direction[0];
-
-      if (multiplayer) {
-        const snake2NextTick = getSnakeNextTick(bigFood, direction[1], food, snake[1], map);
-        ate2 = snake2NextTick.ate;
-        ateBigFood2 = snake2NextTick.ateBigFood;
-        const snake2 = snake2NextTick.snake;
-        const isDead2 = snake2NextTick.isDead;
-        // eslint-disable-next-line prefer-destructuring
-        newLastDirection[1] = direction[1];
-
-        newSnake[1] = snake2;
-
-        if (isDead2) {
-          return {
-            ...state,
-            status: GameStatus.IS_OVER,
-          };
-        }
-
-        if (snake1.find((sn1) => snake2.find((sn2) => (
-          sn1.x === sn2.x && sn1.y === sn2.y
-        )))) {
-          return {
-            ...state,
-            status: GameStatus.IS_OVER,
-          };
-        }
-      }
-
-      newSnake[0] = snake1;
-
-      if (isDead1) {
-        return {
-          ...state,
-          status: GameStatus.IS_OVER,
-        };
-      }
-
-      const boardItemsCount = BOARD_HEIGHT_ITEMS_COUNT * BOARD_WIDTH_ITEMS_COUNT;
-
-      if (newSnake.flat().length + map.length === boardItemsCount) {
-        return {
-          ...state,
-          status: GameStatus.PASSED,
-        };
-      }
-
-      if (ate1) {
-        newScore[0] += 1;
-        newFood = createFood(newSnake.flat(), newBigFood, map);
-        needToCreateBigFood = needToCreateBigFood || newScore[0] % POINTS_FOR_BIG_FOOD === 0;
-      }
-
-      if (ate2) {
-        newScore[1] += 1;
-        newFood = createFood(newSnake.flat(), newBigFood, map);
-        needToCreateBigFood = needToCreateBigFood || newScore[1] % POINTS_FOR_BIG_FOOD === 0;
-      }
-
-      if (ateBigFood1) {
-        newScore[0] += BIG_FOOD_POINTS;
-      }
-
-      if (ateBigFood2) {
-        newScore[1] += BIG_FOOD_POINTS;
-      }
-
-      const ate = ate1 || ate2 || ateBigFood1 || ateBigFood2;
-
-      return {
-        ...state,
-        food: newFood,
-        lastDirection: newLastDirection,
-        level: ate && changingLevel ? getLevel(level, startLevel, getMaxItem(newScore)) : level,
-        score: areEqualArrays(score, newScore) ? score : newScore,
-        snake: newSnake,
-        ...(
-          needToCreateBigFood ? (
-            createBigFood(newSnake.flat(), newFood, map)
-          ) : ({})
-        ),
-        ...(
-          newBigFood !== null ? ({
-            bigFood: newBigFood,
-            timeToRemoveBigFood: newTimeToRemoveBigFood,
-          }) : ({})
-        ),
-        ...(
-          (ateBigFood1 || ateBigFood2) ? ({
-            bigFood: null,
-            timeToRemoveBigFood: 0,
-          }) : ({})
-        ),
-      };
+      return getNextTick(state);
     }
     case GameReducerType.RESTART_GAME: {
       return createGameState(

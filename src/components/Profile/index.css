@@ -2,11 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 510px;
-  width: 100%;
   font-size: var(--small-font-size);
-  align-self: center;
-  margin-top: 40px;
 }
 
 .profileTitle {
