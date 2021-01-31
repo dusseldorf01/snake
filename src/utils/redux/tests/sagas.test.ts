@@ -1,4 +1,3 @@
-// import { createAsyncReducer, initialAsyncState } from '@/utils/redux/reducers';
 import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
 import { createAsyncActions } from '@/utils/redux/actions';
 import createSagaMiddleware from 'redux-saga';
