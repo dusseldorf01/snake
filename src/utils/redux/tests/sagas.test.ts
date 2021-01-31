@@ -5,10 +5,6 @@ import createSagaMiddleware from 'redux-saga';
 import { takeLatestRequest } from '@/utils/redux/sagas';
 import { AxiosResponse } from 'axios';
 
-const sleep = (ms:number) => new Promise((resolve) => {
-  setTimeout(resolve, ms);
-});
-
 describe('Test saga utils', () => {
   let store:Store;
   const sagaMiddleware = createSagaMiddleware();
@@ -17,9 +13,12 @@ describe('Test saga utils', () => {
   const apiSuccessResponse = {
     data: { id: 1 }, status: 200, statusText: 'success', headers: {}, config: {},
   };
-  const apiFn = jest.fn(() => new Promise<AxiosResponse>((resolve) => {
-    setTimeout(() => resolve(apiSuccessResponse));
-  }));
+
+  const makeApi = (response: AxiosResponse = apiSuccessResponse) => jest.fn(
+    () => new Promise<AxiosResponse>((resolve) => {
+      resolve(response);
+    }),
+  );
 
   function initStore():Store {
     return configureStore({
@@ -33,6 +32,7 @@ describe('Test saga utils', () => {
   });
 
   it('should call api fn when request action dispatched', () => {
+    const apiFn = makeApi();
     const asyncActions = createAsyncActions(type);
     function* rootSaga() {
       yield takeLatestRequest(asyncActions, apiFn);
@@ -43,6 +43,7 @@ describe('Test saga utils', () => {
   });
 
   it('should call success action', async () => {
+    const apiFn = makeApi();
     const asyncActions = createAsyncActions(type);
     const spySuccess = jest.spyOn(asyncActions, 'success');
 
@@ -51,7 +52,7 @@ describe('Test saga utils', () => {
     }
     sagaMiddleware.run(rootSaga);
     store.dispatch(asyncActions.request());
-    await sleep(0);
+    await apiFn.mock.results[0].value;
     expect(spySuccess).toBeCalledWith({
       data: apiSuccessResponse.data,
       status: apiSuccessResponse.status,
@@ -75,8 +76,9 @@ describe('Test saga utils', () => {
       yield takeLatestRequest(asyncActions, apiFnError);
     }
     sagaMiddleware.run(rootSaga);
+
     store.dispatch(asyncActions.request());
-    await sleep(0);
+    await apiFnError.mock.results[0].value.catch(() => undefined);
     expect(spyError).toBeCalledWith({
       data: errorResponse.response.data,
       status: errorResponse.response.status,
@@ -91,20 +93,18 @@ describe('Test saga utils', () => {
     const secondData = { id: 2 };
     mockApi
       .mockImplementationOnce(() => new Promise<AxiosResponse>((resolve) => {
-        setTimeout(() => resolve(apiSuccessResponse), 2);
+        resolve(apiSuccessResponse);
       }))
       .mockImplementationOnce(() => new Promise<AxiosResponse>((resolve) => {
-        setTimeout(() => resolve({ ...apiSuccessResponse, data: secondData }), 3);
+        resolve({ ...apiSuccessResponse, data: secondData });
       }));
     function* rootSaga() {
       yield takeLatestRequest(asyncActions, mockApi);
     }
     sagaMiddleware.run(rootSaga);
     store.dispatch(asyncActions.request());
-    await sleep(0);
     store.dispatch(asyncActions.request());
-    await sleep(4);
-
+    await mockApi.mock.results[1].value;
     expect(spySuccess.mock.calls.length).toBe(1);
     expect(spySuccess).toBeCalledWith({
       data: secondData,
