@@ -3,6 +3,7 @@ import { createAsyncActions } from '@/utils/redux/actions';
 import createSagaMiddleware from 'redux-saga';
 import { takeLatestRequest } from '@/utils/redux/sagas';
 import { AxiosResponse } from 'axios';
+import { waitFor } from '@testing-library/react';
 
 describe('Test saga utils', () => {
   let store:Store;
@@ -51,7 +52,8 @@ describe('Test saga utils', () => {
     }
     sagaMiddleware.run(rootSaga);
     store.dispatch(asyncActions.request());
-    await apiFn.mock.results[0].value;
+    await waitFor(() => expect(apiFn).toHaveBeenCalledTimes(1));
+
     expect(spySuccess).toBeCalledWith({
       data: apiSuccessResponse.data,
       status: apiSuccessResponse.status,
@@ -66,7 +68,7 @@ describe('Test saga utils', () => {
       },
     };
     const apiFnError = jest.fn(() => new Promise<AxiosResponse>((_resolve, reject) => {
-      setTimeout(() => reject(errorResponse));
+      reject(errorResponse);
     }));
     const asyncActions = createAsyncActions(type);
     const spyError = jest.spyOn(asyncActions, 'error');
@@ -77,7 +79,11 @@ describe('Test saga utils', () => {
     sagaMiddleware.run(rootSaga);
 
     store.dispatch(asyncActions.request());
-    await apiFnError.mock.results[0].value.catch(() => undefined);
+    await expect(apiFnError).toBe;
+    await waitFor(() => {
+      expect(apiFnError).toBeCalled();
+    });
+
     expect(spyError).toBeCalledWith({
       data: errorResponse.response.data,
       status: errorResponse.response.status,
@@ -103,7 +109,7 @@ describe('Test saga utils', () => {
     sagaMiddleware.run(rootSaga);
     store.dispatch(asyncActions.request());
     store.dispatch(asyncActions.request());
-    await mockApi.mock.results[1].value;
+    await waitFor(() => expect(mockApi).toHaveBeenCalledTimes(2));
     expect(spySuccess.mock.calls.length).toBe(1);
     expect(spySuccess).toBeCalledWith({
       data: secondData,

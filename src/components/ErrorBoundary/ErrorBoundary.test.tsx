@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import ErrorBoundary from '.';
 
 describe('ErrorBoundary', () => {
-  const errorText = 'Похоже, что-то пошло не так';
+  const { errorText } = ErrorBoundary.defaultProps;
   const normalText = 'Normal';
   const NormalComponent = () => <div>{normalText}</div>;
   const ErrorComponent = () => {
