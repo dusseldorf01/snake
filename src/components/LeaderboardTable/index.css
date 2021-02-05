@@ -1,0 +1,21 @@
+.leaderboardTable {
+  width: 100%;
+  text-align: center;
+  border-spacing: 0;
+
+  th {
+    text-transform: uppercase;
+    font-size: var(--medium-font-size);
+    color: var(--text-secondary-color);
+    letter-spacing: 3px;
+    font-weight: 500;
+  }
+
+  th, td {
+    padding: 16px 12px;
+  }
+
+  td {
+    border-top: 1px solid var(--gray-3);
+  }
+}
