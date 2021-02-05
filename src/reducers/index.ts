@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import { CombinedState, PayloadAction } from '@reduxjs/toolkit';
 import user from '@/reducers/user';
+import game from '@/reducers/game';
 import { signOutActions } from '@/actions/user';
 
 const rootReducer = combineReducers({
+  game,
   user,
 });
 

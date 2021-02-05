@@ -25,6 +25,8 @@ export interface IGameState {
 }
 
 export enum GameReducerType {
+  ATE_BIG_FOOD = 'ATE_BIG_FOOD',
+  ATE_FOOD = 'ATE_FOOD',
   CHANGE_CHANGING_LEVEL = 'CHANGE_CHANGING_LEVEL',
   CHANGE_GAME_STATUS = 'CHANGE_GAME_STATUS',
   CHANGE_LEVEL = 'CHANGE_LEVEL',
@@ -36,9 +38,27 @@ export enum GameReducerType {
   GO_TO_RIGHT = 'GO_TO_RIGHT',
   NEXT_TICK = 'NEXT_TICK',
   RESTART_GAME = 'RESTART_GAME',
+  SET_LAST_DIRECTION = 'SET_LAST_DIRECTION',
+  SET_SNAKE = 'SET_SNAKE',
+  UPDATE_BIG_FOOD = 'UPDATE_BIG_FOOD',
 }
 
 export interface IGameReducerAction {
   type: GameReducerType;
   payload?: any;
+}
+
+export interface IUpdateBigFoodPayload {
+  bigFood: null | IFood;
+  timeToRemoveBigFood: number;
+}
+
+export interface ISetSnakePayload {
+  index: number;
+  snake: ISnakePart[];
+}
+
+export interface IAteFoodPayload {
+  index: number;
+  newFood: IFood;
 }

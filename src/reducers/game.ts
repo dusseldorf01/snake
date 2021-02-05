@@ -1,0 +1,82 @@
+/* eslint-disable no-param-reassign */
+import { createReducer } from '@reduxjs/toolkit';
+import type { IGameState } from '@/game/interfaces';
+import {
+  ateBigFood,
+  ateFood,
+  changeChangingLevel,
+  changeGameStatus,
+  changeLevel,
+  changeMap,
+  changeMultiplayer,
+  goToBottom,
+  goToLeft,
+  goToRight,
+  goToTop,
+  restartGame,
+  setLastDirection,
+  setSnake,
+  updateBigFood,
+} from '@/actions/game';
+import changeDirection from '@/utils/game/changeDirection';
+import changeMapHandler from '@/utils/game/changeMap';
+import changeMultiplayerHandler from '@/utils/game/changeMultiplayer';
+import { Direction } from '@/lib/Painter/interfaces';
+import getInitialGameState from '@/utils/game/getInitialGameState';
+import createGameState from '@/utils/game/createGameState';
+import gameConfig from '@/game/config';
+
+const { BIG_FOOD_POINTS } = gameConfig;
+
+const gameReducer = createReducer<IGameState>(getInitialGameState(), (builder) => {
+  builder
+    .addCase(ateBigFood, (state, action) => {
+      state.score[action.payload] += BIG_FOOD_POINTS;
+    })
+    .addCase(ateFood, (state, action) => {
+      state.food = action.payload.newFood;
+      state.score[action.payload.index] += 1;
+    })
+    .addCase(changeChangingLevel, (state, action) => {
+      state.changingLevel = action.payload;
+    })
+    .addCase(changeGameStatus, (state, action) => {
+      state.status = action.payload;
+    })
+    .addCase(changeLevel, (state, action) => {
+      state.level = action.payload;
+    })
+    .addCase(changeMap, (state, action) => {
+      changeMapHandler(state, action.payload);
+    })
+    .addCase(changeMultiplayer, (state, action) => {
+      changeMultiplayerHandler(state, action.payload);
+    })
+    .addCase(goToBottom, (state, action) => {
+      changeDirection(Direction.BOTTOM, Direction.TOP, action.payload, state);
+    })
+    .addCase(goToLeft, (state, action) => {
+      changeDirection(Direction.LEFT, Direction.RIGHT, action.payload, state);
+    })
+    .addCase(goToRight, (state, action) => {
+      changeDirection(Direction.RIGHT, Direction.LEFT, action.payload, state);
+    })
+    .addCase(goToTop, (state, action) => {
+      changeDirection(Direction.TOP, Direction.BOTTOM, action.payload, state);
+    })
+    .addCase(restartGame, (state) => {
+      createGameState(state);
+    })
+    .addCase(setLastDirection, (state, action) => {
+      state.lastDirection[action.payload] = state.direction[action.payload];
+    })
+    .addCase(setSnake, (state, action) => {
+      state.snake[action.payload.index] = action.payload.snake;
+    })
+    .addCase(updateBigFood, (state, action) => {
+      state.bigFood = action.payload.bigFood;
+      state.timeToRemoveBigFood = action.payload.timeToRemoveBigFood;
+    });
+});
+
+export default gameReducer;
