@@ -1,6 +1,7 @@
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -15,9 +16,14 @@ const ASSETS_DIR = 'assets';
 module.exports = function (env, argv) {
   const isProduction = argv.mode === 'production';
   const https = process.env.HTTPS === 'true';
+
   return {
+    mode: argv.mode || 'development',
     entry: {
-      main: './src/index.tsx',
+      main: [
+        'webpack-hot-middleware/client',
+        './src/index.tsx',
+      ],
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -64,6 +70,7 @@ module.exports = function (env, argv) {
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.json'],
       alias: {
+        'react-dom': '@hot-loader/react-dom',
         '@': path.resolve(__dirname, 'src/'),
       },
     },
@@ -116,6 +123,7 @@ module.exports = function (env, argv) {
           to: 'favicon.ico',
         }],
       }),
+      new webpack.HotModuleReplacementPlugin(),
     ],
   };
 };
