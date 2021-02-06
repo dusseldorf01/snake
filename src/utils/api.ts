@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 export type ApiParams = AxiosRequestConfig;
 
-const url = 'https://ya-praktikum.tech/api/v2/';
+const url = '/api/v2/';
 
 export const addPrefix = (prefix: string) => (endpoint:string) => `${prefix}/${endpoint}`;
 

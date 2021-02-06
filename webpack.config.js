@@ -39,6 +39,9 @@ module.exports = function (env, argv) {
       https,
       key: https ? fs.readFileSync('./ssl/localhost+2-key.pem') : undefined,
       cert: https ? fs.readFileSync('./ssl/localhost+2.pem') : undefined,
+      proxy: {
+        '/api': 'http://ya-praktikum.tech',
+      },
     },
     devtool: isProduction ? false : 'inline-source-map',
     // watch: true,
@@ -125,5 +128,8 @@ module.exports = function (env, argv) {
       }),
       new webpack.HotModuleReplacementPlugin(),
     ],
+    stats: {
+      assets: true,
+    },
   };
 };
