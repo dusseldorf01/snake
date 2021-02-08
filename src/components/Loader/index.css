@@ -1,0 +1,44 @@
+@keyframes loader-animation {
+  0%, 39%, 100% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+.loader {
+  width: 64px;
+  height: 64px;
+  position: relative;
+}
+
+.loaderCircle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.loaderCircle::before {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  width: 15%;
+  height: 15%;
+  background-color: var(--loader-color);
+  border-radius: 100%;
+  animation: loader-animation 2s infinite ease-in-out both;
+}
+
+@for $i from 1 to 12 {
+  .loaderCircle:nth-child($i) {
+    transform: rotate(calc(360deg / 12 * ($i - 1)));
+  }
+
+  .loaderCircle:nth-child($i)::before {
+    animation-delay: calc(-2s + 2s / 12 * ($i - 1));
+  }
+}

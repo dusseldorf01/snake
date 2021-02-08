@@ -1,0 +1,78 @@
+@import "variables.css";
+
+.appForm {
+  width: 340px;
+  font-size: var(--small-font-size);
+  padding: 50px 30px;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.appFormTitle {
+  font-size: var(--big-font-size);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.appFormButton {
+  text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 70px;
+  margin-bottom: 14px;
+  font-size: inherit;
+  transition: .2s;
+  color: var(--white-1);
+  background-color: var(--form-btn-background-color);
+  border: 1px solid var(--form-btn-border-color);
+}
+
+.appFormLink {
+  align-self: center;
+}
+
+.inputGroup {
+  display: block;
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 16px;
+  background-color: var(--background-color);
+  color: var(--gray-1);
+  border-bottom: 1px solid var(--input-border-bottom-color);
+  font-size: var(--small-font-size);
+  transition: .2s;
+}
+
+.inputGroupInput {
+  color: var(--input-text-color);
+  background-color: var(--background-color);
+  transition: .2s;
+}
+
+.inputGroupLabel {
+  position: absolute;
+  top: 17px;
+  left: 0;
+  pointer-events: none;
+  color: var(--text-secondary-color);
+  transition: .2s;
+}
+
+.inputGroupWithValue .inputGroupLabel,
+.inputGroupInput:focus ~ .inputGroupLabel {
+  top: 0;
+  font-size: var(--extra-small-font-size);
+}
+
+.inputGroupError {
+  position: absolute;
+  left: 0;
+  color: var(--red-1);
+  font-size: var(--extra-small-font-size);
+  bottom: -15px;
+}

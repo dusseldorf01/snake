@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: var(--normal-font-size);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-primary-color);
+  background-color: var(--background-color);
+  transition: 0.2s;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  display: block;
+  width: 100%;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  display: block;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  color: inherit;
+}
+
+a, input, button, textarea {
+  outline-offset: 3px;
+}
+
+a:not(:focus-visible),
+input:not(:focus-visible),
+button:not(:focus-visible),
+textarea:not(:focus-visible) {
+  outline: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: rgba(var(--gray-1), 0.5);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+}
+
+.pageContainer {
+  width: 1040px;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  min-height: 100vh;
+}
+
+.pageContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 40px;
+}
+
+.pageHalfContent {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.centerContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}

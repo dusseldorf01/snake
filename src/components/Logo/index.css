@@ -1,0 +1,9 @@
+.logo {
+  color: var(--text-primary-color);
+  font-size: var(--extra-big-font-size);
+  font-family: 'Press Start 2P', sans-serif;
+}
+
+.logo:hover {
+  text-decoration: none;
+}

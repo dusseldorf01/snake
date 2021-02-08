@@ -1,0 +1,19 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--small-font-size);
+}
+
+.profileTitle {
+  font-size: var(--big-font-size);
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.profileSection {
+  align-self: stretch;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,23 @@
+.profileLink,
+.profileLogout,
+.profilePropertyValue {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+
+.profileLink,
+.profilePropertyValue:not(:Last-child) {
+  border-bottom: 1px solid var(--gray-3);
+}
+
+.profilePropertyValueVal {
+  text-align: right;
+  color: var(--text-secondary-color);
+}
+
+.profileLogout {
+  color: var(--red-1);
+  text-align: left;
+}

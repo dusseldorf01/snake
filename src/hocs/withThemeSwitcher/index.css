@@ -1,0 +1,33 @@
+.themeSwitcher {
+  width: 50px;
+  height: 24px;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  background: url(./images/sun.png) 29px center no-repeat, url(./images/moon.png) 5px center no-repeat var(--black-1);
+}
+
+.themeSwitcherInput {
+  opacity: 0;
+  cursor: pointer;
+}
+
+.themeSwitcherBounce {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: var(--white-1);
+  top: 1px;
+  left: 1px;
+  transition: 0.2s;
+}
+
+.themeSwitcherInput:checked ~ .themeSwitcherBounce {
+  left: 27px;
+}
+
+.themeSwitcherInput:active ~ .themeSwitcherBounce,
+.themeSwitcherInput:focus ~ .themeSwitcherBounce {
+  box-shadow: 0 0 4px 4px var(--red-1);
+}
