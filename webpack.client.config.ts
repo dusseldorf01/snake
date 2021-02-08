@@ -1,49 +1,39 @@
-require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+/* eslint import/no-extraneous-dependencies: 0 */
+import path from 'path';
+import dotenv from 'dotenv';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import WorkboxWebpackPlugin from 'workbox-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import LoadablePlugin from '@loadable/webpack-plugin';
+// @ts-ignore
+import { loadableTransformer } from 'loadable-ts-transformer';
+import webpack from 'webpack';
+import { WebpackArgs } from './webpack/types';
 
-const public = 'public';
+dotenv.config();
+
 const ASSETS_DIR = 'assets';
 
-module.exports = function (env, argv) {
+export default function webpackConfig(_env:unknown, argv: WebpackArgs) {
   const isProduction = argv.mode === 'production';
-  const https = process.env.HTTPS === 'true';
 
   return {
     mode: argv.mode || 'development',
     entry: {
-      main: [
-        'webpack-hot-middleware/client',
+      client: [
         './src/index.tsx',
       ],
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(process.cwd(), 'dist/public'),
       filename: `${ASSETS_DIR}/js/[name].[contenthash].js`,
       publicPath: '/',
-      assetModuleFilename: `${ASSETS_DIR}/resources/[hash][ext][query]`,
+      assetModuleFilename: `${ASSETS_DIR}/resources/[contenthash][ext][query]`,
     },
-    devServer: {
-      historyApiFallback: true,
-      contentBase: path.join(__dirname, public),
-      compress: true,
-      port: process.env.DEVSERVER_PORT || 8080,
-      https,
-      key: https ? fs.readFileSync('./ssl/localhost+2-key.pem') : undefined,
-      cert: https ? fs.readFileSync('./ssl/localhost+2.pem') : undefined,
-      proxy: {
-        '/api': 'http://ya-praktikum.tech',
-      },
-    },
-    devtool: isProduction ? false : 'inline-source-map',
+    devtool: isProduction ? undefined : 'inline-source-map',
     // watch: true,
     module: {
       rules: [
@@ -61,8 +51,11 @@ module.exports = function (env, argv) {
         },
         {
           test: /\.tsx?$/i,
-          use: 'ts-loader',
+          loader: 'ts-loader',
           exclude: /node_modules/,
+          options: {
+            getCustomTransformers: () => ({ before: [loadableTransformer] }),
+          },
         },
         {
           test: /\.(png|svg|jpg|jpeg|gif|ico|woff|woff2|ttf)$/,
@@ -74,7 +67,7 @@ module.exports = function (env, argv) {
       extensions: ['.tsx', '.ts', '.js', '.json'],
       alias: {
         'react-dom': '@hot-loader/react-dom',
-        '@': path.resolve(__dirname, 'src/'),
+        '@': path.resolve(process.cwd(), 'src/'),
       },
     },
     optimization: {
@@ -106,6 +99,9 @@ module.exports = function (env, argv) {
       },
     },
     plugins: [
+      new webpack.DefinePlugin({
+        IS_SERVER: false,
+      }),
       new CleanWebpackPlugin(),
       new WorkboxWebpackPlugin.InjectManifest({
         swSrc: './src/serviceWorkers/index.ts',
@@ -116,20 +112,16 @@ module.exports = function (env, argv) {
       new MiniCssExtractPlugin({
         filename: `${ASSETS_DIR}/css/[name].[contenthash].css`,
       }),
-      new HtmlWebpackPlugin({
-        inject: true,
-        template: `${public}/index.html`,
-      }),
       new CopyPlugin({
         patterns: [{
           from: 'public/favicon.ico',
           to: 'favicon.ico',
         }],
       }),
-      new webpack.HotModuleReplacementPlugin(),
+      new LoadablePlugin({
+        writeToDisk: true,
+        filename: '../stats.json',
+      }),
     ],
-    stats: {
-      assets: true,
-    },
   };
-};
+}

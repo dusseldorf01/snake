@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 export type ApiParams = AxiosRequestConfig;
 
-const url = '/api/v2/';
+const url = 'http://localhost:3000/api/v2/';
 
 export const addPrefix = (prefix: string) => (endpoint:string) => `${prefix}/${endpoint}`;
 
