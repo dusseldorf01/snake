@@ -18,6 +18,7 @@ const GameSettingsInput = ({
       type="number"
       min={1}
       max={MAX_LEVEL}
+      name="level"
       onChange={onChange}
       value={value}
     />

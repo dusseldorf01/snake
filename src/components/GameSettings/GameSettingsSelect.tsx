@@ -9,6 +9,7 @@ const GameSettingsSelect = ({
 }: IGameSettingSelect) => (
   <select
     className={css.gameSettingsSelect}
+    name="map"
     onChange={onChange}
     value={value}
   >

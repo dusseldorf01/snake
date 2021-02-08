@@ -35,7 +35,6 @@ module.exports = function (env, argv) {
       cert: https ? fs.readFileSync('./ssl/localhost+2.pem') : undefined,
     },
     devtool: isProduction ? false : 'inline-source-map',
-    // watch: true,
     module: {
       rules: [
         {
@@ -56,8 +55,14 @@ module.exports = function (env, argv) {
           exclude: /node_modules/,
         },
         {
-          test: /\.(png|svg|jpg|jpeg|gif|ico|woff|woff2|ttf)$/,
+          test: /\.(png|svg|jpg|jpeg|gif|ico|woff|ttf)$/,
           type: 'asset/resource',
+        }, {
+          test: /\.woff2$/,
+          type: 'asset/resource',
+          generator: {
+            filename: `${ASSETS_DIR}/resources/[contenthash][ext]`,
+          },
         },
       ],
     },
