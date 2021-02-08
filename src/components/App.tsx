@@ -26,12 +26,14 @@ export default () => {
   }, []);
 
   return (
-    <ErrorBoundary>
-      {userState.loading ? <AppLoader /> : (
-        <Suspense fallback={<AppLoader />}>
-          <Routes />
-        </Suspense>
-      )}
-    </ErrorBoundary>
+    <div className={cssCommon.pageContainer}>
+      <ErrorBoundary>
+        {userState.loading ? <AppLoader /> : (
+          <Suspense fallback={<AppLoader />}>
+            <Routes />
+          </Suspense>
+        )}
+      </ErrorBoundary>
+    </div>
   );
 };

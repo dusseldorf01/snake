@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
@@ -13,10 +14,16 @@ export enum Themes {
   DARK = 'dark',
 }
 
-const withThemeSwitcher = (Component:any) => (props: any) => {
+const withThemeSwitcher = (Component: any) => (props: any) => {
+  const mounted = useRef<boolean>(false);
+
   const [theme, setTheme] = useState<Themes>(Themes.LIGHT);
   const toggleTheme = () => setTheme((t) => (t === Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
   useEffect(() => {
+    if (!mounted.current) {
+      return;
+    }
+
     const html = document.querySelector('html');
 
     if (theme === Themes.DARK) {
@@ -27,6 +34,10 @@ const withThemeSwitcher = (Component:any) => (props: any) => {
       html?.classList.remove(cssRoot.dark);
     }
   }, [theme]);
+
+  useEffect(() => {
+    mounted.current = true;
+  }, []);
 
   const Switcher = useCallback(() => (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control

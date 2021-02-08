@@ -1,4 +1,4 @@
-.game-canvas {
+.gameCanvas {
   display: block;
   border: 1px solid var(--text-primary-color);
   margin-left: auto;
