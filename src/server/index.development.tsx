@@ -12,7 +12,7 @@ const config = webpackConfig(undefined, { mode: 'development' });
 // @ts-ignore
 const compiler = webpack(config);
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 apiProxy(app);
 

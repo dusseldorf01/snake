@@ -10,7 +10,7 @@ import render from '@/server/render';
 const PUBLIC_DIR = path.resolve(process.cwd(), 'dist/public');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 apiProxy(app);
 
