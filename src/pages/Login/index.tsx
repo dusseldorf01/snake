@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useState,
 } from 'react';
 import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
@@ -11,16 +12,18 @@ import validate from '@/utils/validate';
 import { ILoginModel, loginInitialModel } from '@/models/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStateSelector } from '@/selectors/user';
-import { signInActions } from '@/actions/user';
+import { signInActions, signInOauthActions } from '@/actions/user';
 import Alert from '@/components/Alert';
 
 import cssCommon from '@/styles/common.css';
 import cssForm from '@/styles/form.css';
+import useOAuth from '@/hooks/useOAuth';
 
 const Login = () => {
   const dispatch = useDispatch();
   const signInState = useSelector(signInStateSelector);
-
+  // const oauthAuthorizedData = useSelector(userIsOauthAutorized);
+  const [oauthOptions, setOauthOptions] = useState({ serviceId: null, code: null });
   const {
     errors,
     handleBlur,
@@ -44,7 +47,11 @@ const Login = () => {
 
   useEffect(() => {
     validateForm();
+    useOAuth(setOauthOptions);
   }, []);
+
+  const { serviceId, code } = oauthOptions;
+  if (code) dispatch(signInOauthActions.request({ params: { data: { code } } }));
 
   return (
     <div className={cssCommon.centerContent}>
@@ -84,6 +91,7 @@ const Login = () => {
         >
           Зарегистрироваться
         </a>
+        { serviceId && (<a className={cssForm.oauthLink} href={`https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}`}> Войти через Яндекс </a>) }
       </form>
     </div>
   );
