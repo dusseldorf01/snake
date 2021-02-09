@@ -4,8 +4,6 @@ import { userIsAuthorizedSelector } from '@/selectors/user';
 
 const PrivateRoute = ({ component, ...props }:RouteProps) => {
   const isAuthorized = useSelector(userIsAuthorizedSelector);
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  console.log(props, component);
   return (
     <Route
       {...props}

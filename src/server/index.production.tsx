@@ -19,7 +19,6 @@ app.get(['*', '/'], async (req, res) => {
   api.defaults.headers.cookie = req.headers.cookie;
   const urlPath = `${PUBLIC_DIR}${req.originalUrl}`;
   if (fs.existsSync(urlPath) && !fs.lstatSync(urlPath).isDirectory()) {
-    console.log('XA');
     return res.sendFile(urlPath);
   }
   const html = await render(req.originalUrl);

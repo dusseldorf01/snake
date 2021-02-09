@@ -25,6 +25,7 @@ export default function webpackConfig(_env:unknown, argv: WebpackArgs) {
     entry: {
       client: [
         './src/index.tsx',
+        !isProduction && 'webpack-hot-middleware/client',
       ],
     },
     output: {
@@ -122,6 +123,7 @@ export default function webpackConfig(_env:unknown, argv: WebpackArgs) {
         writeToDisk: true,
         filename: '../stats.json',
       }),
+      !isProduction && new webpack.HotModuleReplacementPlugin(),
     ],
   };
 }
