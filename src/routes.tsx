@@ -6,6 +6,8 @@ import GuestRoute from '@/components/Route/GuestRoute';
 import DefaultLayout from '@/components/Layout/DefaultLayout';
 import GuestLayout from '@/components/Layout/GuestLayout';
 
+const Leaderboard = loadable(() => import('./pages/Leaderboard'));
+
 const Routes = () => (
   <Switch>
     <Route path={['/login', '/register']}>
@@ -24,7 +26,7 @@ const Routes = () => (
         <Switch>
           <PrivateRoute path="/profile/edit" component={loadable(() => import('./pages/ProfileSettings'))} />
           <PrivateRoute path="/profile" component={loadable(() => import('./pages/Profile'))} />
-          <PrivateRoute path="/leaderboard" component={loadable(() => import('./pages/Leaderboard'))} />
+          <PrivateRoute path="/leaderboard" component={Leaderboard} />
           <PrivateRoute path="/forum" component={loadable(() => import('./pages/Forum'))} exact />
           <PrivateRoute path="/forum/:id" component={loadable(() => import('./pages/Thread'))} />
           <PrivateRoute path="/feedback" component={loadable(() => import('./pages/Feedback'))} />

@@ -24,8 +24,8 @@ export default function webpackConfig(_env:unknown, argv: WebpackArgs) {
     mode: argv.mode || 'development',
     entry: {
       client: [
-        './src/index.tsx',
         !isProduction && 'webpack-hot-middleware/client',
+        './src/index.tsx',
       ],
     },
     output: {

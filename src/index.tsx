@@ -14,6 +14,14 @@ loadableReady(() => {
   );
 });
 
+if (module.hot) {
+  module.hot.accept('./components/Root', () => {
+    // eslint-disable-next-line global-require
+    const NextApp = require('./components/Root').default;
+    ReactDOM.render(<NextApp />, document.querySelector('#root'));
+  });
+}
+
 if (!IS_SERVER) {
   const stateNode = document.getElementById('preloadedState');
   if (stateNode) {
