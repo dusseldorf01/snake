@@ -1,0 +1,9 @@
+.gameInformation {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  padding-bottom: 10px;
+}
+
+.gameInformationItem {
+  padding: 10px 20px;
+}

@@ -1,8 +1,8 @@
-import { Dispatch } from 'react';
+import type { Dispatch } from 'react';
 import {
   GameStatus,
   IGameReducerAction,
-} from '@/pages/Game/reducer';
+} from '@/game/interfaces';
 
 export interface IUseKeyboardChangeDirection {
   dispatch: Dispatch<IGameReducerAction>;
@@ -10,5 +10,7 @@ export interface IUseKeyboardChangeDirection {
   keyLeft: string;
   keyRight: string;
   keyUp: string;
+  number: number;
   status: GameStatus;
+  trueCondition: boolean;
 }

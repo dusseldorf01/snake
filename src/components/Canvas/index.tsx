@@ -1,17 +1,20 @@
 import {
+  memo,
   useEffect,
   useRef,
 } from 'react';
-import gameParams from '@/gameParams';
+import gameConfig from '@/game/config';
 import Painter from '@/lib/Painter';
 import colors from '@/styles/colors';
-import { ICanvas } from './interfaces';
-import './index.css';
+import maps from '@/game/maps';
+import cssRoot from '@/styles/variables.css';
+import type { ICanvas } from './interfaces';
+import css from './index.css';
 
 const {
   BOARD_HEIGHT,
   BOARD_WIDTH,
-} = gameParams;
+} = gameConfig;
 
 const {
   BLACK_1,
@@ -21,7 +24,8 @@ const {
 const Canvas = ({
   bigFood,
   food,
-  snake,
+  map: mapIndex,
+  snakes,
 }: ICanvas) => {
   const canvas = useRef<HTMLCanvasElement>(null);
 
@@ -39,13 +43,17 @@ const Canvas = ({
     context.clearRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
     const html = document.querySelector('html');
-    context.fillStyle = html?.classList.contains('light') ? BLACK_1 : WHITE_1;
+    context.fillStyle = html?.classList.contains(cssRoot.light) ? BLACK_1 : WHITE_1;
 
     Painter.setContext(context);
 
-    Painter.renderSnake(snake);
+    snakes.forEach((snake) => {
+      Painter.renderSnake(snake);
+    });
 
     Painter.renderFood(food);
+
+    Painter.renderMap(maps[mapIndex]);
 
     if (bigFood !== null) {
       Painter.renderBigFood(bigFood);
@@ -55,7 +63,7 @@ const Canvas = ({
   return (
     <canvas
       id="canvas"
-      className="game-canvas"
+      className={css.gameCanvas}
       ref={canvas}
       width={BOARD_WIDTH}
       height={BOARD_HEIGHT}
@@ -63,4 +71,4 @@ const Canvas = ({
   );
 };
 
-export default Canvas;
+export default memo(Canvas);
