@@ -10,7 +10,8 @@ import {
 import { signInOauth } from '@/api/oauth';
 
 function* afterSignIn() {
-  yield take([signInActions.success.toString(), signUpActions.success.toString()]);
+  yield take([signInActions.success.toString(), signInOauthActions.success.toString(),
+    signUpActions.success.toString()]);
   yield put(userInfoActions.request());
 }
 

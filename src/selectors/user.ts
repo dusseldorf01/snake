@@ -7,6 +7,6 @@ export const userIsAuthorizedSelector = createSelector(
   (userState) => !!userState.data.id,
 );
 
-export const userIsOauthAutorized = (state:RootState) => state.user;
+export const userIsOauthAutorized = (state:RootState) => state.user.signInOauth;
 
 export const signInStateSelector = (state:RootState) => state.user.signIn;

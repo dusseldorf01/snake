@@ -1,0 +1,19 @@
+.oauthLink {
+  margin-top: 30px;
+  border: 1px solid #eee8e8;
+  color: #000;
+  padding: 10px;
+  text-align: center;
+  background-image: url("assets/ya-logo.png");
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: 35px;
+  background-repeat: no-repeat;
+  background-position: 90% 3px;
+}
+
+.oauthLink:hover {
+  text-decoration: none;
+}
