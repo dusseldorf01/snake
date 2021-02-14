@@ -27,7 +27,7 @@
       "webpack.client.config.ts",
       "webpack.server.config.ts"
     ],
-    "delay": "1000",
+    "delay": 1000
   },
   "husky": {
     "hooks": {
