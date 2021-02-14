@@ -15,8 +15,8 @@ const store = configureStore({
 });
 export const sagaResult = sagaMiddleware.run(rootSaga);
 
-if (process.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('./reducers', () => {
+if (process.env.NODE_ENV === 'development' && (module as any).hot) {
+  (module as any).hot.accept('./reducers', () => {
     // eslint-disable-next-line global-require
     const newRootReducer = require('./reducers').default;
     store.replaceReducer(newRootReducer);

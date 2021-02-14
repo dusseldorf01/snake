@@ -5,6 +5,10 @@
     "paths": { "@/*": ["src/*"]  },
     "outDir": "dist",
     "target": "es6",
+    "lib": [
+      "dom",
+      "es2019"
+    ],
     "module": "esnext",
     "noImplicitAny": true,
     "noUnusedLocals": true,
@@ -15,5 +19,6 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
+    "types": ["node", "jest", "cypress"]
   }
 }

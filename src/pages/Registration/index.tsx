@@ -1,6 +1,7 @@
 import {
   useEffect,
 } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
 import {
@@ -114,12 +115,12 @@ const Registration = () => {
         >
           Зарегистрироваться
         </button>
-        <a
-          href="/login"
+        <NavLink
+          to="/login"
           className={cssForm.appFormLink}
         >
           Войти
-        </a>
+        </NavLink>
       </form>
     </div>
   );

@@ -1,36 +1,40 @@
-import gameParams from '@/gameParams';
-import { IGameModal } from './interfaces';
-import './index.css';
+import gameConfig from '@/game/config';
+import type { IGameModal } from './interfaces';
+import css from './index.css';
 
 const {
   BOARD_HEIGHT,
   BOARD_WIDTH,
-} = gameParams;
+} = gameConfig;
 
 const GameModal = ({
-  buttonLabel,
+  buttons,
   children,
-  onClick,
   title,
 }: IGameModal) => (
   <div
-    className="game-modal-wrapper"
+    className={css.gameModalWrapper}
     style={{ width: BOARD_WIDTH + 2, height: BOARD_HEIGHT + 2 }}
   >
-    <div className="game-modal">
-      <h2 className="game-modal__title">{title}</h2>
+    <div className={css.gameModal}>
+      <h2 className={css.gameModalTitle}>{title}</h2>
       {children && (
-        <div className="game-modal__content">
+        <div className={css.gameModalContent}>
           {children}
         </div>
       )}
-      <button
-        className="game-modal__button"
-        onClick={onClick}
-        type="button"
-      >
-        {buttonLabel}
-      </button>
+      <div className={css.gameModalButtonGroup}>
+        {buttons.map(({ label, onClick }, index) => (
+          <button
+            key={label}
+            className={css.gameModalButtonGroupItem}
+            onClick={onClick}
+            type={index === 0 ? 'submit' : 'button'}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
     </div>
   </div>
 );

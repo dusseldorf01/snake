@@ -1,4 +1,5 @@
-import gameParams from '@/gameParams';
+import gameConfig from '@/game/config';
+import type { WallType } from '@/game/maps/interfaces';
 import {
   Direction,
   ICanvasSnakePart,
@@ -6,7 +7,7 @@ import {
   ISnakePart,
 } from './interfaces';
 
-const { BOARD_ITEM_SIZE } = gameParams;
+const { BOARD_ITEM_SIZE } = gameConfig;
 
 export default abstract class Painter {
   private static ctx: CanvasRenderingContext2D | null;
@@ -454,5 +455,77 @@ export default abstract class Painter {
     Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 5.5, y * BOARD_ITEM_SIZE + 0.5, 5, 5);
     Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 0.5, y * BOARD_ITEM_SIZE + 5.5, 15, 5);
     Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 5.5, y * BOARD_ITEM_SIZE + 10.5, 5, 5);
+  }
+
+  private static renderWallHorizontally({
+    x,
+    y,
+  }: WallType, existsOnRight: boolean, existsOnLeft: boolean) {
+    if (Painter.ctx === null || (!existsOnRight && !existsOnLeft)) {
+      return;
+    }
+    let width = 4;
+    if (existsOnLeft) {
+      width += 6;
+    }
+    if (existsOnRight) {
+      width += 6;
+    }
+    Painter.ctx.fillRect(
+      x * BOARD_ITEM_SIZE + (existsOnLeft ? 0 : 6),
+      y * BOARD_ITEM_SIZE + 6,
+      width,
+      4,
+    );
+  }
+
+  private static renderWallVertically({
+    x,
+    y,
+  }: WallType, existsOnTop: boolean, existsOnBottom: boolean) {
+    if (Painter.ctx === null || (!existsOnTop && !existsOnBottom)) {
+      return;
+    }
+    let height = 4;
+    if (existsOnTop) {
+      height += 6;
+    }
+    if (existsOnBottom) {
+      height += 6;
+    }
+    Painter.ctx.fillRect(
+      x * BOARD_ITEM_SIZE + 6,
+      y * BOARD_ITEM_SIZE + (existsOnTop ? 0 : 6),
+      4,
+      height,
+    );
+  }
+
+  private static renderWall({
+    x,
+    y,
+  }: WallType, walls: WallType[]) {
+    if (Painter.ctx === null) {
+      return;
+    }
+    const existsOnTop = !!walls.find((w) => w.x === x && w.y + 1 === y);
+    const existsOnBottom = !!walls.find((w) => w.x === x && w.y - 1 === y);
+    const existsOnRight = !!walls.find((w) => w.x - 1 === x && w.y === y);
+    const existsOnLeft = !!walls.find((w) => w.x + 1 === x && w.y === y);
+    Painter.renderWallHorizontally({ x, y }, existsOnRight, existsOnLeft);
+    Painter.renderWallVertically({ x, y }, existsOnTop, existsOnBottom);
+
+    if (!existsOnTop && !existsOnBottom && !existsOnRight && !existsOnLeft) {
+      Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 6, y * BOARD_ITEM_SIZE + 6, 4, 4);
+    }
+  }
+
+  public static renderMap(walls: WallType[]) {
+    if (Painter.ctx === null) {
+      return;
+    }
+    walls.forEach((wall) => {
+      Painter.renderWall(wall, walls);
+    });
   }
 }
