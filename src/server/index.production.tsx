@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import apiProxy from '@/server/apiProxy';
 import express from 'express';
-import api from '@/utils/api';
+import api, { DEFAULT_API_URL } from '@/utils/api';
 import render from '@/server/render';
 
 const PUBLIC_DIR = path.resolve(process.cwd(), 'dist/public');
@@ -17,6 +17,7 @@ apiProxy(app);
 app.use('/', express.static(PUBLIC_DIR));
 app.get(['*', '/'], async (req, res) => {
   api.defaults.headers.cookie = req.headers.cookie;
+  api.defaults.baseURL = `http://localhost:${port}${DEFAULT_API_URL}`;
   const urlPath = `${PUBLIC_DIR}${req.originalUrl}`;
   if (fs.existsSync(urlPath) && !fs.lstatSync(urlPath).isDirectory()) {
     return res.sendFile(urlPath);

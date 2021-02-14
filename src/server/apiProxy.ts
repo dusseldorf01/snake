@@ -13,6 +13,18 @@ const apiProxy = (app: Application):void => {
         resolve(`/api${req.url}`);
       });
     },
+    proxyReqOptDecorator(options) {
+      const result = { ...options };
+      const clearCookiePaths = ['/v2/auth/user/signin', '/v2/auth/user/signup'];
+      if (clearCookiePaths.includes(options.path as string)) {
+        if (!result.headers) {
+          result.headers = {};
+        }
+        result.headers.cookie = '';
+      }
+      console.log(result);
+      return result;
+    },
     userResDecorator(_proxyRes, _proxyResData, _userReq, userRes) {
       const setCookieHeaders = userRes.getHeaders()['set-cookie'];
       if (setCookieHeaders && Array.isArray(setCookieHeaders)) {

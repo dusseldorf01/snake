@@ -15,11 +15,11 @@ export default function webpackConfig(_env:unknown, argv: WebpackArgs) {
   const isProduction = argv.mode === 'production';
   const commonConfig = getCommonWebpackConfig(_env, argv);
 
-  return {
+  const config = {
     mode: argv.mode || 'development',
     entry: {
-      client: [
-        !isProduction && 'webpack-hot-middleware/client',
+      client: isProduction ? './src/index.tsx' : [
+        'webpack-hot-middleware/client',
         './src/index.tsx',
       ],
     },
@@ -47,7 +47,12 @@ export default function webpackConfig(_env:unknown, argv: WebpackArgs) {
         writeToDisk: true,
         filename: '../stats.json',
       }),
-      !isProduction && new webpack.HotModuleReplacementPlugin(),
     ],
   };
+
+  if (!isProduction) {
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
+  }
+
+  return config;
 }
