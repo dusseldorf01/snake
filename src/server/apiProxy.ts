@@ -15,14 +15,14 @@ const apiProxy = (app: Application):void => {
     },
     proxyReqOptDecorator(options) {
       const result = { ...options };
-      const clearCookiePaths = ['/v2/auth/user/signin', '/v2/auth/user/signup'];
+      const clearCookiePaths = ['/v2/auth/signin', '/v2/auth/signup'];
       if (clearCookiePaths.includes(options.path as string)) {
         if (!result.headers) {
           result.headers = {};
         }
         result.headers.cookie = '';
       }
-      console.log(result);
+
       return result;
     },
     userResDecorator(_proxyRes, _proxyResData, _userReq, userRes) {
