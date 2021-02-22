@@ -4,7 +4,8 @@
   "description": "old school snake",
   "main": "src/index.tsx",
   "scripts": {
-    "start": "npm-run-all -s server:develop server:start",
+    "start": "cross-env TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack serve --config webpack.client.config.ts --progress --hot",
+    "start:ssr": "npm-run-all -s server:develop server:start",
     "build": "npm-run-all -s build:server build:client",
     "build:server": "npm run webpack:run -- --config webpack.server.config.ts --mode production",
     "build:client": "npm run webpack:run -- --config webpack.client.config.ts --mode production",
