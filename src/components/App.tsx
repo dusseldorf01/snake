@@ -6,6 +6,7 @@ import { userStateSelector } from '@/selectors/user';
 import cssRoot from '@/styles/variables.css';
 import cssCommon from '@/styles/common.css';
 import { userInfoActions } from '@/actions/user';
+import useDevServerEffect from '@/hooks/useDevServerEffect';
 import Loader from './Loader';
 
 const AppLoader = () => (
@@ -19,10 +20,12 @@ export default () => {
   const userState = useSelector(userStateSelector);
 
   useEffect(() => {
-    dispatch(userInfoActions.request());
-
     const html = document.querySelector('html');
     html?.classList.add(cssRoot.light);
+  }, []);
+
+  useDevServerEffect(() => {
+    dispatch(userInfoActions.request());
   }, []);
 
   return (
