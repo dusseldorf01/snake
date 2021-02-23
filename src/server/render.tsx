@@ -11,7 +11,7 @@ import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import App from '@/components/App';
 
-const render = async (url: string):Promise<string> => {
+const render = async (url: string):Promise<{html: string, context: StaticRouterContext}> => {
   const statsFile = path.resolve(process.cwd(), 'dist/stats.json');
   const context: StaticRouterContext = {};
   const extractor = new ChunkExtractor({
@@ -32,7 +32,7 @@ const render = async (url: string):Promise<string> => {
   store.dispatch(END);
   await sagaResult.toPromise();
 
-  const html = renderToString(extractor.collectChunks(
+  const appHtml = renderToString(extractor.collectChunks(
     <Provider store={store}>
       <StaticRouter location={url} context={context}>
         <App />
@@ -40,7 +40,7 @@ const render = async (url: string):Promise<string> => {
     </Provider>,
   ));
 
-  return (`
+  const html = `
     <!doctype html>
     <html lang="en">
       <head>
@@ -52,12 +52,14 @@ const render = async (url: string):Promise<string> => {
         ${extractor.getStyleTags()}
       </head>
       <body>
-        <div id="root">${html}</div>
+        <div id="root">${appHtml}</div>
         <script id="preloadedState">window.__PRELOADED_STATE__ = ${JSON.stringify(store.getState())}</script>
         ${extractor.getScriptTags()}
       </body>
     </html>
-  `.trim());
+  `.trim();
+
+  return { html, context };
 };
 
 export default render;
