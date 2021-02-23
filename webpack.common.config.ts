@@ -39,10 +39,6 @@ export default function getCommonWebpackConfig(_env:unknown, argv: WebpackArgs, 
             getCustomTransformers: () => ({ before: [loadableTransformer] }),
           },
         },
-        {
-          test: /\.(png|svg|jpg|jpeg|gif|ico|woff|woff2|ttf)$/,
-          type: 'asset/resource',
-        },
       ],
     },
     resolve: {

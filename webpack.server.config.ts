@@ -27,9 +27,22 @@ export default function webpackConfig(_env:unknown, argv: WebpackArgs) {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].js',
       publicPath: '/',
-      assetModuleFilename: `${PUBLIC_DIR}${ASSETS_DIR}/resources/[contenthash][ext][query]`,
     },
-    module: commonConfig.module,
+    module: {
+      ...commonConfig.module,
+      rules: [
+        ...commonConfig.module.rules,
+        {
+          test: /\.(png|svg|jpg|jpeg|gif|ico|woff|woff2|ttf)$/,
+          loader: 'file-loader',
+          options: {
+            outputPath: `${PUBLIC_DIR}`,
+            publicPath: '/',
+            name: `${ASSETS_DIR}/resources/[contenthash].[ext]`,
+          },
+        },
+      ],
+    },
     resolve: commonConfig.resolve,
     optimization: commonConfig.optimization,
     plugins: [
