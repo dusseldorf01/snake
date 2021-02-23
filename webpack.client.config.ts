@@ -61,10 +61,6 @@ export default function webpackConfig(_env:WebpackEnv, argv: WebpackArgs) {
 
   if (!isProduction) {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
-    config.plugins.push(new HtmlWebpackPlugin({
-      inject: true,
-      template: 'public/index.html',
-    }));
   }
 
   if (!isDevServer) {
@@ -73,6 +69,11 @@ export default function webpackConfig(_env:WebpackEnv, argv: WebpackArgs) {
       swDest: 'sw.js',
       maximumFileSizeToCacheInBytes: isProduction ? undefined : 2700000,
       compileSrc: true,
+    }));
+  } else {
+    config.plugins.push(new HtmlWebpackPlugin({
+      inject: true,
+      template: 'public/index.html',
     }));
   }
 

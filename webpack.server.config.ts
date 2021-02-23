@@ -35,6 +35,7 @@ export default function webpackConfig(_env:unknown, argv: WebpackArgs) {
     plugins: [
       new webpack.DefinePlugin({
         IS_SERVER: true,
+        WEBPACK_DEV_SERVER: false,
       }),
       ...commonConfig.plugins,
     ],
