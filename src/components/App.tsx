@@ -29,10 +29,12 @@ export default () => {
   }, []);
 
   return (
-    <ErrorBoundary>
-      {userState.loading ? <AppLoader /> : (
-        <Routes />
-      )}
-    </ErrorBoundary>
+    <div className={cssCommon.pageContainer}>
+      <ErrorBoundary>
+        {userState.loading ? <AppLoader /> : (
+          <Routes />
+        )}
+      </ErrorBoundary>
+    </div>
   );
 };
