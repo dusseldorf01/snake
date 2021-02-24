@@ -3,25 +3,29 @@ import {
   render,
   screen,
 } from '@testing-library/react';
+import * as reactRedux from 'react-redux';
 import { GameReducerType } from '@/game/interfaces';
+import ReduxTestWrapper from '@/utils/testWrapper';
 import GameSettings from './index';
 
 describe('GameSettings', () => {
-  const dispatch = jest.fn();
+  const dispatchMock = jest.fn();
+
+  const spyUseDispatch = jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatchMock);
 
   beforeEach(() => {
-    dispatch.mockReset();
+    dispatchMock.mockReset();
+  });
+
+  afterAll(() => {
+    spyUseDispatch.mockRestore();
   });
 
   it('checking selecting map', () => {
     render(
-      <GameSettings
-        changingLevel
-        dispatch={dispatch}
-        level={3}
-        map={2}
-        multiplayer
-      />,
+      <ReduxTestWrapper initialState={{ game: { map: 2 } }}>
+        <GameSettings />
+      </ReduxTestWrapper>,
     );
 
     const select = document.querySelector('[name="map"]') as HTMLSelectElement;
@@ -30,18 +34,14 @@ describe('GameSettings', () => {
 
     fireEvent.change(select, { target: { value: '0' } });
 
-    expect(dispatch).toBeCalledWith({ type: GameReducerType.CHANGE_MAP, payload: 0 });
+    expect(dispatchMock).toBeCalledWith({ type: GameReducerType.CHANGE_MAP, payload: 0 });
   });
 
   it('checking changing level', () => {
     render(
-      <GameSettings
-        changingLevel
-        dispatch={dispatch}
-        level={3}
-        map={2}
-        multiplayer
-      />,
+      <ReduxTestWrapper initialState={{ game: { level: 3 } }}>
+        <GameSettings />
+      </ReduxTestWrapper>,
     );
 
     const input = document.querySelector('[name="level"]') as HTMLInputElement;
@@ -50,18 +50,14 @@ describe('GameSettings', () => {
 
     fireEvent.change(input, { target: { value: '1' } });
 
-    expect(dispatch).toBeCalledWith({ type: GameReducerType.CHANGE_LEVEL, payload: 1 });
+    expect(dispatchMock).toBeCalledWith({ type: GameReducerType.CHANGE_LEVEL, payload: 1 });
   });
 
   it('checking changing increasing level', () => {
     render(
-      <GameSettings
-        changingLevel
-        dispatch={dispatch}
-        level={3}
-        map={2}
-        multiplayer
-      />,
+      <ReduxTestWrapper initialState={{ game: { changingLevel: true } }}>
+        <GameSettings />
+      </ReduxTestWrapper>,
     );
 
     const input = document.querySelector('[name="changingLevel"]') as HTMLInputElement;
@@ -70,7 +66,7 @@ describe('GameSettings', () => {
 
     fireEvent.click(screen.getByText('Увеличивать уровень'));
 
-    expect(dispatch).toBeCalledWith({
+    expect(dispatchMock).toBeCalledWith({
       type: GameReducerType.CHANGE_CHANGING_LEVEL,
       payload: false,
     });
@@ -78,13 +74,9 @@ describe('GameSettings', () => {
 
   it('checking multiplayer', () => {
     render(
-      <GameSettings
-        changingLevel
-        dispatch={dispatch}
-        level={3}
-        map={2}
-        multiplayer
-      />,
+      <ReduxTestWrapper initialState={{ game: { multiplayer: true } }}>
+        <GameSettings />
+      </ReduxTestWrapper>,
     );
 
     const input = document.querySelector('[name="multiplayer"]') as HTMLInputElement;
@@ -93,7 +85,7 @@ describe('GameSettings', () => {
 
     fireEvent.click(screen.getByText('Мультиплеер'));
 
-    expect(dispatch).toBeCalledWith({
+    expect(dispatchMock).toBeCalledWith({
       type: GameReducerType.CHANGE_MULTIPLAYER,
       payload: false,
     });

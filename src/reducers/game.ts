@@ -16,6 +16,7 @@ import {
   restartGame,
   setLastDirection,
   setSnake,
+  setState,
   updateBigFood,
 } from '@/actions/game';
 import changeDirection from '@/utils/game/changeDirection';
@@ -72,6 +73,21 @@ const gameReducer = createReducer<IGameState>(getInitialGameState(), (builder) =
     })
     .addCase(setSnake, (state, action) => {
       state.snake[action.payload.index] = action.payload.snake;
+    })
+    .addCase(setState, (state, action) => {
+      state.bigFood = action.payload.bigFood;
+      state.changingLevel = action.payload.changingLevel;
+      state.direction = action.payload.direction;
+      state.food = action.payload.food;
+      state.lastDirection = action.payload.lastDirection;
+      state.level = action.payload.level;
+      state.map = action.payload.map;
+      state.multiplayer = action.payload.multiplayer;
+      state.score = action.payload.score;
+      state.snake = action.payload.snake;
+      state.startLevel = action.payload.startLevel;
+      state.status = action.payload.status;
+      state.timeToRemoveBigFood = action.payload.timeToRemoveBigFood;
     })
     .addCase(updateBigFood, (state, action) => {
       state.bigFood = action.payload.bigFood;

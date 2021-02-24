@@ -11,19 +11,9 @@ import createFood from '@/utils/game/createFood';
 const {
   INITIAL_LEVEL,
   INITIAL_MAP,
-  LOCAL_STORAGE_KEY,
 } = gameConfig;
 
 const getInitialGameState = (): IGameState => {
-  const stateFromStorage = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  if (stateFromStorage !== null) {
-    return {
-      ...JSON.parse(stateFromStorage) as Omit<IGameState, 'status'>,
-      status: GameStatus.ON_PAUSE,
-    };
-  }
-
   const map = maps[INITIAL_MAP];
   const snake = createSnake(map);
 

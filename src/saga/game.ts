@@ -12,8 +12,10 @@ import {
   changeGameStatus,
   changeLevel,
   getNextTick,
+  getStateFromStorage,
   setLastDirection,
   setSnake,
+  setState,
   updateBigFood,
 } from '@/actions/game';
 import saveStateInLocalStorage from '@/utils/game/saveStateInLocalStorage';
@@ -39,7 +41,10 @@ import createFood from '@/utils/game/createFood';
 import gameConfig from '@/game/config';
 import createBigFood from '@/utils/game/createBigFood';
 
-const { POINTS_FOR_BIG_FOOD } = gameConfig;
+const {
+  LOCAL_STORAGE_KEY,
+  POINTS_FOR_BIG_FOOD,
+} = gameConfig;
 
 function* snakeTickSaga(
   bigFood: IFood | null,
@@ -214,6 +219,16 @@ function* saveInLocalStorage() {
   yield call(saveStateInLocalStorage, state);
 }
 
+function* getStateFromLocalStorage() {
+  const stateFromLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+  if (stateFromLocalStorage !== null) {
+    const state = JSON.parse(stateFromLocalStorage) as Omit<IGameState, 'status'>;
+
+    yield put(setState({ ...state, status: GameStatus.ON_PAUSE }));
+  }
+}
+
 export default function* gameSaga() {
   yield takeEvery(getNextTick, nextTickSaga);
 
@@ -224,4 +239,6 @@ export default function* gameSaga() {
   yield takeEvery([ateFood, ateBigFood], updateLevel);
 
   yield takeEvery(getNextTick, saveInLocalStorage);
+
+  yield takeEvery(getStateFromStorage, getStateFromLocalStorage);
 }

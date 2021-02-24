@@ -14,6 +14,7 @@ import GameInformation from '@/components/GameInformation';
 import GameSettings from '@/components/GameSettings';
 import {
   changeGameStatus,
+  getStateFromStorage,
   restartGame,
 } from '@/actions/game';
 import gameSelector from '@/selectors/game';
@@ -142,8 +143,12 @@ const Game = () => {
     },
   };
 
-  useEffect(() => () => {
-    dispatch(changeGameStatus(GameStatus.ON_PAUSE));
+  useEffect(() => {
+    dispatch(getStateFromStorage());
+
+    return () => {
+      dispatch(changeGameStatus(GameStatus.ON_PAUSE));
+    };
   }, []);
 
   return (

@@ -3,6 +3,7 @@ import {
   GameReducerType,
   GameStatus,
   IAteFoodPayload,
+  IGameState,
   ISetSnakePayload,
   IUpdateBigFoodPayload,
 } from '@/game/interfaces';
@@ -35,6 +36,10 @@ export const changeMultiplayer = createAction<boolean, GameReducerType>(
   GameReducerType.CHANGE_MULTIPLAYER,
 );
 
+export const getStateFromStorage = createAction<undefined, GameReducerType>(
+  GameReducerType.GET_STATE_FROM_STORAGE,
+);
+
 export const goToBottom = createAction<number, GameReducerType>(
   GameReducerType.GO_TO_BOTTOM,
 );
@@ -65,6 +70,10 @@ export const setLastDirection = createAction<number, GameReducerType>(
 
 export const setSnake = createAction<ISetSnakePayload, GameReducerType>(
   GameReducerType.SET_SNAKE,
+);
+
+export const setState = createAction<IGameState, GameReducerType>(
+  GameReducerType.SET_STATE,
 );
 
 export const updateBigFood = createAction<IUpdateBigFoodPayload, GameReducerType>(
