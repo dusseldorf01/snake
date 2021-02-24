@@ -4,6 +4,7 @@ import css from './index.css';
 
 const GameSettingsCheckbox = ({
   label,
+  name,
   onChange,
   value,
 }: IGameSettingsCheckbox) => (
@@ -12,6 +13,7 @@ const GameSettingsCheckbox = ({
     <input
       checked={value}
       className={css.gameSettingsCheckboxInput}
+      name={name}
       type="checkbox"
       onChange={onChange}
     />
