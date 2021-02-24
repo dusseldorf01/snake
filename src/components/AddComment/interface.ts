@@ -1,3 +1,3 @@
 export interface IAddComment {
-  id: string;
+  postId: number;
 }

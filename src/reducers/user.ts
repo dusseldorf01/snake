@@ -1,13 +1,22 @@
 import { combineReducers } from 'redux';
-import { createAsyncReducer, initialAsyncState, initialAsyncStateNoLoad } from '@/utils/redux/reducers';
+import {
+  AsyncReducerState,
+  createAsyncReducer,
+  getInitialAsyncState,
+  getInitialAsyncStateNoLoad,
+} from '@/utils/redux/reducers';
 import {
   signInActions, signOutActions, signUpActions, userInfoActions,
 } from '@/actions/user';
+import type { IUser } from '@/models/user';
 
-const signUp = createAsyncReducer(initialAsyncStateNoLoad, signUpActions);
-const signIn = createAsyncReducer(initialAsyncStateNoLoad, signInActions);
-const signOut = createAsyncReducer(initialAsyncStateNoLoad, signOutActions);
-const info = createAsyncReducer(initialAsyncState, userInfoActions);
+const signUp = createAsyncReducer(getInitialAsyncStateNoLoad({}), signUpActions);
+const signIn = createAsyncReducer(getInitialAsyncStateNoLoad({}), signInActions);
+const signOut = createAsyncReducer(getInitialAsyncStateNoLoad({}), signOutActions);
+const info = createAsyncReducer<IUser, AsyncReducerState<IUser>>(
+  getInitialAsyncState({} as IUser),
+  userInfoActions,
+);
 
 const user = combineReducers({
   signUp, signIn, signOut, info,

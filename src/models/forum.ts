@@ -1,35 +1,72 @@
-export interface IComment {
-  id: number;
-  createdAt: number;
-  login: string;
+import type { IUser } from '@/models/user';
+
+export interface ICommentCreateModel {
   text: string;
 }
 
-export interface IThread {
+export interface ICommentCreateBody extends ICommentCreateModel {
+  parentId?: number | undefined | null;
+}
+
+export interface ICommentAction extends ICommentCreateBody {
+  postId: number;
+}
+
+export interface ICommentCreate extends ICommentAction {
+  userId: number;
+}
+
+export interface ICommentResponse extends ICommentCreate {
   id: number;
-  createdAt: number;
-  login: string;
-  title: string;
+  createdAt: string;
+}
+
+export interface IComment extends ICommentResponse {
+  children: IComment[];
+  user: IUser;
+}
+
+export interface IPostCreateModel {
   text: string;
+  title: string;
+}
+
+export interface IPostCreate extends IPostCreateModel {
+  userId: number;
+}
+
+export interface IPost extends IPostCreateModel {
+  id: number;
+  user: IUser;
   comments: IComment[];
+  createdAt: string;
+  likes: ({ userId: number })[];
 }
 
-export interface ICreatingThreadModel {
-  login: string;
-  title: string;
-  text: string;
+export interface IPostResponse extends IPostCreateModel {
+  id: number;
+  createdAt: string;
 }
 
-export const creatingThreadInitialModel: ICreatingThreadModel = {
-  login: '',
+export interface IPostPreview extends IPostResponse {
+  user: IUser;
+  commentsCount: number;
+}
+
+export interface ILikeCreate {
+  postId: number;
+  userId: number;
+}
+
+export interface ILike extends ILikeCreate {
+  id: number;
+}
+
+export const postCreateInitialModel: IPostCreateModel = {
   title: '',
   text: '',
 };
 
-export interface ICreatingComment {
-  text: string;
-}
-
-export const creatingCommentInitialModel: ICreatingComment = {
+export const commentCreateInitialModel: ICommentCreateModel = {
   text: '',
 };

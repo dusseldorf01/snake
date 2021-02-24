@@ -9,6 +9,9 @@ import { loadableTransformer } from 'loadable-ts-transformer';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { WebpackArgs } from './webpack/types';
 
+const CompressionPlugin = require('compression-webpack-plugin');
+const zlib = require('zlib');
+
 const ASSETS_DIR = 'assets';
 
 export default function getCommonWebpackConfig(_env:unknown, argv: WebpackArgs, PUBLIC_PATH: string = '') {
@@ -86,6 +89,18 @@ export default function getCommonWebpackConfig(_env:unknown, argv: WebpackArgs, 
           from: 'public/favicon.ico',
           to: `${PUBLIC_PATH}favicon.ico`,
         }],
+      }),
+      new CompressionPlugin({
+        filename: '[path][base].br',
+        algorithm: 'brotliCompress',
+        test: /\.(js|css|html|svg)$/,
+        compressionOptions: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+          },
+        },
+        minRatio: 0.8,
+        deleteOriginalAssets: false,
       }),
     ],
   };

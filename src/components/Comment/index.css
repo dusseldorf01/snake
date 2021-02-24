@@ -1,6 +1,16 @@
+@keyframes changingBgColor {
+  0% {
+    background-color: var(--yellow-1);
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
+
 .comment {
-  margin-top: 12px;
-  margin-bottom: 12px;
+  padding: 4px;
+  margin: 8px -4px;
 }
 
 .commentHeader {
@@ -11,4 +21,13 @@
 
 .commentContent {
   line-height: 1.25em;
+  margin-bottom: 8px;
+}
+
+.comment:target  {
+  animation: changingBgColor ease-in 0.75s;
+}
+
+.commentChildren {
+  margin-left: 24px;
 }
