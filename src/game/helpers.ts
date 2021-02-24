@@ -236,8 +236,10 @@ export const createGameState = (
   };
 };
 
+declare const IS_SERVER: boolean;
+
 export const getInitialGameState = (): IGameState => {
-  const stateFromStorage = localStorage.getItem(LOCAL_STORAGE_KEY);
+  const stateFromStorage = IS_SERVER ? null : localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (stateFromStorage !== null) {
     return {

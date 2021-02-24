@@ -4,7 +4,6 @@ import { userIsAuthorizedSelector } from '@/selectors/user';
 
 const PrivateRoute = ({ component, ...props }:RouteProps) => {
   const isAuthorized = useSelector(userIsAuthorizedSelector);
-
   return (
     <Route
       {...props}
