@@ -47,7 +47,12 @@ const render = async (url: string):Promise<{html: string, context: StaticRouterC
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <meta name="theme-color" content="#3369F3">
+        <meta name="description" content="Игра Змейка, написанная в рамках обучения по курсу Миддл фронтенд-разработчик на Яндекс.Практикум командой Дюссельдорф">
+        <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="manifest" href="/manifest.json">
         <title>Змейка</title>
         ${extractor.getStyleTags()}
       </head>
