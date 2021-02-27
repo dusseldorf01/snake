@@ -15,7 +15,7 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
-input, textarea {
+input, select, textarea {
   font-family: inherit;
   font-size: inherit;
   display: block;

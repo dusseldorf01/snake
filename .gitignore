@@ -119,3 +119,6 @@ dist
 .DS_Store
 
 .vscode
+
+/ssl
+.env

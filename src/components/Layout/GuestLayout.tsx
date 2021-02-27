@@ -6,11 +6,11 @@ interface DefaultLayoutProps {
 }
 
 const GuestLayout = ({ children }: DefaultLayoutProps) => (
-  <div className={cssCommon.pageContainer}>
+  <>
     <main className={cssCommon.pageContent}>
       {children}
     </main>
-  </div>
+  </>
 );
 
 export default GuestLayout;

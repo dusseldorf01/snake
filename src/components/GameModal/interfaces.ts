@@ -1,8 +1,12 @@
 import type { ReactNode } from 'react';
 
-export interface IGameModal {
-  buttonLabel: string;
+interface IGameModalButton {
+  label: string;
   onClick: () => void;
+}
+
+export interface IGameModal {
+  buttons: IGameModalButton[];
   title: string;
   children?: ReactNode;
 }
