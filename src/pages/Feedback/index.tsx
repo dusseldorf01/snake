@@ -4,8 +4,8 @@ import Input from '@/components/Input';
 import Textarea from '@/components/Textarea';
 import { feedbackInitialModel, IFeedbackModel } from '@/models/feedback';
 
-import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
+import validate from '@/utils/validators/validate';
+import { checkFormField } from '@/utils/validators/checkFormField';
 
 import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';

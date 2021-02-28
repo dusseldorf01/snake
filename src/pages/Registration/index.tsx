@@ -8,8 +8,8 @@ import {
   IRegistrationModel,
   registrationInitialModel,
 } from '@/models/registration';
-import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
+import validate from '@/utils/validators/validate';
+import { checkFormField } from '@/utils/validators/checkFormField';
 
 import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';

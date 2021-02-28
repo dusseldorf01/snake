@@ -1,4 +1,4 @@
-import areEqualArrays from '@/utils/areEqualArrays';
+import areEqualArrays from '@/utils/validators/areEqualArrays';
 
 describe('areEqualArrays', () => {
   it('checking equal arrays', () => {

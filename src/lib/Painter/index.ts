@@ -1,5 +1,7 @@
 import gameConfig from '@/game/config';
 import type { WallType } from '@/game/maps/interfaces';
+import maps from '@/game/maps';
+import { ICanvas } from '@/components/Canvas/interfaces';
 import {
   Direction,
   ICanvasSnakePart,
@@ -26,7 +28,7 @@ export default abstract class Painter {
       return;
     }
     switch (direction) {
-      case Direction.RIGHT: {
+      case Direction.Right: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE + 4,
           y * BOARD_ITEM_SIZE + 4,
@@ -41,7 +43,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.LEFT: {
+      case Direction.Left: {
         Painter.ctx.fillRect(
           changeDirection ? x * BOARD_ITEM_SIZE + 4 : x * BOARD_ITEM_SIZE,
           y * BOARD_ITEM_SIZE + 4,
@@ -56,7 +58,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.BOTTOM: {
+      case Direction.Bottom: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE + 4,
           y * BOARD_ITEM_SIZE - 4,
@@ -71,7 +73,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.TOP: {
+      case Direction.Top: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE + 4,
           changeDirection ? y * BOARD_ITEM_SIZE + 8 : y * BOARD_ITEM_SIZE + 4,
@@ -101,7 +103,7 @@ export default abstract class Painter {
       return;
     }
     switch (direction) {
-      case Direction.RIGHT: {
+      case Direction.Right: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE + 4,
           y * BOARD_ITEM_SIZE + 4,
@@ -116,7 +118,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.LEFT: {
+      case Direction.Left: {
         Painter.ctx.fillRect(
           changeDirection ? x * BOARD_ITEM_SIZE + 4 : x * BOARD_ITEM_SIZE,
           y * BOARD_ITEM_SIZE + 4,
@@ -131,7 +133,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.BOTTOM: {
+      case Direction.Bottom: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE + 4,
           y * BOARD_ITEM_SIZE,
@@ -146,7 +148,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.TOP: {
+      case Direction.Top: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE + 4,
           changeDirection ? y * BOARD_ITEM_SIZE + 8 : y * BOARD_ITEM_SIZE + 4,
@@ -176,7 +178,7 @@ export default abstract class Painter {
       return;
     }
     switch (direction) {
-      case Direction.RIGHT: {
+      case Direction.Right: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE + 4,
           y * BOARD_ITEM_SIZE,
@@ -203,7 +205,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.LEFT: {
+      case Direction.Left: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE + 4,
           y * BOARD_ITEM_SIZE,
@@ -230,7 +232,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.BOTTOM: {
+      case Direction.Bottom: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE,
           y * BOARD_ITEM_SIZE + 4,
@@ -257,7 +259,7 @@ export default abstract class Painter {
         );
         break;
       }
-      case Direction.TOP: {
+      case Direction.Top: {
         Painter.ctx.fillRect(
           x * BOARD_ITEM_SIZE,
           y * BOARD_ITEM_SIZE + 4,
@@ -298,28 +300,28 @@ export default abstract class Painter {
       return;
     }
     switch (direction) {
-      case Direction.RIGHT: {
+      case Direction.Right: {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 4, 8, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE + 4, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE + 8, 20, 4);
         break;
       }
-      case Direction.LEFT: {
+      case Direction.Left: {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 4, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE - 4, y * BOARD_ITEM_SIZE + 4, 8, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE - 4, y * BOARD_ITEM_SIZE + 8, 20, 4);
         break;
       }
-      case Direction.BOTTOM: {
+      case Direction.Bottom: {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 20);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 4, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 12, 4, 8);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 8, 4, 4);
         break;
       }
-      case Direction.TOP: {
+      case Direction.Top: {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE - 4, 4, 20);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE - 4, 4, 8);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 8, 4, 4);
@@ -340,7 +342,7 @@ export default abstract class Painter {
       return;
     }
     switch (direction) {
-      case Direction.RIGHT: {
+      case Direction.Right: {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 16, y * BOARD_ITEM_SIZE, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 4, 4, 4);
@@ -349,7 +351,7 @@ export default abstract class Painter {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 16, y * BOARD_ITEM_SIZE + 12, 4, 4);
         break;
       }
-      case Direction.LEFT: {
+      case Direction.Left: {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE - 4, y * BOARD_ITEM_SIZE, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 4, 4, 4);
@@ -358,7 +360,7 @@ export default abstract class Painter {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE - 4, y * BOARD_ITEM_SIZE + 12, 4, 4);
         break;
       }
-      case Direction.BOTTOM: {
+      case Direction.Bottom: {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE + 16, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 16);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE + 4, 4, 4);
@@ -367,7 +369,7 @@ export default abstract class Painter {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 12, y * BOARD_ITEM_SIZE + 16, 4, 4);
         break;
       }
-      case Direction.TOP: {
+      case Direction.Top: {
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE, y * BOARD_ITEM_SIZE - 4, 4, 4);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 4, y * BOARD_ITEM_SIZE, 4, 16);
         Painter.ctx.fillRect(x * BOARD_ITEM_SIZE + 8, y * BOARD_ITEM_SIZE, 4, 4);
@@ -527,5 +529,19 @@ export default abstract class Painter {
     walls.forEach((wall) => {
       Painter.renderWall(wall, walls);
     });
+  }
+
+  public static gameInitializationRender({
+    snakes, food, map: mapIndex, bigFood,
+  }: ICanvas) {
+    if (!this.ctx) throw Error('need context for gameInitializationRender method');
+    snakes.forEach((snake) => {
+      Painter.renderSnake(snake);
+    });
+    Painter.renderFood(food);
+    Painter.renderMap(maps[mapIndex]);
+    if (bigFood !== null) {
+      Painter.renderBigFood(bigFood);
+    }
   }
 }

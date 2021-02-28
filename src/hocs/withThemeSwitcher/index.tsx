@@ -1,4 +1,4 @@
-import {
+import React, {
   useCallback,
   useEffect,
   useRef,
@@ -13,12 +13,19 @@ export enum Themes {
   LIGHT = 'light',
   DARK = 'dark',
 }
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export interface withInjectedSwitcherElement {
+  Switcher?: () => JSX.Element;
+}
 
-const withThemeSwitcher = (Component: any) => (props: any) => {
+// eslint-disable-next-line max-len
+const withThemeSwitcher = <P extends object>(Component: React.ComponentType<P>): React.FC<P & withInjectedSwitcherElement> => (props:withInjectedSwitcherElement) => {
   const mounted = useRef<boolean>(false);
 
   const [theme, setTheme] = useState<Themes>(Themes.LIGHT);
-  const toggleTheme = () => setTheme((t) => (t === Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
+  // eslint-disable-next-line max-len
+  const toggleTheme = useCallback(() => setTheme((t) => (t === Themes.LIGHT ? Themes.DARK : Themes.LIGHT)), []);
+
   useEffect(() => {
     if (!mounted.current) {
       return;
@@ -34,12 +41,11 @@ const withThemeSwitcher = (Component: any) => (props: any) => {
       html?.classList.remove(cssRoot.dark);
     }
   }, [theme]);
-
   useEffect(() => {
     mounted.current = true;
   }, []);
 
-  const Switcher = useCallback(() => (
+  const Switcher: () => JSX.Element = useCallback(() => (
     // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label className={css.themeSwitcher}>
       <input
@@ -55,7 +61,7 @@ const withThemeSwitcher = (Component: any) => (props: any) => {
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <Component {...props} Switcher={Switcher} />
+    <Component {...props as P} Switcher={Switcher} />
   );
 };
 

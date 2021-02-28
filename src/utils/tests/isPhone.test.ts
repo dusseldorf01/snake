@@ -1,4 +1,4 @@
-import isPhone from '@/utils/isPhone';
+import isPhone from '@/utils/validators/isPhone';
 
 describe('isPhone', () => {
   it('checking right phone', () => {
