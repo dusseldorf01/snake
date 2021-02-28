@@ -1,15 +1,16 @@
 import {
-  CSSProperties,
   memo,
 } from 'react';
 import defaultAvatar from '@/components/Input/images/avatar.png';
 import cssForm from '@/styles/form.css';
 import { IFormInput } from './interfaces';
 import cssInput from './index.css';
+import { DEFAULT_API_DOMAIN } from '../../utils/api';
 
 const Input = ({
   avatarImage,
   error,
+  errorOnChangeAvatar,
   label,
   name,
   onBlur,
@@ -18,15 +19,13 @@ const Input = ({
   value,
   inputFile,
 }: IFormInput) => {
-  const backImage: CSSProperties = {
-    backgroundImage: (avatarImage) ? `url(https://ya-praktikum.tech/${avatarImage})` : `url(${defaultAvatar})`,
-  };
+  const srcImage = (avatarImage) ? DEFAULT_API_DOMAIN + avatarImage : defaultAvatar;
 
   return (
   // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label className={`${cssForm.inputGroup} ${value ? cssForm.inputGroupWithValue : ''}`}>
       {
-        (name === 'avatar') && (<span style={backImage} className={cssInput.currentAvatar} />)
+        (name === 'avatar') && (<img src={srcImage} alt="user avatar" className={cssInput.currentAvatar} />)
       }
       <input
         ref={inputFile}
@@ -40,6 +39,9 @@ const Input = ({
       <span className={cssForm.inputGroupLabel}>{label}</span>
       {error && (
         <span className={cssForm.inputGroupError}>{error}</span>
+      )}
+      {errorOnChangeAvatar && (
+        <span className={cssForm.inputGroupError}>{errorOnChangeAvatar}</span>
       )}
     </label>
   );

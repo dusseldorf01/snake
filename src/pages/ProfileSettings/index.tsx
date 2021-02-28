@@ -1,5 +1,6 @@
+// @ts-nocheck
 import {
-  useEffect,
+  useEffect, useState,
 } from 'react';
 import { useFormik } from 'formik';
 import Input from '@/components/Input';
@@ -8,6 +9,7 @@ import {
 } from '@/models/profileSettings';
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
+import userDataChanged from '@/utils/userDataChanged';
 
 import cssCommon from '@/styles/common.css';
 import cssForm from '@/styles/form.css';
@@ -20,28 +22,37 @@ const ProfileSettings = () => {
   let inputFile:HTMLInputElement;
 
   const dispatch = useDispatch();
-  const {
-    avatar = '',
-    email = '',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    first_name = '',
-    login = '',
-    phone = '',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    second_name = '',
-  } = useSelector(userStateSelector).data;
+  const oldData = useSelector(userStateSelector).data;
+  const { password, other } = useSelector(userSettingsStateSelector);
+  const avatarUpdateState = useSelector(userSettingsStateSelector).avatar;
 
   const userData = {
     // eslint-disable-next-line no-nested-ternary
-    avatar: (typeof avatar === 'string') ? avatar : '',
-    login: (typeof login === 'string') ? login : '',
-    email: (typeof email === 'string') ? email : '',
-    phone: (typeof phone === 'string') ? phone : '',
-    firstName: (typeof first_name === 'string') ? first_name : '',
-    secondName: (typeof second_name === 'string') ? second_name : '',
+    avatar: (typeof oldData.avatar === 'string') ? oldData.avatar : '',
+    login: (typeof oldData.login === 'string') ? oldData.login : '',
+    email: (typeof oldData.email === 'string') ? oldData.email : '',
+    phone: (typeof oldData.phone === 'string') ? oldData.phone : '',
+    firstName: (typeof oldData.first_name === 'string') ? oldData.first_name : '',
+    secondName: (typeof oldData.second_name === 'string') ? oldData.second_name : '',
+    displayName: (typeof oldData.display_name === 'string') ? oldData.display_name : '',
     oldPassword: '',
     newPassword: '',
+    newPasswordRepeat: '',
   };
+
+  const [currentUserData, updateFormUserData] = useState({
+    data: {
+      first_name: userData.firstName,
+      second_name: userData.secondName,
+      display_name: userData.displayName,
+      login: userData.login,
+      email: userData.email,
+      phone: userData.phone,
+    },
+    errors: {
+      avatar: '',
+    },
+  });
 
   const {
     errors,
@@ -53,51 +64,50 @@ const ProfileSettings = () => {
     values,
   } = useFormik<IProfileSettingsModel>({
     initialValues: userData,
+
     validate: (v) => (
       validate<IProfileSettingsModel>({
-        avatar: [checkFormField.avatar(inputFile)],
         firstName: [checkFormField.requiredField(v.firstName)],
         secondName: [checkFormField.requiredField(v.secondName)],
         login: [checkFormField.requiredField(v.login)],
         email: [checkFormField.requiredField(v.email), checkFormField.email(v.email)],
         phone: [checkFormField.requiredField(v.phone), checkFormField.phone(v.phone)],
-        newPassword: [checkFormField.newPassword(v.newPassword, v.oldPassword)],
+        oldPassword: [checkFormField.newPassword(v.newPassword, v.oldPassword)],
+        passwordRepeat: [checkFormField.passwordRepeat(v.newPassword, v.passwordRepeat)],
       })
     ),
-    onSubmit: (v) => {
-      if (inputFile) {
-        const formData = new FormData();
-        const fileElm :HTMLInputElement|null = inputFile;
-        if (fileElm && fileElm.files && fileElm.files[0]) {
-          const file = fileElm.files[0];
-          formData.append('avatar', file);
-          // eslint-disable-next-line no-param-reassign
-          v.avatar = formData;
-        }
-      }
 
+    onSubmit: (v) => {
       const {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        avatar,
         // eslint-disable-next-line @typescript-eslint/no-shadow
         firstName, secondName, displayName = '', login, email, phone,
         newPassword, oldPassword,
       } = v;
+      const data = {
+        first_name: firstName,
+        second_name: secondName,
+        display_name: displayName,
+        login,
+        email,
+        phone,
+      };
 
-      dispatch(
-        userDataActions.request({
-          params: {
-            data: {
-              first_name: firstName,
-              second_name: secondName,
-              display_name: displayName,
-              login,
-              email,
-              phone,
+      if (userDataChanged(data, currentUserData.data)) {
+        console.log('changed');
+        dispatch(
+          userDataActions.request({
+            params: {
+              data,
             },
-          },
-        }),
-      );
+          }),
+        );
+        updateFormUserData((prevState) => ({
+          data,
+          errors: prevState.errors,
+        }));
+      } else {
+        console.log('not changed');
+      }
 
       if (newPassword && oldPassword) {
         dispatch(
@@ -111,16 +121,6 @@ const ProfileSettings = () => {
           }),
         );
       }
-
-      if (typeof avatar === 'object') {
-        dispatch(
-          userAvatarActions.request({
-            params: {
-              data: avatar,
-            },
-          }),
-        );
-      }
     },
   });
 
@@ -128,8 +128,45 @@ const ProfileSettings = () => {
     validateForm();
   }, []);
 
-  const { password, other } = useSelector(userSettingsStateSelector);
-  const avatarUpdateState = useSelector(userSettingsStateSelector).avatar;
+  const onAvatarChange = () => {
+    let avatar;
+    if (inputFile) {
+      if (checkFormField.avatar(inputFile)()) {
+        updateFormUserData((prevState) => ({
+          data: prevState.data,
+          errors: {
+            avatar: checkFormField.avatar(inputFile)(),
+          },
+        }));
+        return;
+      }
+
+      const formData = new FormData();
+      const fileElm :HTMLInputElement|null = inputFile;
+      if (fileElm && fileElm.files && fileElm.files[0]) {
+        const file = fileElm.files[0];
+        formData.append('avatar', file);
+        avatar = formData;
+      }
+    }
+
+    if (typeof avatar === 'object') {
+      dispatch(
+        userAvatarActions.request({
+          params: {
+            data: avatar,
+          },
+        }),
+      );
+    }
+    updateFormUserData((prevState) => ({
+      data: prevState.data,
+      errors: {
+        avatar: '',
+      },
+    }));
+  };
+
   const passwordError = (password.status === 400) ? password.data : password.error;
 
   return (
@@ -138,11 +175,12 @@ const ProfileSettings = () => {
         <h1 className={cssForm.appFormTitle}>Изменение данных профиля</h1>
         <Input
           error={(touched.avatar && errors.avatar) || avatarUpdateState.error}
+          errorOnChangeAvatar={currentUserData.errors.avatar}
           name="avatar"
           type="file"
           onBlur={handleBlur}
           avatarImage={avatarUpdateState.data.avatar || values.avatar}
-          onChange={handleChange}
+          onChange={onAvatarChange}
           /* eslint-disable-next-line no-return-assign */
           inputFile={(element:HTMLInputElement) => inputFile = element}
         />
@@ -153,6 +191,14 @@ const ProfileSettings = () => {
           onBlur={handleBlur}
           onChange={handleChange}
           value={values.firstName}
+        />
+        <Input
+          error={touched.displayName && errors.displayName}
+          label="Отоброжаемое имя"
+          name="displayName"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.displayName}
         />
         <Input
           error={touched.secondName && errors.secondName}
@@ -203,6 +249,15 @@ const ProfileSettings = () => {
           onBlur={handleBlur}
           onChange={handleChange}
           value={values.newPassword}
+        />
+        <Input
+          error={touched.passwordRepeat && errors.passwordRepeat}
+          label="Пароль (еще раз)"
+          name="passwordRepeat"
+          type="password"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.passwordRepeat}
         />
         {
           passwordError && (<Alert>{passwordError}</Alert>)

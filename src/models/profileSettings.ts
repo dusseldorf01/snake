@@ -6,6 +6,7 @@ export interface IProfileSettingsModel {
   phone: string;
   oldPassword: string;
   newPassword?: string;
+  newPasswordRepeat?: string;
   avatar?: FormData | string;
   displayName?: string;
   file?: FormData;

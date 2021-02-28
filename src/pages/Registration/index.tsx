@@ -22,7 +22,6 @@ import cssCommon from '@/styles/common.css';
 const Registration = () => {
   const dispatch = useDispatch();
   const signUpState = useSelector(signUpStateSelector);
-
   const {
     errors,
     handleBlur,
@@ -70,6 +69,9 @@ const Registration = () => {
   useEffect(() => {
     validateForm();
   }, []);
+
+  let signUpStateError;
+  if (signUpState.data.reason && signUpState.error) signUpStateError = `${signUpState.data.reason}`;
 
   return (
     <div className={cssCommon.centerContent}>
@@ -142,6 +144,9 @@ const Registration = () => {
         >
           Зарегистрироваться
         </button>
+        {
+              signUpStateError && (<Alert>{signUpStateError}</Alert>)
+            }
         <NavLink
           to="/login"
           className={cssForm.appFormLink}
