@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   useEffect, useState,
 } from 'react';
@@ -26,8 +25,8 @@ const ProfileSettings = () => {
   const { password, other } = useSelector(userSettingsStateSelector);
   const avatarUpdateState = useSelector(userSettingsStateSelector).avatar;
 
+  // 1
   const userData = {
-    // eslint-disable-next-line no-nested-ternary
     avatar: (typeof oldData.avatar === 'string') ? oldData.avatar : '',
     login: (typeof oldData.login === 'string') ? oldData.login : '',
     email: (typeof oldData.email === 'string') ? oldData.email : '',
@@ -37,7 +36,7 @@ const ProfileSettings = () => {
     displayName: (typeof oldData.display_name === 'string') ? oldData.display_name : '',
     oldPassword: '',
     newPassword: '',
-    newPasswordRepeat: '',
+    passwordRepeat: '',
   };
 
   const [currentUserData, updateFormUserData] = useState({
@@ -76,7 +75,6 @@ const ProfileSettings = () => {
         passwordRepeat: [checkFormField.passwordRepeat(v.newPassword, v.passwordRepeat)],
       })
     ),
-
     onSubmit: (v) => {
       const {
         // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -93,7 +91,6 @@ const ProfileSettings = () => {
       };
 
       if (userDataChanged(data, currentUserData.data)) {
-        console.log('changed');
         dispatch(
           userDataActions.request({
             params: {
@@ -105,8 +102,6 @@ const ProfileSettings = () => {
           data,
           errors: prevState.errors,
         }));
-      } else {
-        console.log('not changed');
       }
 
       if (newPassword && oldPassword) {
