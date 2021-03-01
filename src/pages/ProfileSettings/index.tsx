@@ -37,7 +37,7 @@ const ProfileSettings = () => {
     displayName: (typeof oldData.display_name === 'string') ? oldData.display_name : '',
     oldPassword: '',
     newPassword: '',
-    newPasswordRepeat: '',
+    passwordRepeat: '',
   };
 
   const [currentUserData, updateFormUserData] = useState({
@@ -93,7 +93,6 @@ const ProfileSettings = () => {
       };
 
       if (userDataChanged(data, currentUserData.data)) {
-        console.log('changed');
         dispatch(
           userDataActions.request({
             params: {
@@ -105,8 +104,6 @@ const ProfileSettings = () => {
           data,
           errors: prevState.errors,
         }));
-      } else {
-        console.log('not changed');
       }
 
       if (newPassword && oldPassword) {

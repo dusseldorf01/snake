@@ -6,7 +6,7 @@ export interface IProfileSettingsModel {
   phone: string;
   oldPassword: string;
   newPassword?: string;
-  newPasswordRepeat?: string;
+  passwordRepeat?: string;
   avatar?: FormData | string;
   displayName?: string;
   file?: FormData;
@@ -21,5 +21,6 @@ export const profileSettingsInitialModel: IProfileSettingsModel = {
   oldPassword: '',
   newPassword: '',
   displayName: '',
+  passwordRepeat: '',
   avatar: '',
 };
