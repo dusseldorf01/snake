@@ -11,11 +11,11 @@ import Canvas from '.';
 describe('Canvas', () => {
   const food: IFood = { x: 1, y: 1 };
   const snakes: ISnakePart[][] = [[{
-    x: 2, y: 2, direction: Direction.RIGHT,
+    x: 2, y: 2, direction: Direction.Right,
   }, {
-    x: 3, y: 2, direction: Direction.RIGHT,
+    x: 3, y: 2, direction: Direction.Right,
   }, {
-    x: 4, y: 2, direction: Direction.RIGHT,
+    x: 4, y: 2, direction: Direction.Right,
   }]];
 
   it('renders snake correctly', () => {

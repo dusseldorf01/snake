@@ -5,8 +5,8 @@ import {
 } from '@/models/forum';
 import Textarea from '@/components/Textarea';
 import Button from '@/components/Button';
-import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
+import validate from '@/utils/validators/validate';
+import { checkFormField } from '@/utils/validators/checkFormField';
 import { IAddComment } from './interface';
 import css from './index.css';
 

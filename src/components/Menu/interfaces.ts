@@ -1,5 +1,5 @@
 export interface IMenu {
-  Switcher: CallableFunction;
+  Switcher: () => JSX.Element;
 }
 
 export interface IMenuItem {

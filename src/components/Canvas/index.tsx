@@ -6,7 +6,6 @@ import {
 import gameConfig from '@/game/config';
 import Painter from '@/lib/Painter';
 import colors from '@/styles/colors';
-import maps from '@/game/maps';
 import cssRoot from '@/styles/variables.css';
 import type { ICanvas } from './interfaces';
 import css from './index.css';
@@ -24,7 +23,7 @@ const {
 const Canvas = ({
   bigFood,
   food,
-  map: mapIndex,
+  map,
   snakes,
 }: ICanvas) => {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -46,18 +45,9 @@ const Canvas = ({
     context.fillStyle = html?.classList.contains(cssRoot.light) ? BLACK_1 : WHITE_1;
 
     Painter.setContext(context);
-
-    snakes.forEach((snake) => {
-      Painter.renderSnake(snake);
+    Painter.gameInitializationRender({
+      snakes, food, map, bigFood,
     });
-
-    Painter.renderFood(food);
-
-    Painter.renderMap(maps[mapIndex]);
-
-    if (bigFood !== null) {
-      Painter.renderBigFood(bigFood);
-    }
   });
 
   return (

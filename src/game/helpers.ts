@@ -46,13 +46,13 @@ export const getNewSnakePart = (
   }: ISnakePart,
 ): ISnakeCoordinate => {
   switch (direction) {
-    case Direction.TOP:
+    case Direction.Top:
       return { x, y: getPrevYCoordinate(y), direction };
-    case Direction.BOTTOM:
+    case Direction.Bottom:
       return { x, y: getNextYCoordinate(y), direction };
-    case Direction.LEFT:
+    case Direction.Left:
       return { x: getPrevXCoordinate(x), y, direction };
-    case Direction.RIGHT:
+    case Direction.Right:
       return { x: getNextXCoordinate(x), y, direction };
     default:
       throw new Error('Unknown direction');
@@ -173,16 +173,18 @@ export const createSnake = (walls: WallType[], existingSnake: ISnakePart[] = [])
     }
   } while (isBarrier);
 
-  const snake: ISnakePart[] = [{ x, y, direction: Direction.RIGHT }];
+  const snake: ISnakePart[] = [{ x, y, direction: Direction.Right }];
 
   for (let i = 0; i < 3; i += 1) {
     const last = getLast(snake);
 
-    snake.push({
-      x: getNextXCoordinate(last.x),
-      y: last.y,
-      direction: Direction.RIGHT,
-    });
+    if (typeof last !== 'undefined') {
+      snake.push({
+        x: getNextXCoordinate(last.x),
+        y: last.y,
+        direction: Direction.Right,
+      });
+    }
   }
 
   return snake;
@@ -218,9 +220,9 @@ export const createGameState = (
     const snake2 = createSnake(map, snake1);
     return {
       ...commonState,
-      direction: [Direction.RIGHT, Direction.RIGHT],
+      direction: [Direction.Right, Direction.Right],
       food: createFood([snake1, snake2].flat(), null, map),
-      lastDirection: [Direction.RIGHT, Direction.RIGHT],
+      lastDirection: [Direction.Right, Direction.Right],
       score: [0, 0],
       snake: [snake1, snake2],
     };
@@ -228,9 +230,9 @@ export const createGameState = (
 
   return {
     ...commonState,
-    direction: [Direction.RIGHT],
+    direction: [Direction.Right],
     food: createFood(snake1, null, map),
-    lastDirection: [Direction.RIGHT],
+    lastDirection: [Direction.Right],
     score: [0],
     snake: [snake1],
   };

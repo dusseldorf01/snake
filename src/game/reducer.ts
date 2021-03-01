@@ -4,10 +4,7 @@ import { Direction, IFood, ISnakePart } from '@/lib/Painter/interfaces';
 import getLast from '@/utils/getLast';
 import getMaxItem from '@/utils/getMaxItem';
 import {
-  GameReducerType,
-  GameStatus,
-  IGameReducerAction,
-  IGameState,
+  GameReducerType, GameStatus, IGameReducerAction, IGameState,
 } from './interfaces';
 import gameConfig from './config';
 import {
@@ -62,7 +59,11 @@ const getSnakeNextTick = (
 } => {
   const newSnake = snake.slice();
   const lastPart = getLast(newSnake);
-  const newHead: ISnakePart = getNewSnakePart(direction, lastPart);
+
+  let newHead:ISnakePart = { x: 0, y: 0, direction };
+  if (lastPart) {
+    newHead = getNewSnakePart(direction, lastPart);
+  }
 
   if (food !== null) {
     newSnake.push(checkReadyToEat(newHead, food, bigFood));
@@ -253,14 +254,14 @@ const changeMultiplayer = (state: IGameState, payload: boolean): IGameState => (
 
     if (payload) {
       // eslint-disable-next-line no-param-reassign
-      currentState.direction = [Direction.RIGHT, Direction.RIGHT];
+      currentState.direction = [Direction.Right, Direction.Right];
       // eslint-disable-next-line no-param-reassign
       currentState.score = [0, 0];
       // eslint-disable-next-line no-param-reassign
       currentState.snake = [...snake, createSnake(maps[currentState.map], snake[0])];
     } else {
       // eslint-disable-next-line no-param-reassign
-      currentState.direction = [Direction.RIGHT];
+      currentState.direction = [Direction.Right];
       // eslint-disable-next-line no-param-reassign
       currentState.score = [0];
       // eslint-disable-next-line no-param-reassign
@@ -344,16 +345,16 @@ const gameReducer: Reducer<IGameState, IGameReducerAction> = (
       return changeMultiplayer(state, payload);
     }
     case GameReducerType.GO_TO_BOTTOM: {
-      return changeDirection(Direction.BOTTOM, Direction.TOP, payload, state);
+      return changeDirection(Direction.Bottom, Direction.Top, payload, state);
     }
     case GameReducerType.GO_TO_LEFT: {
-      return changeDirection(Direction.LEFT, Direction.RIGHT, payload, state);
+      return changeDirection(Direction.Left, Direction.Right, payload, state);
     }
     case GameReducerType.GO_TO_RIGHT: {
-      return changeDirection(Direction.RIGHT, Direction.LEFT, payload, state);
+      return changeDirection(Direction.Right, Direction.Left, payload, state);
     }
     case GameReducerType.GO_TO_TOP: {
-      return changeDirection(Direction.TOP, Direction.BOTTOM, payload, state);
+      return changeDirection(Direction.Top, Direction.Bottom, payload, state);
     }
     case GameReducerType.NEXT_TICK: {
       return getNextTick(state);
