@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   useEffect, useState,
 } from 'react';
@@ -26,8 +25,8 @@ const ProfileSettings = () => {
   const { password, other } = useSelector(userSettingsStateSelector);
   const avatarUpdateState = useSelector(userSettingsStateSelector).avatar;
 
+  // 1
   const userData = {
-    // eslint-disable-next-line no-nested-ternary
     avatar: (typeof oldData.avatar === 'string') ? oldData.avatar : '',
     login: (typeof oldData.login === 'string') ? oldData.login : '',
     email: (typeof oldData.email === 'string') ? oldData.email : '',
@@ -76,7 +75,6 @@ const ProfileSettings = () => {
         passwordRepeat: [checkFormField.passwordRepeat(v.newPassword, v.passwordRepeat)],
       })
     ),
-
     onSubmit: (v) => {
       const {
         // eslint-disable-next-line @typescript-eslint/no-shadow
