@@ -21,25 +21,28 @@ describe('checking authorization', () => {
 
   describe('checking posts list', () => {
     it('checking render posts list', () => {
+      const date1 = '2021-03-03T12:15:15.080Z';
+      const date2 = '2021-03-03T12:25:15.080Z';
+
       cy.intercept('GET', /posts/, {
         statusCode: 200,
         body: {
           items: [{
             commentsCount: 0,
-            createdAt: '2021-03-03T12:15:15.080Z',
+            createdAt: date1,
             id: 2,
             title: 'Заголовок 2',
-            updatedAt: '2021-03-03T12:15:15.080Z',
+            updatedAt: date1,
             user: {
               first_name: 'Иван',
               second_name: 'Иванов',
             },
           }, {
             commentsCount: 2,
-            createdAt: '2021-03-03T12:25:15.080Z',
+            createdAt: date2,
             id: 1,
             title: 'Заголовок 1',
-            updatedAt: '2021-03-03T12:25:15.080Z',
+            updatedAt: date2,
             user: {
               first_name: 'Петр',
               second_name: 'Петров',
@@ -55,13 +58,17 @@ describe('checking authorization', () => {
 
       cy.contains('Заголовок 1').should('exist');
 
-      cy.contains('Создано 3 марта 2021 в 15:15 пользователем Иван Иванов').should('exist');
+      const d1 = new Date(date1);
+
+      cy.contains(`Создано ${d1.getDate()} марта 2021 в ${d1.getHours()}:${d1.getMinutes()} пользователем Иван Иванов`).should('exist');
 
       cy.contains('0 комментариев').should('exist');
 
       cy.contains('Заголовок 2').should('exist');
 
-      cy.contains('Создано 3 марта 2021 в 15:25 пользователем Петр Петров').should('exist');
+      const d2 = new Date(date2);
+
+      cy.contains(`Создано ${d2.getDate()} марта 2021 в ${d2.getHours()}:${d2.getMinutes()} пользователем Петр Петров`).should('exist');
 
       cy.contains('2 комментария').should('exist');
     });
@@ -85,15 +92,17 @@ describe('checking authorization', () => {
         .get('[name="text"]')
         .type('Сообщение');
 
+      const date = '2021-03-03T12:52:09.974Z';
+
       cy.intercept({
         url: /api\/posts/,
         method: 'POST',
       }, (req) => {
         req.reply({
           ...req.body,
-          createdAt: '2021-03-03T12:52:09.974Z',
+          createdAt: date,
           id: 1,
-          updatedAt: '2021-03-03T12:52:09.974Z',
+          updatedAt: date,
           userId: 36,
         });
       }).as('createPostRequest');
@@ -106,32 +115,37 @@ describe('checking authorization', () => {
 
       cy.contains('Заголовок').should('exist');
 
-      cy.contains('Создано 3 марта 2021 в 15:52 пользователем Иван Иванов').should('exist');
+      const d2 = new Date(date);
+
+      cy.contains(`Создано ${d2.getDate()} марта 2021 в ${d2.getHours()}:${d2.getMinutes()} пользователем Иван Иванов`).should('exist');
 
       cy.contains('0 комментариев').should('exist');
     });
   });
 
   describe('checking post page', () => {
+    const date1 = '2021-03-03T12:52:09.974Z';
+    const date2 = '2021-03-03T13:16:52.136Z';
+
     beforeEach(() => {
       cy.intercept('GET', /posts\/1/, {
         statusCode: 200,
         body: {
           comments: [{
             children: [],
-            createdAt: '2021-03-03T13:16:52.136Z',
+            createdAt: date2,
             id: 1,
             parentId: null,
             postId: 3,
             text: 'Комментарий 1',
-            updatedAt: '2021-03-03T13:16:52.136Z',
+            updatedAt: date2,
             user: {
               id: 36,
               first_name: 'Иван',
               second_name: 'Иванов',
             },
           }],
-          createdAt: '2021-03-03T12:52:09.974Z',
+          createdAt: date1,
           id: 3,
           likes: [{ userId: 1 }, { userId: 2 }, { userId: 3 }],
           text: 'Текст',
@@ -141,7 +155,7 @@ describe('checking authorization', () => {
             first_name: 'Петр',
             second_name: 'Петров',
           },
-          updatedAt: '2021-03-03T12:52:09.974Z',
+          updatedAt: date1,
         },
       });
     });
@@ -153,13 +167,17 @@ describe('checking authorization', () => {
 
       cy.contains('Автор: Петр Петров').should('exist');
 
-      cy.contains('Создано: 3 марта 2021 в 15:52').should('exist');
+      const d1 = new Date(date1);
+
+      cy.contains(`Создано: ${d1.getDate()} марта 2021 в ${d1.getHours()}:${d1.getMinutes()}`).should('exist');
 
       cy.contains('Текст').should('exist');
 
       cy.contains('Всего лайков: 3').should('exist');
 
-      cy.contains('Иван Иванов написал 3 марта 2021 в 16:16').should('exist');
+      const d2 = new Date(date2);
+
+      cy.contains(`Иван Иванов написал ${d2.getDate()} марта 2021 в ${d2.getHours()}:${d2.getMinutes()}`).should('exist');
 
       cy.contains('Комментарий 1').should('exist');
     });
@@ -170,6 +188,8 @@ describe('checking authorization', () => {
       cy
         .get('[name="text"]')
         .type('Комментарий 2');
+
+      const date3 = '2021-03-03T13:30:12.025Z';
 
       cy.intercept({
         url: /comments/,
@@ -192,7 +212,9 @@ describe('checking authorization', () => {
 
       cy.wait('@createCommentRequest');
 
-      cy.get('ul li:nth-child(2)').should('contain', 'Иван Иванов написал 3 марта 2021 в 16:30');
+      const d3 = new Date(date3);
+
+      cy.get('ul li:nth-child(2)').should('contain', `Иван Иванов написал ${d3.getDate()} марта 2021 в ${d3.getHours()}:${d3.getMinutes()}`);
 
       cy.get('ul li:nth-child(2)').should('contain', 'Комментарий 2');
     });
@@ -208,17 +230,19 @@ describe('checking authorization', () => {
         .get('ul li [name="text"]')
         .type('Комментарий 2');
 
+      const date3 = '2021-03-03T13:30:12.025Z';
+
       cy.intercept({
         url: /comments/,
         method: 'POST',
       }, (req) => {
         req.reply({
           ...req.body,
-          createdAt: '2021-03-03T13:30:12.025Z',
+          createdAt: date3,
           parentId: 1,
           postId: 1,
           id: 2,
-          updatedAt: '2021-03-03T13:30:12.025Z',
+          updatedAt: date3,
           userId: 36,
         });
       }).as('createCommentRequest');
@@ -229,7 +253,9 @@ describe('checking authorization', () => {
 
       cy.wait('@createCommentRequest');
 
-      cy.get('ul li ul li').should('contain', 'Иван Иванов написал 3 марта 2021 в 16:30');
+      const d3 = new Date(date3);
+
+      cy.get('ul li ul li').should('contain', `Иван Иванов написал ${d3.getDate()} марта 2021 в ${d3.getHours()}:${d3.getMinutes()}`);
 
       cy.get('ul li ul li').should('contain', 'Комментарий 2');
     });
