@@ -39,7 +39,7 @@ const Menu = ({
         </NavLink>
       ))}
     </nav>
-    {() => Switcher() }
+    <Switcher />
   </div>
 );
 
