@@ -14,11 +14,6 @@ export default class ErrorBoundary extends Component<IErrorBoundaryProps, IError
     errorText: 'Похоже, что-то пошло не так',
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(props:IErrorBoundaryProps) {
-    super(props);
-  }
-
   static getDerivedStateFromError() {
     return {
       hasError: true,
