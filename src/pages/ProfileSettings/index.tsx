@@ -8,7 +8,7 @@ import {
 } from '@/models/profileSettings';
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
-import userDataChanged from '@/utils/userDataChanged';
+import shallowUserDataEqual from '@/utils/shallowUserDataEqual';
 
 import cssCommon from '@/styles/common.css';
 import cssForm from '@/styles/form.css';
@@ -25,7 +25,6 @@ const ProfileSettings = () => {
   const { password, other } = useSelector(userSettingsStateSelector);
   const avatarUpdateState = useSelector(userSettingsStateSelector).avatar;
 
-  // 1
   const userData = {
     avatar: (typeof oldData.avatar === 'string') ? oldData.avatar : '',
     login: (typeof oldData.login === 'string') ? oldData.login : '',
@@ -40,14 +39,6 @@ const ProfileSettings = () => {
   };
 
   const [currentUserData, updateFormUserData] = useState({
-    data: {
-      first_name: userData.firstName,
-      second_name: userData.secondName,
-      display_name: userData.displayName,
-      login: userData.login,
-      email: userData.email,
-      phone: userData.phone,
-    },
     errors: {
       avatar: '',
     },
@@ -81,6 +72,7 @@ const ProfileSettings = () => {
         firstName, secondName, displayName = '', login, email, phone,
         newPassword, oldPassword,
       } = v;
+
       const data = {
         first_name: firstName,
         second_name: secondName,
@@ -90,7 +82,16 @@ const ProfileSettings = () => {
         phone,
       };
 
-      if (userDataChanged(data, currentUserData.data)) {
+      const oldUserData = {
+        first_name: oldData.first_name,
+        second_name: oldData.second_name,
+        display_name: oldData.display_name,
+        login: oldData.login,
+        email: oldData.email,
+        phone: oldData.phone,
+      };
+
+      if (!shallowUserDataEqual(data, oldUserData)) {
         dispatch(
           userDataActions.request({
             params: {
@@ -98,10 +99,6 @@ const ProfileSettings = () => {
             },
           }),
         );
-        updateFormUserData((prevState) => ({
-          data,
-          errors: prevState.errors,
-        }));
       }
 
       if (newPassword && oldPassword) {
@@ -127,12 +124,9 @@ const ProfileSettings = () => {
     let avatar;
     if (inputFile) {
       if (checkFormField.avatar(inputFile)()) {
-        updateFormUserData((prevState) => ({
-          data: prevState.data,
-          errors: {
-            avatar: checkFormField.avatar(inputFile)(),
-          },
-        }));
+        updateFormUserData({
+          errors: { avatar: checkFormField.avatar(inputFile)() },
+        });
         return;
       }
 
@@ -153,13 +147,12 @@ const ProfileSettings = () => {
           },
         }),
       );
+      updateFormUserData({
+        errors: {
+          avatar: '',
+        },
+      });
     }
-    updateFormUserData((prevState) => ({
-      data: prevState.data,
-      errors: {
-        avatar: '',
-      },
-    }));
   };
 
   const passwordError = (password.status === 400) ? password.data : password.error;
