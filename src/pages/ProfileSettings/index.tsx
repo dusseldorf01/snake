@@ -182,7 +182,7 @@ const ProfileSettings = () => {
         />
         <Input
           error={touched.displayName && errors.displayName}
-          label="Отоброжаемое имя"
+          label="Отображаемое имя"
           name="displayName"
           onBlur={handleBlur}
           onChange={handleChange}
