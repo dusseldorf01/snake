@@ -24,7 +24,6 @@ const ProfileSettings = () => {
   const oldData = useSelector(userStateSelector).data;
   const { password, other } = useSelector(userSettingsStateSelector);
   const avatarUpdateState = useSelector(userSettingsStateSelector).avatar;
-
   const userData = {
     avatar: (typeof oldData.avatar === 'string') ? oldData.avatar : '',
     login: (typeof oldData.login === 'string') ? oldData.login : '',
