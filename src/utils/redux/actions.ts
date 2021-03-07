@@ -1,5 +1,8 @@
 import {
-  createAction, PayloadActionCreator, ActionCreatorWithOptionalPayload, ActionCreatorWithoutPayload,
+  createAction,
+  PayloadActionCreator,
+  ActionCreatorWithOptionalPayload,
+  ActionCreatorWithoutPayload,
 } from '@reduxjs/toolkit';
 import { ApiParams } from '@/utils/api';
 

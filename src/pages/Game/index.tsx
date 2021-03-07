@@ -13,12 +13,14 @@ import gameReducer from '@/game/reducer';
 import GameModal from '@/components/GameModal';
 import type { IGameModal } from '@/components/GameModal/interfaces';
 import useKeyboardChangeDirection from '@/hooks/useKeyboardChangeDirection';
+import useGamepadChangeDirection from '@/hooks/useGamepadChangeDirection';
 import useGameAnimation from '@/hooks/useGameAnimation';
 import GameInformation from '@/components/GameInformation';
 import GameSettings from '@/components/GameSettings';
 import { getInitialGameState } from '@/game/helpers';
 import useLocalStorageSaving from '@/hooks/useLocalStorageSaving';
 import cssCommon from '@/styles/common.css';
+import withClientOnlyRender from '@/hocs/withClientOnly';
 import css from './index.css';
 
 const {
@@ -86,6 +88,13 @@ const Game = () => {
     number: 1,
     status,
     trueCondition: status === GameStatus.RUNNING && multiplayer,
+  });
+
+  useGamepadChangeDirection({
+    dispatch,
+    number: 0,
+    status,
+    trueCondition: status === GameStatus.RUNNING,
   });
 
   useGameAnimation({
@@ -177,4 +186,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default withClientOnlyRender(Game);
