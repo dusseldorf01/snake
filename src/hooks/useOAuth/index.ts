@@ -1,19 +1,26 @@
 import { getOauthServiceId } from '@/api/oauth';
+import { useEffect, useState } from 'react';
+import { signInOauthActions } from '@/actions/user';
+import { useDispatch } from 'react-redux';
 
-export default async function useOAuth(setState:CallableFunction) {
+export default function useOAuth() {
+  const dispatch = useDispatch();
   const code = window.location.href.split('code=')[1];
-  if (code) {
-    setState((state:{
-      serviceId: null|number,
-      code: null|number,
-      startLogingIn:boolean }) => ({ ...state, startLogingIn: true, code }));
-    return;
-  }
-  const serviceId = await getOauthServiceId();
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { data: { service_id } } = serviceId;
-  setState((state:{
-    serviceId: null|number,
-    code: null|number,
-    startLogingIn:boolean }) => ({ ...state, serviceId: service_id }));
+  const [serviceId, setAppId] = useState({ serviceId: null });
+
+  useEffect(() => {
+    if (code) {
+      dispatch(signInOauthActions.request({ params: { data: { code } } }));
+    } else {
+      getOauthServiceId()
+        .then((data) => {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          const { data: { service_id } } = data;
+          setAppId(service_id);
+        });
+    }
+  }, [code]);
+
+  if (serviceId) return serviceId;
+  return null;
 }

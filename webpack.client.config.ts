@@ -63,7 +63,7 @@ export default function webpackConfig(_env:WebpackEnv, argv: WebpackArgs) {
       historyApiFallback: true,
       contentBase: path.join(__dirname, 'public'),
       compress: true,
-      port: process.env.DEVSERVER_PORT || 8080,
+      port: process.env.DEVSERVER_PORT || 5000,
       https,
       key: https ? fs.readFileSync('./ssl/localhost+2-key.pem') : undefined,
       cert: https ? fs.readFileSync('./ssl/localhost+2.pem') : undefined,

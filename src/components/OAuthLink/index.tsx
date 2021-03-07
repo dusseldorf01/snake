@@ -1,47 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { signInOauthActions } from '@/actions/user';
+import React from 'react';
 import useOAuth from '@/hooks/useOAuth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Alert from '@/components/Alert';
 import { userIsOauthAutorized } from '@/selectors/user';
+import cssCommon from '@/styles/common.css';
+import Loader from '../Loader';
 import css from './index.css';
 
-let canSendRequest = true;
+const AppLoader = () => (
+  <div className={cssCommon.centerContent}>
+    <Loader />
+  </div>
+);
 
 const OauthLink = () => {
-  const dispatch = useDispatch();
   const signInState = useSelector(userIsOauthAutorized);
-  const [oauthOptions, setOauthOptions] = useState({
-    serviceId: null,
-    code: null,
-    startLogingIn: false,
-  });
-  const { serviceId, code, startLogingIn } = oauthOptions;
-  if (code) {
-    if (canSendRequest) {
-      canSendRequest = false;
-      dispatch(signInOauthActions.request({ params: { data: { code } } }));
-      setTimeout(() => {
-        canSendRequest = true;
-      },
-      800);
-    }
-  }
-
-  useEffect(() => {
-    useOAuth(setOauthOptions);
-  }, []);
-
+  const serviceId = useOAuth();
   if (signInState.error) {
-    return (
-      <Alert>{signInState.error}</Alert>
-    );
+    const errorText = signInState.data.reason ? `${signInState.data.reason}` : signInState.error;
+    return <Alert>{errorText}</Alert>;
   }
-
-  if (startLogingIn) {
-    return (
-      <Alert>Выполняется вход...</Alert>
-    );
+  if (signInState.loading) {
+    return <AppLoader />;
   }
 
   if (serviceId) {
