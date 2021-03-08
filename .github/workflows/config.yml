@@ -65,6 +65,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: crp96j9lfkrv2cslsrdh/snake:latest
+          tags: cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
