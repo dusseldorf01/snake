@@ -45,22 +45,26 @@ jobs:
       - run: npm ci
       - run: npm run build
   deploy:
-    if: ${{ github.event_name != 'pull_request' }}
+    #if: ${{ github.event_name != 'pull_request' }}
     needs: [lint, test, build]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 14.x ]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Yandex.Cloud
+        uses: docker/login-action@v1
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build
-      - uses: akhileshns/heroku-deploy@v3.8.9
+          registry: cr.yandex
+          username: ${{ secrets.YA_CLOUD_USER }}
+          password: ${{ secrets.YA_CLOUD_KEY }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "dusseldorf-snake"
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
-          usedocker: true
+          context: .
+          push: true
+          tags: crp96j9lfkrv2cslsrdh/snake:latest
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
