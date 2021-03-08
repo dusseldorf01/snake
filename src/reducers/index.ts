@@ -5,6 +5,7 @@ import user from '@/reducers/user';
 import userTheme from '@/reducers/userTheme';
 import postsList from '@/reducers/postsList';
 import post from '@/reducers/post';
+import feedback from '@/reducers/feedback';
 import { signOutActions } from '@/actions/user';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import type { History } from 'history';
@@ -14,6 +15,7 @@ const rootReducer = (history: History) => combineReducers({
   userTheme,
   postsList,
   post,
+  feedback,
   router: connectRouter(history),
 });
 

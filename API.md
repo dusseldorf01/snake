@@ -1,7 +1,7 @@
 # Описание API проекта
 
 - [Форум](#форум)
-  - [`GET /api/posts?$limit=<limit>&$page=<page>/`](#get-apipostslimitзначениеpageзначение)
+  - [`GET /api/posts?$limit=<значение>&$page=<значение>/`](#get-apipostslimitзначениеpageзначение)
   - [`GET /api/posts/:postId/`](#get-apipostspostid)
   - [`POST /api/posts/`](#post-apiposts)
   - [`POST /api/posts/:postId/comments/`](#post-apipostspostidcomments)
@@ -16,6 +16,9 @@
   - [`POST /api/themes/`](#post-apithemes)
   - [`PATCH /api/themes/:themeId/`](#patch-apithemesthemeid)
   - [`DELETE /api/themes/:themeId/`](#delete-apithemesthemeid)
+- [Обратная связь](#обратная-связь)
+  - [`GET /api/feedback`](#get-apifeedback)
+  - [`POST /api/feedback`](#post-apifeedback)
 
 ## Форум
 
@@ -340,5 +343,67 @@
 ```
 {
     count: number; // Количество измененных тем
+}
+```
+
+## Обратная связь
+
+### `GET /api/feedback`
+
+Возвращает список сообщений обратной связи.
+
+Параметры запроса:
+
+| Название  | Обязательный | Описание                                       |
+| :-------- | :----------- |:---------------------------------------------- |
+| `$limit`  | Нет          | Максимальное количество возвращаемых сообщений |
+| `$page`   | Нет          | Порядковый номер страницы                      |
+
+Сигнатура ответа:
+```
+{
+    total: number; // Общее количество сообщений
+    items: [{ // Массив сообщений
+        createdAt: string; // Дата создания
+        id: string; // Идентификатор
+        message: string; // Текст
+        title: string; // Заголовок
+        uptatedAt: string; // Дата обновления
+        user: { // Информация о пользователе, отправившем сообщение
+            avatar: string | null; // Аватар
+            display_name: string | null; // Отображаемое имя
+            email: string; // E-mail
+            first_name: string; // Имя
+            id: number; // Идентификатор
+            login: "string; // Логин
+            phone: string; // Телефон
+            second_name: string; // Фамилия
+        },
+        userId: number; // Идентификатор пользователя, отправившего сообщение
+    }];
+}
+```
+
+### `POST /api/feedback/`
+
+Отправляет сообщение обратной связи.
+
+Тело запроса:
+
+| Название   | Тип      | Описание            |
+| :--------- | :------- | :------------------ |
+| `message`  | `string` | Текст сообщения     |
+| `title`    | `string` | Заголовок сообщения |
+
+Сигнатура ответа:
+
+```
+{
+    createdAt: string; // Дата создания
+    message: string; // Текст
+    title: string; // Заголовок
+    uptatedAt: string; // Дата обновления
+    userId: number; // Идентификатор пользователя, отправившего сообщение
+    _id: string; // Идентификатор
 }
 ```

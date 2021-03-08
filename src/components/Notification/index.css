@@ -7,9 +7,8 @@
 
 .notification {
   position: relative;
-  margin-top: 48px;
-  width: 300px;
-  padding: 16px 38px 16px 44px;
+  margin-top: 24px;
+  padding: 16px 44px 16px 50px;
   border-radius: 3px;
   background-position: 16px center;
   background-repeat: no-repeat;
