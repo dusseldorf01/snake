@@ -8,7 +8,7 @@ const useLeaderboardScore = ({
   score,
   status,
   level,
-}:any) => {
+}:{score: number[], status:GameStatus, level:number}) => {
   const { id, login } = useSelector(userStateSelector).data;
   const dispatch = useDispatch();
   useEffect(() => {

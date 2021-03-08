@@ -4,21 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllScoreFromLeaderboard } from '@/actions/leaderboard';
 import { leaderboardScoresStateSelector } from '@/selectors/leaderboard';
-import type { ILeaderboardITableRow } from '@/components/LeaderboardTable/interfaces';
 import Alert from '@/components/Alert';
 import Loader from '@/components/Loader';
 
 const Leaderboard = () => {
   const dispatch = useDispatch();
   const leaderboardState = useSelector(leaderboardScoresStateSelector);
-
   const { data, loading, error } = leaderboardState;
 
   let normData;
   if (Array.isArray(data) && data.length) {
     normData = data
-      .map((item:{data:ILeaderboardITableRow}) => item.data)
-      .filter((item:ILeaderboardITableRow) => item.id && item.level)
+      .map((item) => item.data)
+      .filter((item) => item.id && item.level)
       .map(({
         id, login, level, score,
       }) => ({
