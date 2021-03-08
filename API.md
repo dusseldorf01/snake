@@ -17,8 +17,8 @@
   - [`PATCH /api/themes/:themeId/`](#patch-apithemesthemeid)
   - [`DELETE /api/themes/:themeId/`](#delete-apithemesthemeid)
 - [Обратная связь](#обратная-связь)
-  - [`GET /api/feedback`](#get-apifeedback)
-  - [`POST /api/feedback`](#post-apifeedback)
+  - [`GET /api/feedback/`](#get-apifeedback)
+  - [`POST /api/feedback/`](#post-apifeedback)
 
 ## Форум
 
@@ -348,7 +348,7 @@
 
 ## Обратная связь
 
-### `GET /api/feedback`
+### `GET /api/feedback/`
 
 Возвращает список сообщений обратной связи.
 
