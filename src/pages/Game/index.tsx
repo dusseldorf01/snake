@@ -20,6 +20,7 @@ import GameSettings from '@/components/GameSettings';
 import { getInitialGameState } from '@/game/helpers';
 import useLocalStorageSaving from '@/hooks/useLocalStorageSaving';
 import cssCommon from '@/styles/common.css';
+import useLeaderboardScore from '@/hooks/useLeaderboardScore';
 import withClientOnlyRender from '@/hocs/withClientOnly';
 import css from './index.css';
 
@@ -102,6 +103,8 @@ const Game = () => {
     level,
     status,
   });
+
+  useLeaderboardScore({ score, status, level });
 
   const startGameHandler = () => dispatch(changeGameStatus(GameStatus.RUNNING));
 

@@ -12,8 +12,7 @@ const useLeaderboardScore = ({
   const { id, login } = useSelector(userStateSelector).data;
   const dispatch = useDispatch();
   useEffect(() => {
-    // const dispatch = useDispatch();
-    if (status === GameStatus.IS_OVER) {
+    if (status === GameStatus.IS_OVER || status === GameStatus.PASSED) {
       dispatch(addScoreToLeaderboard.request({
         params: {
           data: {
