@@ -1,4 +1,7 @@
 module.exports = {
+  globals: {
+    WEBPACK_DEV_SERVER: true,
+  },
   moduleFileExtensions: [
     'js',
     'json',
