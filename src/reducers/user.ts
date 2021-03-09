@@ -7,6 +7,7 @@ import {
 } from '@/utils/redux/reducers';
 import {
   signInActions, signOutActions, signUpActions, userInfoActions,
+  userPasswordActions, userDataActions, userAvatarActions,
 } from '@/actions/user';
 import type { IUser } from '@/models/user';
 
@@ -18,8 +19,18 @@ const info = createAsyncReducer<IUser, AsyncReducerState<IUser>>(
   userInfoActions,
 );
 
+const userDataUpdate = createAsyncReducer(initialAsyncStateNoLoad, userDataActions);
+const userAvatarUpdate = createAsyncReducer(initialAsyncStateNoLoad, userAvatarActions);
+const userPasswordUpdate = createAsyncReducer(initialAsyncStateNoLoad, userPasswordActions);
+
 const user = combineReducers({
-  signUp, signIn, signOut, info,
+  signUp,
+  signIn,
+  signOut,
+  info,
+  userDataUpdate,
+  userAvatarUpdate,
+  userPasswordUpdate,
 });
 
 export default user;
