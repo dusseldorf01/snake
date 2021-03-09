@@ -1,13 +1,16 @@
 import { spawn, take, put } from 'redux-saga/effects';
 import { takeLatestRequest } from '@/utils/redux/sagas';
 import {
-  signInActions, signOutActions, signUpActions, userInfoActions, signInOauthActions,
+  signInActions, signOutActions, signUpActions, userInfoActions,  signInOauthActions,
+  userAvatarActions, userDataActions, userPasswordActions,
 } from '@/actions/user';
 import {
   getUserInfo, signIn, signOut, signUp,
 } from '@/api/auth';
-
 import { signInOauth } from '@/api/oauth';
+import {
+  changeUserProfile, changeUserAvatar, changeUserPassword,
+} from '@/api/user';
 
 function* afterSignIn() {
   yield take([signInActions.success.toString(), signInOauthActions.success.toString(),
@@ -15,11 +18,23 @@ function* afterSignIn() {
   yield put(userInfoActions.request());
 }
 
-export default function* userSaga() {
+function* afterUserDataUpdate() {
+  yield take([userDataActions.success.toString(), userPasswordActions.success.toString()]);
+  yield put(userInfoActions.request());
+}
+
+export function* userSaga() {
   yield takeLatestRequest(userInfoActions, getUserInfo);
   yield takeLatestRequest(signInOauthActions, signInOauth);
   yield takeLatestRequest(signInActions, signIn);
   yield takeLatestRequest(signUpActions, signUp);
   yield takeLatestRequest(signOutActions, signOut);
   yield spawn(afterSignIn);
+}
+
+export function* userUpdateDataSaga() {
+  yield takeLatestRequest(userAvatarActions, changeUserAvatar);
+  yield takeLatestRequest(userDataActions, changeUserProfile);
+  yield takeLatestRequest(userPasswordActions, changeUserPassword);
+  yield spawn(afterUserDataUpdate);
 }
