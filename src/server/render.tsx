@@ -12,7 +12,7 @@ import createStore from '@/store';
 import userThemeActions from '@/actions/userTheme';
 import cssRoot from '@/styles/variables.css';
 import { getUserInfo } from '@/api/auth';
-import UserThemesService from '@/server/services/UserThemesService';
+import { getByUserId as getThemeByUserId } from '@/server/services/UserThemesService';
 import type { IUserTheme } from '@/models/theme';
 
 const render = async (url: string):Promise<{html: string, context: StaticRouterContext}> => {
@@ -46,7 +46,7 @@ const render = async (url: string):Promise<{html: string, context: StaticRouterC
       if (response) {
         const { userId } = response;
 
-        return UserThemesService.get(userId);
+        return getThemeByUserId(userId);
       }
 
       return Promise.reject();

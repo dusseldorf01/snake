@@ -1,30 +1,37 @@
-import Posts from '@/server/controllers/Posts';
-import Comments from '@/server/controllers/Comments';
-import Likes from '@/server/controllers/Likes';
+import {
+  create as createPost,
+  getAll as getAllPosts,
+  getById as getPostById,
+} from '@/server/controllers/Posts';
+import { create as createComment } from '@/server/controllers/Comments';
+import {
+  add as addLike,
+  remove as removeLike,
+} from '@/server/controllers/Likes';
 import type { IRoute } from '@/utils/api/getRoutes';
 
 const forumRoutes: IRoute[] = [{
-  handler: Posts.getAll,
+  handler: getAllPosts,
   method: 'get',
   path: '/posts',
 }, {
-  handler: Posts.getById,
+  handler: getPostById,
   method: 'get',
   path: '/posts/:id',
 }, {
-  handler: Posts.create,
+  handler: createPost,
   method: 'post',
   path: '/posts',
 }, {
-  handler: Comments.create,
+  handler: createComment,
   method: 'post',
   path: '/posts/:postId/comments',
 }, {
-  handler: Likes.create,
+  handler: addLike,
   method: 'post',
   path: '/posts/:postId/like',
 }, {
-  handler: Likes.delete,
+  handler: removeLike,
   method: 'delete',
   path: '/posts/:postId/like',
 }];

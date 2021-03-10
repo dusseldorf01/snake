@@ -1,12 +1,15 @@
-import UserThemes from '@/server/controllers/UserThemes';
+import {
+  getByUserId as getThemeByUserId,
+  update as updateTheme,
+} from '@/server/controllers/UserThemes';
 import type { IRoute } from '@/utils/api/getRoutes';
 
 const userThemeRoutes: IRoute[] = [{
-  handler: UserThemes.get,
+  handler: getThemeByUserId,
   method: 'get',
   path: '/user-theme',
 }, {
-  handler: UserThemes.update,
+  handler: updateTheme,
   method: 'patch',
   path: '/user-theme',
 }];

@@ -6,7 +6,7 @@ import {
 import type { IPost } from '@/models/forum';
 import postActions from '@/actions/post';
 
-type PostStateType = {
+export type PostStateType = {
   updatingLike: boolean;
   addingComment: boolean;
 } & AsyncReducerState<IPost>;

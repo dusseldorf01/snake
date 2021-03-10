@@ -1,9 +1,5 @@
-import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '@/reducers';
 
-const routerSelector = createSelector(
-  (state: RootState) => state.router,
-  (router) => router,
-);
+const routerSelector = (state: RootState) => state.router;
 
 export default routerSelector;
