@@ -10,7 +10,7 @@ export interface AsyncReducerState<T> {
   status?: number,
 }
 
-export function getInitialAsyncState<T>(data: T): AsyncReducerState<T> {
+export function getInitialAsyncState<T = any>(data: T): AsyncReducerState<T> {
   return {
     loading: true,
     data,
@@ -27,7 +27,7 @@ export function getInitialAsyncStateNoLoad<T>(data: T): AsyncReducerState<T> {
   };
 }
 
-export function createAsyncReducer<T, K extends AsyncReducerState<T> = AsyncReducerState<T>>(
+export function createAsyncReducer<T = any, K extends AsyncReducerState<T> = AsyncReducerState<T>>(
   initialState: K,
   asyncCreator: AsyncActionCreator<T>,
   configurator?:(builder: ActionReducerMapBuilder<K>) => void,

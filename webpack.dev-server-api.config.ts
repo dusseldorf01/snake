@@ -5,6 +5,7 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import NodeExternals from 'webpack-node-externals';
 // @ts-ignore
 import { loadableTransformer } from 'loadable-ts-transformer';
+import webpack from 'webpack';
 
 dotenv.config();
 
@@ -38,5 +39,8 @@ export default () => ({
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new webpack.DefinePlugin({
+      WEBPACK_DEV_SERVER: true,
+    }),
   ],
 });

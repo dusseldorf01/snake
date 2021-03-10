@@ -1,9 +1,6 @@
-import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '@/reducers';
+import type { PostStateType } from '@/reducers/post';
 
-const postSelector = createSelector(
-  (state: RootState) => state.post,
-  (post) => post,
-);
+const postSelector = (state: RootState): PostStateType => state.post;
 
 export default postSelector;

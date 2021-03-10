@@ -1,6 +1,6 @@
 import type { Application } from 'express';
 import proxy from 'express-http-proxy';
-import { DEFAULT_YANDEX_API_URL } from '@/utils/api';
+// import { DEFAULT_API_URL } from '@/utils/api';
 
 type CookiePart = {
   name: string,
@@ -8,10 +8,10 @@ type CookiePart = {
 };
 
 const apiProxy = (app: Application):void => {
-  app.use(DEFAULT_YANDEX_API_URL.slice(0, -1), proxy('https://ya-praktikum.tech', {
+  app.use('/api/v2/', proxy('https://ya-praktikum.tech', {
     proxyReqPathResolver(req) {
       return new Promise((resolve) => {
-        resolve(`${DEFAULT_YANDEX_API_URL.slice(0, -1)}${req.url}`);
+        resolve(`/api/v2${req.url}`);
       });
     },
     proxyReqOptDecorator(options) {

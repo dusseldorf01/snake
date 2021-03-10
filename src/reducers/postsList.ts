@@ -7,7 +7,7 @@ import {
 import type { IPostPreview } from '@/models/forum';
 import type { TotalList } from '@/models/common';
 
-type PostsListStateType = {
+export type PostsListStateType = {
   limit: number;
   page: number;
   updating: boolean;

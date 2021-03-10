@@ -2,40 +2,38 @@ import { Theme } from '@/server/models';
 import type { GetAllQueryType } from '@/server/services/types';
 import type { IThemeCreate } from '@/models/theme';
 
-export default class ThemesService {
-  public static create = (body: IThemeCreate) => (
-    Theme.create(body)
-  );
+export const create = (body: IThemeCreate) => (
+  Theme.create(body)
+);
 
-  public static getAll = ({
-    limit,
-    offset,
-  }: GetAllQueryType) => (
-    Theme
-      .findAndCountAll({
-        offset,
-        limit,
-        order: [['createdAt', 'DESC']],
-      })
-  );
-
-  public static getById = (id: number) => (
-    Theme.findByPk(id)
-  );
-
-  public static update = (id: number, body: IThemeCreate) => (
-    Theme.update(body, {
-      where: {
-        id,
-      },
+export const getAll = ({
+  limit,
+  offset,
+}: GetAllQueryType) => (
+  Theme
+    .findAndCountAll({
+      offset,
+      limit,
+      order: [['createdAt', 'DESC']],
     })
-  );
+);
 
-  public static delete = (id: number) => (
-    Theme.destroy({
-      where: {
-        id,
-      },
-    })
-  );
-}
+export const getById = (id: number) => (
+  Theme.findByPk(id)
+);
+
+export const update = (id: number, body: IThemeCreate) => (
+  Theme.update(body, {
+    where: {
+      id,
+    },
+  })
+);
+
+export const remove = (id: number) => (
+  Theme.destroy({
+    where: {
+      id,
+    },
+  })
+);

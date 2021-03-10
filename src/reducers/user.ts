@@ -11,7 +11,7 @@ import {
 } from '@/actions/user';
 import type { IUser } from '@/models/user';
 
-const signUp = createAsyncReducer(getInitialAsyncStateNoLoad({}), signUpActions);
+const signUp = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), signUpActions);
 const signIn = createAsyncReducer(getInitialAsyncStateNoLoad({}), signInActions);
 const signOut = createAsyncReducer(getInitialAsyncStateNoLoad({}), signOutActions);
 const info = createAsyncReducer<IUser, AsyncReducerState<IUser>>(
@@ -19,9 +19,12 @@ const info = createAsyncReducer<IUser, AsyncReducerState<IUser>>(
   userInfoActions,
 );
 
-const userDataUpdate = createAsyncReducer(initialAsyncStateNoLoad, userDataActions);
-const userAvatarUpdate = createAsyncReducer(initialAsyncStateNoLoad, userAvatarActions);
-const userPasswordUpdate = createAsyncReducer(initialAsyncStateNoLoad, userPasswordActions);
+const userDataUpdate = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), userDataActions);
+const userAvatarUpdate = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), userAvatarActions);
+const userPasswordUpdate = createAsyncReducer<any>(
+  getInitialAsyncStateNoLoad({}),
+  userPasswordActions,
+);
 
 const user = combineReducers({
   signUp,

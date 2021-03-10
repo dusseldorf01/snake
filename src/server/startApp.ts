@@ -1,14 +1,14 @@
 import type { Express } from 'express';
 import sequelize from './connection';
 import defaultThemes from './data/themes';
-import ThemesService from './services/ThemesService';
+import { create as createTheme } from './services/ThemesService';
 
 const startApp = async (app: Express, port: string | number) => {
   try {
     await sequelize.sync({ force: true });
 
     await Promise.all(defaultThemes.map((theme) => (
-      ThemesService.create(theme)
+      createTheme(theme)
     )));
 
     console.log('Connection has been established successfully.');

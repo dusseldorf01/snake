@@ -1,9 +1,6 @@
-import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '@/reducers';
+import type { IUserTheme } from '@/models/theme';
 
-const userThemeSelector = createSelector(
-  (state: RootState) => state.userTheme,
-  (state) => state.data,
-);
+const userThemeSelector = (state: RootState): IUserTheme => state.userTheme.data;
 
 export default userThemeSelector;
