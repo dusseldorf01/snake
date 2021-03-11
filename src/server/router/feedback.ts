@@ -1,12 +1,15 @@
-import Feedback from '@/server/controllers/Feedback';
+import {
+  create as createFeedback,
+  getAll as getAllFeedback,
+} from '@/server/controllers/Feedback';
 import type { IRoute } from '@/utils/api/getRoutes';
 
 const feedbackRoutes: IRoute[] = [{
-  handler: Feedback.getAll,
+  handler: getAllFeedback,
   method: 'get',
   path: '/feedback',
 }, {
-  handler: Feedback.create,
+  handler: createFeedback,
   method: 'post',
   path: '/feedback',
 }];

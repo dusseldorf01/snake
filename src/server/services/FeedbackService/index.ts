@@ -2,26 +2,24 @@ import Feedback from '@/server/models/Feedback';
 import type { GetAllQueryType } from '@/server/services/types';
 import type { IFeedbackCreate } from '@/server/models/Feedback/interfaces';
 
-export default class FeedbackService {
-  public static create = ({
+export const create = ({
+  message,
+  title,
+  userId,
+}: IFeedbackCreate) => (
+  Feedback.create({
     message,
     title,
     userId,
-  }: IFeedbackCreate) => (
-    Feedback.create({
-      message,
-      title,
-      userId,
-    })
-  );
+  })
+);
 
-  public static getAll = ({
+export const getAll = ({
+  limit,
+  offset,
+}: GetAllQueryType) => (
+  Feedback.find({}, {}, {
     limit,
-    offset,
-  }: GetAllQueryType) => (
-    Feedback.find({}, {}, {
-      limit,
-      skip: offset,
-    })
-  );
-}
+    skip: offset,
+  })
+);
