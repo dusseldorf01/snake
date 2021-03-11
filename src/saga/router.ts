@@ -1,7 +1,6 @@
 import {
   Effect,
   put,
-  select,
   takeEvery,
 } from 'redux-saga/effects';
 import {
@@ -15,11 +14,10 @@ import {
   pageRegexp,
   postRegexp,
 } from '@/routerRegexp';
-import postSelector from '@/selectors/post';
 
 function* changeRouterSaga(action: Effect<LocationChangeAction>) {
   const { payload: { location } } = action;
-  const { pathname, search, hash } = location;
+  const { pathname, search } = location;
 
   if (forumRegexp.test(pathname)) {
     const page = Number(search.replace(pageRegexp, '$1')) || 1;
@@ -28,13 +26,9 @@ function* changeRouterSaga(action: Effect<LocationChangeAction>) {
   }
 
   if (postRegexp.test(pathname)) {
-    const { data: post } = yield select(postSelector);
+    const id = pathname.replace(postRegexp, '$1');
 
-    if (Object.keys(post).length === 0 || hash === '') {
-      const id = pathname.replace(postRegexp, '$1');
-
-      yield put(postActions.request({ params: { data: { id } } }));
-    }
+    yield put(postActions.request({ params: { data: { id } } }));
   }
 }
 

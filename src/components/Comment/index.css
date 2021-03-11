@@ -8,24 +8,31 @@
   }
 }
 
-.comment {
-  padding: 4px;
-  margin: 8px -4px;
-}
-
 .commentHeader {
   font-size: var(--small-font-size);
   color: var(--text-secondary-color);
-  margin-bottom: 8px;
+  margin-top: 8px;
+  padding-top: 4px;
+  padding-bottom: 8px;
 }
 
 .commentContent {
   line-height: 1.25em;
-  margin-bottom: 8px;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
 }
 
-.comment:target  {
-  animation: changingBgColor ease-in 0.75s;
+.commentHeader, .commentContent {
+  margin-left: -4px;
+  margin-right: -4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.commentActive > {
+  .commentHeader, .commentContent {
+    animation: changingBgColor ease-in 0.75s;
+  }
 }
 
 .commentChildren {

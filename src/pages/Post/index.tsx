@@ -104,6 +104,7 @@ const Post = () => {
                 key={comment.id}
                 childrenComments={comment.children}
                 createdAt={comment.createdAt}
+                isSelected={comment.isSelected}
                 id={comment.id}
                 postId={id}
                 text={comment.text}
