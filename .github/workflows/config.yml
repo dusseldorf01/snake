@@ -97,5 +97,6 @@ jobs:
             mkdir -p data/ssl
             yc certificate-manager certificate content --id fpq214701peqc1g8f990 --chain data/ssl/certificate_full_chain.pem --key data/ssl/private_key.pem
             docker-compose stop
+            docker volume rm static
             docker-compose up -d
             docker system prune --volumes --force --all
