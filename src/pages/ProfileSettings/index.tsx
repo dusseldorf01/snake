@@ -1,20 +1,48 @@
 import {
-  useEffect,
+  useEffect, useState,
 } from 'react';
 import { useFormik } from 'formik';
 import Input from '@/components/Input';
 import {
   IProfileSettingsModel,
-  profileSettingsInitialModel,
 } from '@/models/profileSettings';
 import validate from '@/utils/validate';
 import { checkFormField } from '@/utils/checkFormField';
+import shallowUserDataEqual from '@/utils/shallowUserDataEqual';
 
-import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';
+import cssForm from '@/styles/form.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { userStateSelector, userSettingsStateSelector } from '@/selectors/user';
+import { userAvatarActions, userDataActions, userPasswordActions } from '@/actions/user';
+import Alert from '@/components/Alert';
 
 const ProfileSettings = () => {
   let inputFile:HTMLInputElement;
+
+  const dispatch = useDispatch();
+  const oldData = useSelector(userStateSelector).data;
+  const { password, other } = useSelector(userSettingsStateSelector);
+  const avatarUpdateState = useSelector(userSettingsStateSelector).avatar;
+  const userData = {
+    avatar: (typeof oldData.avatar === 'string') ? oldData.avatar : '',
+    login: (typeof oldData.login === 'string') ? oldData.login : '',
+    email: (typeof oldData.email === 'string') ? oldData.email : '',
+    phone: (typeof oldData.phone === 'string') ? oldData.phone : '',
+    firstName: (typeof oldData.first_name === 'string') ? oldData.first_name : '',
+    secondName: (typeof oldData.second_name === 'string') ? oldData.second_name : '',
+    displayName: (typeof oldData.display_name === 'string') ? oldData.display_name : '',
+    oldPassword: '',
+    newPassword: '',
+    passwordRepeat: '',
+  };
+
+  const [currentUserData, updateFormUserData] = useState({
+    errors: {
+      avatar: '',
+    },
+  });
+
   const {
     errors,
     handleBlur,
@@ -24,30 +52,66 @@ const ProfileSettings = () => {
     validateForm,
     values,
   } = useFormik<IProfileSettingsModel>({
-    initialValues: profileSettingsInitialModel,
+    initialValues: userData,
+
     validate: (v) => (
       validate<IProfileSettingsModel>({
-        avatar: [checkFormField.avatar(inputFile)],
         firstName: [checkFormField.requiredField(v.firstName)],
         secondName: [checkFormField.requiredField(v.secondName)],
         login: [checkFormField.requiredField(v.login)],
         email: [checkFormField.requiredField(v.email), checkFormField.email(v.email)],
         phone: [checkFormField.requiredField(v.phone), checkFormField.phone(v.phone)],
-        password: [checkFormField.requiredField(v.password)],
-        passwordRepeat: [checkFormField.requiredField(v.passwordRepeat),
-          checkFormField.passwordRepeat(v.password, v.passwordRepeat)],
+        oldPassword: [checkFormField.newPassword(v.newPassword, v.oldPassword)],
+        passwordRepeat: [checkFormField.passwordRepeat(v.newPassword, v.passwordRepeat)],
       })
     ),
     onSubmit: (v) => {
-      if (inputFile) {
-        const formData = new FormData();
-        const fileElm :HTMLInputElement = inputFile;
-        if (fileElm && fileElm.files) {
-          const file = fileElm.files[0];
-          formData.append('avatar', file);
-        }
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        firstName, secondName, displayName = '', login, email, phone,
+        newPassword, oldPassword,
+      } = v;
+
+      const data = {
+        first_name: firstName,
+        second_name: secondName,
+        display_name: displayName,
+        login,
+        email,
+        phone,
+      };
+
+      const oldUserData = {
+        first_name: oldData.first_name,
+        second_name: oldData.second_name,
+        display_name: oldData.display_name,
+        login: oldData.login,
+        email: oldData.email,
+        phone: oldData.phone,
+      };
+
+      if (!shallowUserDataEqual(data, oldUserData)) {
+        dispatch(
+          userDataActions.request({
+            params: {
+              data,
+            },
+          }),
+        );
       }
-      console.log(v);
+
+      if (newPassword && oldPassword) {
+        dispatch(
+          userPasswordActions.request({
+            params: {
+              data: {
+                oldPassword,
+                newPassword,
+              },
+            },
+          }),
+        );
+      }
     },
   });
 
@@ -55,17 +119,55 @@ const ProfileSettings = () => {
     validateForm();
   }, []);
 
+  const onAvatarChange = () => {
+    let avatar;
+    if (inputFile) {
+      if (checkFormField.avatar(inputFile)()) {
+        updateFormUserData({
+          errors: { avatar: checkFormField.avatar(inputFile)() },
+        });
+        return;
+      }
+
+      const formData = new FormData();
+      const fileElm :HTMLInputElement|null = inputFile;
+      if (fileElm && fileElm.files && fileElm.files[0]) {
+        const file = fileElm.files[0];
+        formData.append('avatar', file);
+        avatar = formData;
+      }
+    }
+
+    if (typeof avatar === 'object') {
+      dispatch(
+        userAvatarActions.request({
+          params: {
+            data: avatar,
+          },
+        }),
+      );
+      updateFormUserData({
+        errors: {
+          avatar: '',
+        },
+      });
+    }
+  };
+
+  const passwordError = (password.status === 400) ? password.data : password.error;
+
   return (
     <div className={cssCommon.pageHalfContent}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <h1 className={cssForm.appFormTitle}>Изменение данных профиля</h1>
         <Input
-          error={touched.avatar && errors.avatar}
+          error={(touched.avatar && errors.avatar) || avatarUpdateState.error}
+          errorOnChangeAvatar={currentUserData.errors.avatar}
           name="avatar"
           type="file"
           onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.avatar}
+          avatarImage={avatarUpdateState.data.avatar || values.avatar}
+          onChange={onAvatarChange}
           /* eslint-disable-next-line no-return-assign */
           inputFile={(element:HTMLInputElement) => inputFile = element}
         />
@@ -76,6 +178,14 @@ const ProfileSettings = () => {
           onBlur={handleBlur}
           onChange={handleChange}
           value={values.firstName}
+        />
+        <Input
+          error={touched.displayName && errors.displayName}
+          label="Отображаемое имя"
+          name="displayName"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.displayName}
         />
         <Input
           error={touched.secondName && errors.secondName}
@@ -110,13 +220,22 @@ const ProfileSettings = () => {
           value={values.phone}
         />
         <Input
-          error={touched.password && errors.password}
-          label="Пароль"
-          name="password"
+          error={touched.newPassword && errors.oldPassword}
+          label="Пароль старый"
+          name="oldPassword"
           type="password"
           onBlur={handleBlur}
           onChange={handleChange}
-          value={values.password}
+          value={values.oldPassword}
+        />
+        <Input
+          error={touched.newPassword && errors.newPassword}
+          label="Пароль новый"
+          name="newPassword"
+          type="password"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.newPassword}
         />
         <Input
           error={touched.passwordRepeat && errors.passwordRepeat}
@@ -127,6 +246,12 @@ const ProfileSettings = () => {
           onChange={handleChange}
           value={values.passwordRepeat}
         />
+        {
+          passwordError && (<Alert>{passwordError}</Alert>)
+        }
+        {
+          other.error && (<Alert>{other.error}</Alert>)
+        }
         <button
           type="submit"
           className={cssForm.appFormButton}

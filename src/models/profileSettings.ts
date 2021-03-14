@@ -4,9 +4,11 @@ export interface IProfileSettingsModel {
   login: string;
   email: string;
   phone: string;
-  password: string;
+  oldPassword: string;
+  newPassword: string;
   passwordRepeat: string;
-  avatar?: string;
+  avatar?: FormData | string;
+  displayName?: string;
   file?: FormData;
 }
 
@@ -16,7 +18,9 @@ export const profileSettingsInitialModel: IProfileSettingsModel = {
   login: '',
   email: '',
   phone: '',
-  password: '',
+  oldPassword: '',
+  newPassword: '',
+  displayName: '',
   passwordRepeat: '',
   avatar: '',
 };

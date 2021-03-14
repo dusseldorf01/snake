@@ -24,3 +24,8 @@ export interface IFood {
   x: number;
   y: number;
 }
+
+export interface IWall {
+  x: number;
+  y: number;
+}

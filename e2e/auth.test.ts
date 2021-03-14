@@ -2,9 +2,9 @@ describe('checking authorization', () => {
   const onBeforeLoad = (win: Cypress.AUTWindow) => {
     // @ts-ignore
     // eslint-disable-next-line no-param-reassign,no-proto
-    delete win.navigator.__proto__.serviceWorker
+    delete win.navigator.__proto__.serviceWorker;
   };
-  
+
   beforeEach(() => {
     cy.server();
   });
