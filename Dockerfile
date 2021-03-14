@@ -4,6 +4,6 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm ci --only=production
 COPY . .
-RUN npm-script build
+RUN npm run-script build
 EXPOSE 8080
 CMD [ "node", "dist/server.js" ]
