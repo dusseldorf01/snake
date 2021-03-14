@@ -1,0 +1,7 @@
+[
+  {
+    "description": "Delete Docker images older than 2 days but retain 3 last ones",
+    "expire_period": "2d",
+    "retained_top": 3
+  }
+]
