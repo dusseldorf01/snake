@@ -2,27 +2,31 @@ import {
   ChangeEvent,
   useCallback,
 } from 'react';
-import actions from '@/game/actionCreators';
-import GameSettingsSelect from './GameSettingsSelect';
-import GameSettingsInput from './GameSettingsInput';
-import GameSettingsCheckbox from './GameSettingsCheckbox';
-import type { IGameSettings } from './interfaces';
-import css from './index.css';
-
-const {
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import {
   changeChangingLevel,
   changeLevel,
   changeMap,
   changeMultiplayer,
-} = actions;
+} from '@/actions/game';
+import gameSelector from '@/selectors/game';
+import GameSettingsSelect from './GameSettingsSelect';
+import GameSettingsInput from './GameSettingsInput';
+import GameSettingsCheckbox from './GameSettingsCheckbox';
+import css from './index.css';
 
-const GameSettings = ({
-  changingLevel,
-  dispatch,
-  level,
-  map,
-  multiplayer,
-}: IGameSettings) => {
+const GameSettings = () => {
+  const dispatch = useDispatch();
+  const {
+    changingLevel,
+    level,
+    map,
+    multiplayer,
+  } = useSelector(gameSelector);
+
   const changeMapHandler = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(changeMap(Number(e.target.value)));
   }, []);

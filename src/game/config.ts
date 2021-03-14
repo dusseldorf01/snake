@@ -20,13 +20,19 @@ const POINTS_FOR_BIG_FOOD = 5;
 
 const BIG_FOOD_POINTS = 5;
 
-const config = {
+const INITIAL_MAP = 0;
+
+const INITIAL_LEVEL = 3;
+
+const gameConfig = {
   BIG_FOOD_POINTS,
   BOARD_ITEM_SIZE,
   BOARD_WIDTH_ITEMS_COUNT,
   BOARD_WIDTH,
   BOARD_HEIGHT_ITEMS_COUNT,
   BOARD_HEIGHT,
+  INITIAL_LEVEL,
+  INITIAL_MAP,
   LEVEL_SCORE_CHANGING,
   LOCAL_STORAGE_KEY,
   MAX_LEVEL,
@@ -34,4 +40,4 @@ const config = {
   TICKS_TO_REMOVE_BIG_FOOD,
 };
 
-export default config;
+export default gameConfig;

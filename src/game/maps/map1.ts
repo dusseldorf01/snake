@@ -1,5 +1,3 @@
-import type { WallType } from './interfaces';
-
-const map: WallType[] = [];
+const map: string = '';
 
 export default map;
