@@ -1,19 +1,20 @@
 import { spawn, take, put } from 'redux-saga/effects';
 import { takeLatestRequest } from '@/utils/redux/sagas';
 import {
-  signInActions, signOutActions, signUpActions, userInfoActions,
+  signInActions, signOutActions, signUpActions, userInfoActions,  signInOauthActions,
   userAvatarActions, userDataActions, userPasswordActions,
 } from '@/actions/user';
 import {
   getUserInfo, signIn, signOut, signUp,
 } from '@/api/auth';
-
+import { signInOauth } from '@/api/oauth';
 import {
   changeUserProfile, changeUserAvatar, changeUserPassword,
 } from '@/api/user';
 
 function* afterSignIn() {
-  yield take([signInActions.success.toString(), signUpActions.success.toString()]);
+  yield take([signInActions.success.toString(), signInOauthActions.success.toString(),
+    signUpActions.success.toString()]);
   yield put(userInfoActions.request());
 }
 
@@ -24,6 +25,7 @@ function* afterUserDataUpdate() {
 
 export function* userSaga() {
   yield takeLatestRequest(userInfoActions, getUserInfo);
+  yield takeLatestRequest(signInOauthActions, signInOauth);
   yield takeLatestRequest(signInActions, signIn);
   yield takeLatestRequest(signUpActions, signUp);
   yield takeLatestRequest(signOutActions, signOut);
