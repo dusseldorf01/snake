@@ -44,7 +44,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-  deploy:
+  build_image:
     #if: ${{ github.event_name != 'pull_request' }}
     needs: [lint, test, build]
     runs-on: ubuntu-latest
@@ -70,3 +70,29 @@ jobs:
           tags: cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+  deploy:
+    steps:
+      - uses: actions/checkout@v2
+      - name: Sync files
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete
+          path: .
+          remote_path: /home/snake/app/
+          remote_host: ${{ secrets.YA_CLOUD_SERVICE_IP }}
+          remote_user: ${{ secrets.YA_CLOUD_SERVICE_USER }}
+          remote_key: ${{ secrets.YA_CLOUD_SERVICE_KEY }}
+      - name: Pull new image and restart docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.YA_CLOUD_SERVICE_IP }}
+          username: ${{ secrets.YA_CLOUD_SERVICE_USER }}
+          key: ${{ secrets.YA_CLOUD_SERVICE_KEY }}
+          port: 22
+          script: |
+            docker pull cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
+            cd app
+            mkdir -p data/ssl
+            yc certificate-manager certificate content --id fpq214701peqc1g8f990 --chain data/ssl/certificate_full_chain.pem --key data/ssl/private_key.pem
+            docker-compose stop
+            docker-compose up -d
