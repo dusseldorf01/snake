@@ -8,4 +8,3 @@ export const signInOauthActions = createAsyncActions('USER_SIGN_IN_OAUTH');
 export const userAvatarActions = createAsyncActions('USER_UPD_AVATAR');
 export const userDataActions = createAsyncActions('USER_UPD_DATA');
 export const userPasswordActions = createAsyncActions('USER_UPD_PASSWORD');
-
