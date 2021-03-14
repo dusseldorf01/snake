@@ -71,6 +71,8 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
   deploy:
+    needs: [ build_image ]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Sync files
