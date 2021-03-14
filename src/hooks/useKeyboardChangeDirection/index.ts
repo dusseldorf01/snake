@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 import type { IUseKeyboardChangeDirection } from '@/hooks/useKeyboardChangeDirection/interfaces';
 import { GameStatus } from '@/game/interfaces';
-import gameActions from '@/game/actionCreators';
-
-const {
+import {
   changeGameStatus,
   goToBottom,
   goToLeft,
   goToRight,
   goToTop,
-} = gameActions;
+} from '@/actions/game';
 
 export default ({
   dispatch,
@@ -26,8 +24,8 @@ export default ({
       return;
     }
 
-    const listener = ({ key }: KeyboardEvent) => {
-      switch (key) {
+    const listener = ({ code }: KeyboardEvent) => {
+      switch (code) {
         case keyUp: {
           dispatch(goToTop(number));
           break;
@@ -44,7 +42,7 @@ export default ({
           dispatch(goToLeft(number));
           break;
         }
-        case ' ': {
+        case 'Space': {
           dispatch(changeGameStatus(GameStatus.ON_PAUSE));
           break;
         }
