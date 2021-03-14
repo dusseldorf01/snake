@@ -1,2 +1,9 @@
+.git
+dist
+data/ssl
+screenshots
+reports
+__mocks__
+e2e
 node_modules
 *.log

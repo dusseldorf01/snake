@@ -1,6 +1,5 @@
 /* eslint import/no-extraneous-dependencies: 0 */
 import fs from 'fs';
-// @ts-ignore
 import path from 'path';
 import apiProxy from '@/server/apiProxy';
 import express from 'express';
