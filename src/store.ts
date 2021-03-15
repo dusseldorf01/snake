@@ -12,7 +12,19 @@ import {
 import type { SagaMiddleware } from '@redux-saga/core';
 import { routerMiddleware } from 'connected-react-router';
 
-const createStore = (sagaMiddleware: SagaMiddleware, url: string = '/', client: boolean = true) => {
+interface ICreateStore {
+  sagaMiddleware: SagaMiddleware;
+  client?: boolean;
+  initialState?: object;
+  url?: string;
+}
+
+const createStore = ({
+  client = true,
+  initialState,
+  sagaMiddleware,
+  url = '/',
+}: ICreateStore) => {
   const history = IS_SERVER ? (
     createMemoryHistory({
       initialEntries: [url],
@@ -24,6 +36,7 @@ const createStore = (sagaMiddleware: SagaMiddleware, url: string = '/', client: 
   let options: ConfigureStoreOptions<any, any, any> = {
     reducer: rootReducer(history),
     middleware: [sagaMiddleware, routerMiddleware(history)],
+    preloadedState: initialState,
   };
 
   if (client) {

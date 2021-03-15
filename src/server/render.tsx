@@ -24,7 +24,11 @@ const render = async (url: string):Promise<{html: string, context: StaticRouterC
   });
 
   const sagaMiddleware = createSagaMiddleware();
-  const { store } = createStore(sagaMiddleware, url, false);
+  const { store } = createStore({
+    client: false,
+    sagaMiddleware,
+    url,
+  });
   const sagaResult = sagaMiddleware.run(rootSaga);
 
   const getUserInfoRequest = () => getUserInfo()
