@@ -23,6 +23,7 @@ import type {
 import { userStateSelector } from '@/selectors/user';
 import pushComment from '@/utils/pushComment';
 import postSelector from '@/selectors/post';
+import selectComment from '@/utils/selectComment';
 
 function* addLikeSaga(action: Effect<string, number>) {
   try {
@@ -55,10 +56,17 @@ function* addCommentSaga(action: Effect<string, ICommentAction>) {
     };
     const newComments = yield call(pushComment, comments, newComment);
     yield put(postActions.addCommentSuccess(newComments));
-    window.location.hash = `comment-${response.data.id}`;
+    yield put(postActions.selectComment(Number(response.data.id)));
   } catch (e) {
     yield put(postActions.addCommentError());
   }
+}
+
+function* selectCommentSaga(action: Effect<string, number>) {
+  const { payload: commentId } = action;
+  const { data: { comments } } = yield select(postSelector);
+  const newComments = yield call(selectComment, comments, commentId);
+  yield put(postActions.addCommentSuccess(newComments));
 }
 
 export default function* postSaga() {
@@ -69,4 +77,6 @@ export default function* postSaga() {
   yield takeEvery(postActions.likeDeleteRequest, deleteLikeSaga);
 
   yield takeEvery(postActions.addCommentRequest, addCommentSaga);
+
+  yield takeEvery(postActions.selectComment, selectCommentSaga);
 }

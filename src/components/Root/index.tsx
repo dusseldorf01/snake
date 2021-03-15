@@ -7,7 +7,7 @@ import rootSaga from '@/saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const { store, history } = createStore(sagaMiddleware);
+const { store, history } = createStore({ sagaMiddleware });
 
 sagaMiddleware.run(rootSaga);
 

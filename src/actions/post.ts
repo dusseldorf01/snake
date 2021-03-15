@@ -23,6 +23,7 @@ type PostActionsType = {
   addCommentRequest: PayloadActionCreator<ICommentAction>;
   addCommentSuccess: PayloadActionCreator<IComment[]>;
   addCommentError: ActionCreatorWithoutPayload;
+  selectComment: PayloadActionCreator<number>;
 } & AsyncActionCreator<IPost>;
 
 const type = 'POST';
@@ -38,6 +39,7 @@ const postActions: PostActionsType = {
   addCommentRequest: createAction<ICommentAction>(`${type}_ADD_COMMENT_REQUEST`),
   addCommentSuccess: createAction<IComment[]>(`${type}_ADD_COMMENT_SUCCESS`),
   addCommentError: createAction(`${type}_ADD_COMMENT_ERROR`),
+  selectComment: createAction<number>(`${type}_SELECT_COMMENT`),
 };
 
 export default postActions;

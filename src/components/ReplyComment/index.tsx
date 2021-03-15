@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import { useFormik } from 'formik';
 import { CSSTransition } from 'react-transition-group';
 import type { CSSTransitionClassNames } from 'react-transition-group/CSSTransition';
 import useToggle from '@/hooks/useToggle';
 import postActions from '@/actions/post';
+import postSelector from '@/selectors/post';
 import type { IReplyComment } from './interfaces';
 import css from './index.css';
 
@@ -23,6 +27,8 @@ const ReplyComment = ({
   const [isOpen, isOpenToggle] = useToggle();
 
   const dispatch = useDispatch();
+
+  const { addingComment } = useSelector(postSelector);
 
   const {
     dirty,
@@ -82,7 +88,7 @@ const ReplyComment = ({
           />
           <button
             aria-label="Отправить ответ на комментарий"
-            disabled={!dirty || !isValid}
+            disabled={addingComment || !dirty || !isValid}
             type="submit"
             className={css.replyCommentFormSubmit}
           >

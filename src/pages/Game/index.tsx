@@ -1,15 +1,10 @@
+import { useEffect } from 'react';
 import {
-  Reducer,
-  useReducer,
-} from 'react';
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import Canvas from '@/components/Canvas';
-import {
-  GameStatus,
-  IGameReducerAction,
-  IGameState,
-} from '@/game/interfaces';
-import gameActions from '@/game/actionCreators';
-import gameReducer from '@/game/reducer';
+import { GameStatus } from '@/game/interfaces';
 import GameModal from '@/components/GameModal';
 import type { IGameModal } from '@/components/GameModal/interfaces';
 import useKeyboardChangeDirection from '@/hooks/useKeyboardChangeDirection';
@@ -17,16 +12,15 @@ import useGamepadChangeDirection from '@/hooks/useGamepadChangeDirection';
 import useGameAnimation from '@/hooks/useGameAnimation';
 import GameInformation from '@/components/GameInformation';
 import GameSettings from '@/components/GameSettings';
-import { getInitialGameState } from '@/game/helpers';
-import useLocalStorageSaving from '@/hooks/useLocalStorageSaving';
+import {
+  changeGameStatus,
+  getStateFromStorage,
+  restartGame,
+} from '@/actions/game';
+import gameSelector from '@/selectors/game';
 import cssCommon from '@/styles/common.css';
 import withClientOnlyRender from '@/hocs/withClientOnly';
 import css from './index.css';
-
-const {
-  changeGameStatus,
-  restartGame,
-} = gameActions;
 
 const getScoreLabel = (scores: number[], label: string): JSX.Element => {
   if (scores.length === 1) {
@@ -48,14 +42,11 @@ const getScoreLabel = (scores: number[], label: string): JSX.Element => {
 };
 
 const Game = () => {
-  const [state, dispatch] = useReducer<Reducer<IGameState, IGameReducerAction>>(
-    gameReducer,
-    getInitialGameState(),
-  );
+  const dispatch = useDispatch();
+  const gameState = useSelector(gameSelector);
 
   const {
     bigFood,
-    changingLevel,
     food,
     level,
     map,
@@ -64,16 +55,14 @@ const Game = () => {
     snake,
     status,
     timeToRemoveBigFood,
-  } = state;
-
-  useLocalStorageSaving(state);
+  } = gameState;
 
   useKeyboardChangeDirection({
     dispatch,
-    keyDown: 's',
-    keyLeft: 'a',
-    keyRight: 'd',
-    keyUp: 'w',
+    keyDown: 'KeyS',
+    keyLeft: 'KeyA',
+    keyRight: 'KeyD',
+    keyUp: 'KeyW',
     number: 0,
     status,
     trueCondition: status === GameStatus.RUNNING,
@@ -116,13 +105,7 @@ const Game = () => {
         onClick: startGameHandler,
       }],
       children: (
-        <GameSettings
-          changingLevel={changingLevel}
-          dispatch={dispatch}
-          level={level}
-          map={map}
-          multiplayer={multiplayer}
-        />
+        <GameSettings />
       ),
       title: 'Начать игру?',
     },
@@ -159,6 +142,14 @@ const Game = () => {
       title: 'Игра пройдена',
     },
   };
+
+  useEffect(() => {
+    dispatch(getStateFromStorage());
+
+    return () => {
+      dispatch(changeGameStatus(GameStatus.ON_PAUSE));
+    };
+  }, []);
 
   return (
     <div className={css.gameContainer}>

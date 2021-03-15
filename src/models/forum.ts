@@ -24,6 +24,7 @@ export interface ICommentResponse extends ICommentCreate {
 export interface IComment extends ICommentResponse {
   children: IComment[];
   user: IUser;
+  isSelected?: boolean;
 }
 
 export interface IPostCreateModel {
