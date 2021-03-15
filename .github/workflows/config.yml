@@ -92,6 +92,7 @@ jobs:
           key: ${{ secrets.YA_CLOUD_SERVICE_KEY }}
           port: 22
           script: |
+            source ~/.bashrc
             docker pull cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
             cd app
             mkdir -p data/ssl
