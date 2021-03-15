@@ -19,7 +19,7 @@ app.get(['*', '/'], async (req, res) => {
     return res.sendFile(urlPath);
   }
 
-  return spaHandler(req, res);
+  return spaHandler(req, res, port);
 });
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
