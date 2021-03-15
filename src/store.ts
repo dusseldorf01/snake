@@ -36,7 +36,6 @@ const createStore = ({
   let options: ConfigureStoreOptions<any, any, any> = {
     reducer: rootReducer(history),
     middleware: [sagaMiddleware, routerMiddleware(history)],
-    preloadedState: initialState,
   };
 
   if (client) {
@@ -45,6 +44,13 @@ const createStore = ({
       // eslint-disable-next-line no-underscore-dangle
       preloadedState: !IS_SERVER ? (window as any).__PRELOADED_STATE__ : undefined,
       devTools: process.env.NODE_ENV !== 'production',
+    };
+  }
+
+  if (initialState) {
+    options = {
+      ...options,
+      preloadedState: initialState,
     };
   }
 
