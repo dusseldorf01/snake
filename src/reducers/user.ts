@@ -6,13 +6,20 @@ import {
   getInitialAsyncStateNoLoad,
 } from '@/utils/redux/reducers';
 import {
-  signInActions, signOutActions, signUpActions, userInfoActions,
-  userPasswordActions, userDataActions, userAvatarActions,
+  signInActions,
+  signInOauthActions,
+  signOutActions,
+  signUpActions,
+  userInfoActions,
+  userPasswordActions,
+  userDataActions,
+  userAvatarActions,
 } from '@/actions/user';
 import type { IUser } from '@/models/user';
 
 const signUp = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), signUpActions);
 const signIn = createAsyncReducer(getInitialAsyncStateNoLoad({}), signInActions);
+const signInOauth = createAsyncReducer(getInitialAsyncStateNoLoad({}), signInOauthActions);
 const signOut = createAsyncReducer(getInitialAsyncStateNoLoad({}), signOutActions);
 const info = createAsyncReducer<IUser, AsyncReducerState<IUser>>(
   getInitialAsyncState({} as IUser),
@@ -31,6 +38,7 @@ const user = combineReducers({
   signIn,
   signOut,
   info,
+  signInOauth,
   userDataUpdate,
   userAvatarUpdate,
   userPasswordUpdate,

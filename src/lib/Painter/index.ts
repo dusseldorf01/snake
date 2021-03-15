@@ -1,10 +1,10 @@
 import gameConfig from '@/game/config';
-import type { WallType } from '@/game/maps/interfaces';
 import {
   Direction,
   ICanvasSnakePart,
   IFood,
   ISnakePart,
+  IWall,
 } from './interfaces';
 
 const { BOARD_ITEM_SIZE } = gameConfig;
@@ -460,7 +460,7 @@ export default abstract class Painter {
   private static renderWallHorizontally({
     x,
     y,
-  }: WallType, existsOnRight: boolean, existsOnLeft: boolean) {
+  }: IWall, existsOnRight: boolean, existsOnLeft: boolean) {
     if (Painter.ctx === null || (!existsOnRight && !existsOnLeft)) {
       return;
     }
@@ -482,7 +482,7 @@ export default abstract class Painter {
   private static renderWallVertically({
     x,
     y,
-  }: WallType, existsOnTop: boolean, existsOnBottom: boolean) {
+  }: IWall, existsOnTop: boolean, existsOnBottom: boolean) {
     if (Painter.ctx === null || (!existsOnTop && !existsOnBottom)) {
       return;
     }
@@ -504,7 +504,7 @@ export default abstract class Painter {
   private static renderWall({
     x,
     y,
-  }: WallType, walls: WallType[]) {
+  }: IWall, walls: IWall[]) {
     if (Painter.ctx === null) {
       return;
     }
@@ -520,7 +520,7 @@ export default abstract class Painter {
     }
   }
 
-  public static renderMap(walls: WallType[]) {
+  public static renderMap(walls: IWall[]) {
     if (Painter.ctx === null) {
       return;
     }

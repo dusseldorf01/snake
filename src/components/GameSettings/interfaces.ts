@@ -1,16 +1,4 @@
-import type {
-  ChangeEvent,
-  Dispatch,
-} from 'react';
-import type { IGameReducerAction } from '@/game/interfaces';
-
-export interface IGameSettings {
-  changingLevel: boolean;
-  dispatch: Dispatch<IGameReducerAction>;
-  level: number;
-  map: number;
-  multiplayer: boolean;
-}
+import type { ChangeEvent } from 'react';
 
 export interface IGameSettingSelect {
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
