@@ -19,7 +19,7 @@ export default function useOAuth() {
           setAppId(service_id);
         });
     }
-  }, [code]);
+  }, []);
 
   if (serviceId) return serviceId;
   return null;
