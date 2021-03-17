@@ -19,7 +19,7 @@ import {
 } from '@/actions/game';
 import gameSelector from '@/selectors/game';
 import cssCommon from '@/styles/common.css';
-import withClientOnlyRender from '@/hocs/withClientOnly';
+import ClientOnly from '@/components/ClientOnly';
 import css from './index.css';
 
 const getScoreLabel = (scores: number[], label: string): JSX.Element => {
@@ -152,29 +152,31 @@ const Game = () => {
   }, []);
 
   return (
-    <div className={css.gameContainer}>
-      <h1 className={cssCommon.visuallyHidden}>Игра</h1>
-      <GameInformation
-        level={level}
-        score={score}
-        timeToRemoveBigFood={timeToRemoveBigFood}
-      />
-      <Canvas
-        bigFood={bigFood}
-        food={food}
-        map={map}
-        snakes={snake}
-      />
-      {status !== GameStatus.RUNNING && (
-        <GameModal
-          buttons={gameModalProps[status].buttons}
-          title={gameModalProps[status].title}
-        >
-          {gameModalProps[status].children}
-        </GameModal>
-      )}
-    </div>
+    <ClientOnly>
+      <div className={css.gameContainer}>
+        <h1 className={cssCommon.visuallyHidden}>Игра</h1>
+        <GameInformation
+          level={level}
+          score={score}
+          timeToRemoveBigFood={timeToRemoveBigFood}
+        />
+        <Canvas
+          bigFood={bigFood}
+          food={food}
+          map={map}
+          snakes={snake}
+        />
+        {status !== GameStatus.RUNNING && (
+          <GameModal
+            buttons={gameModalProps[status].buttons}
+            title={gameModalProps[status].title}
+          >
+            {gameModalProps[status].children}
+          </GameModal>
+        )}
+      </div>
+    </ClientOnly>
   );
 };
 
-export default withClientOnlyRender(Game);
+export default Game;
