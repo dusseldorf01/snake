@@ -19,7 +19,9 @@ import {
 } from '@/actions/game';
 import gameSelector from '@/selectors/game';
 import cssCommon from '@/styles/common.css';
+import useLeaderboardScore from '@/hooks/useLeaderboardScore';
 import withClientOnlyRender from '@/hocs/withClientOnly';
+
 import css from './index.css';
 
 const getScoreLabel = (scores: number[], label: string): JSX.Element => {
@@ -91,6 +93,8 @@ const Game = () => {
     level,
     status,
   });
+
+  useLeaderboardScore({ score, status, level });
 
   const startGameHandler = () => dispatch(changeGameStatus(GameStatus.RUNNING));
 
