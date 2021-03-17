@@ -1,7 +1,7 @@
 import { spawn, take, put } from 'redux-saga/effects';
 import { takeLatestRequest } from '@/utils/redux/sagas';
 import {
-  signInActions, signOutActions, signUpActions, userInfoActions,  signInOauthActions,
+  signInActions, signOutActions, signUpActions, userInfoActions, signInOauthActions,
   userAvatarActions, userDataActions, userPasswordActions,
 } from '@/actions/user';
 import {

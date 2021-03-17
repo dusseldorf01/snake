@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [ 14.x ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [ 14.x ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [ 14.x ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -44,9 +44,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-  deploy:
+  build_image:
     #if: ${{ github.event_name != 'pull_request' }}
-    needs: [lint, test, build]
+    needs: [ lint, test, build ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -70,3 +70,33 @@ jobs:
           tags: cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+  deploy:
+    needs: [ build_image ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Sync files
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.YA_CLOUD_SERVICE_IP }}
+          username: ${{ secrets.YA_CLOUD_SERVICE_USER }}
+          key: ${{ secrets.YA_CLOUD_SERVICE_KEY }}
+          port: 22
+          source: "docker-compose.yml,data"
+          target: "/home/snake/app"
+      - name: Pull new image and restart docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.YA_CLOUD_SERVICE_IP }}
+          username: ${{ secrets.YA_CLOUD_SERVICE_USER }}
+          key: ${{ secrets.YA_CLOUD_SERVICE_KEY }}
+          port: 22
+          script: |
+            docker pull cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
+            cd app
+            mkdir -p data/ssl
+             ~/yandex-cloud/bin/yc certificate-manager certificate content --id fpq214701peqc1g8f990 --chain data/ssl/certificate_full_chain.pem --key data/ssl/private_key.pem
+            docker-compose down -v
+            docker-compose up -d
+            docker rm $(docker ps -a -f status=exited -q)
+            docker system prune --volumes --force --all
