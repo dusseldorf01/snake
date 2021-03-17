@@ -1,4 +1,4 @@
-interface ILeaderboardITableRow {
+export interface ILeaderboardITableRow {
   id: number;
   login: string;
   level: number;

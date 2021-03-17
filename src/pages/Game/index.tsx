@@ -19,6 +19,7 @@ import {
 } from '@/actions/game';
 import gameSelector from '@/selectors/game';
 import cssCommon from '@/styles/common.css';
+import useLeaderboardScore from '@/hooks/useLeaderboardScore';
 import ClientOnly from '@/components/ClientOnly';
 import css from './index.css';
 
@@ -91,6 +92,8 @@ const Game = () => {
     level,
     status,
   });
+
+  useLeaderboardScore({ score, status, level });
 
   const startGameHandler = () => dispatch(changeGameStatus(GameStatus.RUNNING));
 
