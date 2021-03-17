@@ -1,49 +1,62 @@
 import { ActionReducerMapBuilder, createReducer } from '@reduxjs/toolkit';
-import { AsyncActionCreator } from '@/utils/redux/actions';
-import { ApiParams } from '@/utils/api';
+import type { AsyncActionCreator } from '@/utils/redux/actions';
+import type { ApiParams } from '@/utils/api';
 
-export interface AsyncReducerState {
+export interface AsyncReducerState<T> {
   loading: boolean,
   params?: ApiParams,
-  data: {[key: string]: unknown},
+  data: T,
   error: string,
-  status?: number
+  status?: number,
 }
 
-export const initialAsyncState: AsyncReducerState = {
-  loading: true, data: {}, error: '', status: 0, params: {},
-};
+export function getInitialAsyncState<T = any>(data: T): AsyncReducerState<T> {
+  return {
+    loading: true,
+    data,
+    error: '',
+    status: 0,
+    params: {},
+  };
+}
 
-export const initialAsyncStateNoLoad = { ...initialAsyncState, loading: false };
+export function getInitialAsyncStateNoLoad<T>(data: T): AsyncReducerState<T> {
+  return {
+    ...getInitialAsyncState(data),
+    loading: false,
+  };
+}
 
-export const createAsyncReducer = (
-  initialState = initialAsyncState,
-  asyncCreator:AsyncActionCreator,
-  configurator?:(builder: ActionReducerMapBuilder<AsyncReducerState>) => void,
-) => createReducer(initialState, ((builder) => {
-  builder
-    .addCase(asyncCreator.request, (state, action) => ({
-      ...state,
-      params: (action.payload && action.payload.params) || {},
-      status: 0,
-      loading: true,
-      data: {},
-    }))
-    .addCase(asyncCreator.success, (state, action) => ({
-      ...state,
-      ...action.payload,
-      error: '',
-      loading: false,
-    }))
-    .addCase(asyncCreator.error, (state, action) => ({
-      ...state,
-      data: action.payload.data || {},
-      error: action.payload.error,
-      status: action.payload.status,
-      loading: false,
-    }))
-    .addCase(asyncCreator.clear, () => initialState);
-  if (configurator) {
-    configurator(builder);
-  }
-}));
+export function createAsyncReducer<T = any, K extends AsyncReducerState<T> = AsyncReducerState<T>>(
+  initialState: K,
+  asyncCreator: AsyncActionCreator<T>,
+  configurator?:(builder: ActionReducerMapBuilder<K>) => void,
+) {
+  return createReducer(initialState, ((builder) => {
+    builder
+      .addCase(asyncCreator.request, (state, action) => ({
+        ...state,
+        params: (action.payload && action.payload.params) || {},
+        status: 0,
+        loading: true,
+        data: initialState.data,
+      }))
+      .addCase(asyncCreator.success, (state, action) => ({
+        ...state,
+        ...action.payload,
+        error: '',
+        loading: false,
+      }))
+      .addCase(asyncCreator.error, (state, action) => ({
+        ...state,
+        data: action.payload.data,
+        error: action.payload.error,
+        status: action.payload.status,
+        loading: false,
+      }))
+      .addCase(asyncCreator.clear, () => initialState);
+    if (configurator) {
+      configurator(builder);
+    }
+  }));
+}

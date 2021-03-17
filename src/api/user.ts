@@ -1,4 +1,5 @@
 import api, { addPrefix, ApiParams } from '@/utils/api';
+import type { IUser } from '@/models/user';
 
 const withPrefix = addPrefix('user');
 
@@ -9,3 +10,4 @@ export const changeUserAvatar = ({ data }: ApiParams) => api.put(withPrefix('pro
   },
 });
 export const changeUserPassword = ({ data }: ApiParams) => api.put(withPrefix('password'), data);
+export const getUserById = (id: number) => api.get<IUser>(`user/${id}`);

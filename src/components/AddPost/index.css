@@ -1,0 +1,8 @@
+.addPost {
+  width: 500px;
+}
+
+.addPostTitle {
+  font-size: var(--big-font-size);
+  margin-bottom: 8px;
+}

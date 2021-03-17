@@ -3,13 +3,17 @@ import { StaticRouter, StaticRouterContext } from 'react-router';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ChunkExtractor } from '@loadable/server';
 import createSagaMiddleware, { END } from 'redux-saga';
-import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from '@/reducers';
 import rootSaga from '@/saga';
 import { userInfoActions } from '@/actions/user';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import App from '@/components/App';
+import createStore from '@/store';
+import userThemeActions from '@/actions/userTheme';
+import cssRoot from '@/styles/variables.css';
+import { getUserInfo } from '@/api/auth';
+import { getByUserId as getThemeByUserId } from '@/server/services/UserThemesService';
+import type { IUserTheme } from '@/models/theme';
 
 const render = async (url: string):Promise<{html: string, context: StaticRouterContext}> => {
   const statsFile = path.resolve(process.cwd(), 'dist/stats.json');
@@ -20,17 +24,53 @@ const render = async (url: string):Promise<{html: string, context: StaticRouterC
   });
 
   const sagaMiddleware = createSagaMiddleware();
-  const store = configureStore({
-    reducer: rootReducer,
-    middleware: [sagaMiddleware],
+  const { store } = createStore({
+    client: false,
+    sagaMiddleware,
+    url,
   });
   const sagaResult = sagaMiddleware.run(rootSaga);
 
-  // @ts-ignore
-  store.dispatch(userInfoActions.request());
-  // @ts-ignore
-  store.dispatch(END);
+  const getUserInfoRequest = () => getUserInfo()
+    .then((response) => {
+      store.dispatch(userInfoActions.success({ status: response.status, data: response.data }));
+
+      return Promise.resolve({ userId: response.data.id });
+    })
+    .catch((error) => {
+      const { response } = error;
+
+      store.dispatch(userInfoActions.error({
+        status: response?.status,
+        data: response?.data || {},
+        error: error.toString(),
+      }));
+    })
+    .then((response) => {
+      if (response) {
+        const { userId } = response;
+
+        return getThemeByUserId(userId);
+      }
+
+      return Promise.reject();
+    })
+    .then(([theme]) => {
+      store.dispatch(userThemeActions.success({
+        status: 200,
+        data: theme as unknown as IUserTheme,
+      }));
+    })
+    .catch(() => {
+      // error
+    });
+
+  await getUserInfoRequest()
+    .then(() => {
+      store.dispatch(END);
+    });
   await sagaResult.toPromise();
+  const { themeName } = store.getState().userTheme.data;
 
   const appHtml = renderToString(extractor.collectChunks(
     <Provider store={store}>
@@ -42,7 +82,7 @@ const render = async (url: string):Promise<{html: string, context: StaticRouterC
 
   const html = `
     <!doctype html>
-    <html lang="en">
+    <html lang="ru" class="${cssRoot[themeName]}">
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -1,4 +1,3 @@
-import api, { DEFAULT_API_URL } from '@/utils/api';
 import render from '@/server/render';
 import { Request, Response } from 'express';
 

@@ -29,11 +29,15 @@ $transparent: transparent;
   --white-1: $WHITE_1;
   --red-1: $RED_1;
   --red-2: $RED_2;
+  --red-3: $RED_3;
   --gray-1: $GRAY_1;
   --gray-2: $GRAY_2;
   --gray-3: $GRAY_3;
   --blue-1: $BLUE_1;
   --blue-2: $BLUE_2;
+  --green-1: $GREEN_1;
+  --green-2: $GREEN_2;
+  --yellow-1: $YELLOW_1;
   --box-shadow: 0 0 6px 0 $BLACK_3_14;
 }
 

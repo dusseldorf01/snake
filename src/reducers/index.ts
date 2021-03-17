@@ -1,19 +1,34 @@
 import { combineReducers } from 'redux';
-import { CombinedState, PayloadAction } from '@reduxjs/toolkit';
+import type { CombinedState, PayloadAction } from '@reduxjs/toolkit';
+import { connectRouter } from 'connected-react-router';
 import user from '@/reducers/user';
+import userTheme from '@/reducers/userTheme';
+import postsList from '@/reducers/postsList';
+import post from '@/reducers/post';
+import feedback from '@/reducers/feedback';
 import game from '@/reducers/game';
 import { signOutActions } from '@/actions/user';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import type { History } from 'history';
 
-const rootReducer = combineReducers({
+const rootReducer = (history: History) => combineReducers({
   game,
   user,
+  userTheme,
+  postsList,
+  post,
+  feedback,
+  router: connectRouter(history),
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<ReturnType<typeof rootReducer>>;
 
-const withLogoutCleaner = (
+const withLogoutCleaner = (history: History) => (
   state:CombinedState<any>,
   action:PayloadAction,
-) => rootReducer(action.type === signOutActions.success.toString() ? undefined : state, action);
+) => rootReducer(history)(
+  action.type === signOutActions.success.toString() ? undefined : state,
+  action,
+);
 
 export default withLogoutCleaner;

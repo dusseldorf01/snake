@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Routes from '@/routes';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,12 +18,10 @@ export default () => {
   const dispatch = useDispatch();
   const userState = useSelector(userStateSelector);
 
-  useEffect(() => {
+  useDevServerEffect(() => {
     const html = document.querySelector('html');
     html?.classList.add(cssRoot.light);
-  }, []);
 
-  useDevServerEffect(() => {
     dispatch(userInfoActions.request());
   }, []);
 

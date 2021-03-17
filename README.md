@@ -7,8 +7,9 @@
 3. [Стек технологий](#стек-технологий)
 4. [Установка, запуск и сборка](#установка-запуск-и-сборка)
 5. [Линтеры и тесты](#линтеры-и-тесты)
-6. [Демо](#демо)
-7. [Команда](#команда)
+6. [API](#api)
+7. [Демо](#демо)
+8. [Команда](#команда)
 
 ## Описание
 
@@ -29,19 +30,27 @@
 ## Стек технологий
 
 - Frontend: TypeScript + React/Redux + Canvas API + PostCSS
+- Backend: Node.js/Express + PostgreSQL + MongoDB
 - Тестирование: Jest + React Testing Library + Cypress
 - CI/CD - GitHub Actions
 
 ## Установка, запуск и сборка
 
-1. Установите зависимости:
+### Локальная разработка
+
+1. Подготовьте окружение:
+- При необходимости использования https для тестирования
+  ServiceWorkers, создайте файл конфигурации окружения `.env`
+  в соответствии с `.env.example` в корневой директории проекта.
+- При необходимости в файл `.env` добавьте также переменные для работы
+  с базой данных PostgreSQL в соответствии с `.env.database`
+  (файл `.env.database` не нужно редактировать).
+
+2. Установите зависимости:
 
 ```
 npm install
 ```
-2. При необходимости использования https для тестирования
-   ServiceWorkers, создайте файл конфигурации окружения .env
-   в соответствии с .env.example в корневой директории проекта
 
 3. Запустите приложение локально:
 ```
@@ -55,6 +64,18 @@ npm run start
 npm run build
 ```
 
+### Разработка в Docker
+
+1. При необходимости отредактируйте переменные для работы
+   с базой данных PostgreSQL в файле `.env.database`.
+
+2. Соберите проект с помощью утилиты `docker-compose`:
+```
+docker-compose up --build
+```
+
+3. Перейдите по адресу: http://localhost:8080.
+
 ## Линтеры и тесты
 
 ```
@@ -65,6 +86,10 @@ npm run test:unit
 npm run test:e2e
 ```
 
+## API
+
+В проекте используются [API Яндекс.Практикум](https://ya-praktikum.tech/api/v2/swagger/#/) и внутренний [API](API.md).
+
 ## Демо
 
 Приложение доступно на [Heroku](https://dusseldorf-snake.herokuapp.com/).
@@ -74,17 +99,17 @@ npm run test:e2e
   <tbody>
     <tr align="center">
       <td width="33%">
-        <img src="https://ca.slack-edge.com/TPV9DP0N4-U01BAJ6QX7F-a6a549390402-512" width="200" height="200" />
+        <img src="https://ca.slack-edge.com/TPV9DP0N4-U01BAJ6QX7F-a6a549390402-512" width="200" />
         <br />
         Андрей Артамонов
       </td>
       <td width="33%">
-        <img src="https://ca.slack-edge.com/TPV9DP0N4-U0195E74CQ0-17187d2b7793-512" width="200" height="200" />
+        <img src="https://ca.slack-edge.com/TPV9DP0N4-U0195E74CQ0-17187d2b7793-512" width="200" />
         <br />
         Владимир Поломанов
       </td>
       <td width="33%">
-        <img src="https://ca.slack-edge.com/TPV9DP0N4-U01BDSXM403-ea2fd273f583-512" width="200" height="200" />
+        <img src="https://ca.slack-edge.com/TPV9DP0N4-U01BDSXM403-ea2fd273f583-512" width="200"/>
         <br />
         Александр Коледов
       </td>
