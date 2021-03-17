@@ -3,13 +3,19 @@ version: "3.9"
 services:
   postgres:
     image: postgres:11.2-alpine
-    ports:
-      - "5432:5432"
     restart: always
     env_file:
       - .env.database
     volumes:
-      - app-db:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
+
+  mongo:
+    image: mongo
+    restart: always
+    env_file:
+      - .env.database
+    volumes:
+      - mongo-data:/data/db
 
   nginx_brotli:
     image: fholzer/nginx-brotli
@@ -24,10 +30,12 @@ services:
     build: .
     depends_on:
       - postgres
+      - mongo
     env_file:
       - .env.database
     ports:
       - "8080:8080"
 
 volumes:
-  app-db:
+  postgres-data:
+  mongo-data:
