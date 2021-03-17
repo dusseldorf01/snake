@@ -8,7 +8,6 @@ import spaHandler from '@/server/spaHandler';
 import startApp from './startApp';
 import webpackConfig from '../../webpack.client.config';
 import router from './router';
-import addApiParams from './middlewares/addApiParams';
 
 const bodyParser = require('body-parser');
 
@@ -28,8 +27,6 @@ app.use('/assets', express.static('dist/assets'));
 
 app.use(webpackMiddleware(compiler, {}));
 app.use(webpackHotMiddleware(compiler));
-
-app.use('/*', addApiParams);
 
 app.use(router);
 

@@ -22,17 +22,23 @@ services:
     volumes:
       - static:/usr/src/app/dist/public:ro
     ports: [ "8080:8080" ]
-    nginx:
-      image: nginx:1.17-alpine
-      restart: unless-stopped
-      ports:
-        - "80:80"
-        - "443:443"
-      volumes:
-        - static:/usr/share/nginx/html
-        - ./data/nginx:/etc/nginx/conf.d
-        - ./data/ssl:/etc/letsencrypt
-      command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on:
+      - postgres
+      - mongo
+    env_file:
+      - .env.database
+
+  nginx:
+    image: nginx:1.17-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static:/usr/share/nginx/html
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/ssl:/etc/letsencrypt
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
 volumes:
   postgres-data:
