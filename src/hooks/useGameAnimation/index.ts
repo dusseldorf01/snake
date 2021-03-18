@@ -4,9 +4,7 @@ import {
 } from 'react';
 import type { IUseGameAnimation } from '@/hooks/useGameAnimation/interfaces';
 import { GameStatus } from '@/game/interfaces';
-import gameActions from '@/game/actionCreators';
-
-const { getNextTick } = gameActions;
+import { getNextTick } from '@/actions/game';
 
 export default ({
   dispatch,

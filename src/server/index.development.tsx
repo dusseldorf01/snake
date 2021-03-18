@@ -20,6 +20,6 @@ app.use('/assets', express.static('dist/assets'));
 app.use(webpackMiddleware(compiler, {}));
 app.use(webpackHotMiddleware(compiler));
 
-app.use('/*', spaHandler);
+app.use('/*', (req, res) => spaHandler(req, res, port));
 
 app.listen(port, () => console.log(`listening on port ${port}!`));
