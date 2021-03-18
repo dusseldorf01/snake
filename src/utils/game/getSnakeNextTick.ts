@@ -24,6 +24,9 @@ const getSnakeNextTick = (
   snake: ISnakePart[];
 } => {
   const lastPart = getLast(snake);
+  if (typeof lastPart === 'undefined') {
+    throw new Error('lastPart is  undefined');
+  }
   const newHead: ISnakePart = checkReadyToEat(getNewSnakePart(direction, lastPart), food, bigFood);
 
   const isBumpedIntoWall = isBumpIntoWall(newHead, walls);

@@ -39,11 +39,13 @@ const createSnake = (walls: IWall[], existingSnake: ISnakePart[] = []): ISnakePa
   for (let i = 0; i < 3; i += 1) {
     const last = getLast(snake);
 
-    snake.push({
-      x: getNextXCoordinate(last.x),
-      y: last.y,
-      direction: Direction.Right,
-    });
+    if (last) {
+      snake.push({
+        x: getNextXCoordinate(last.x),
+        y: last.y,
+        direction: Direction.Right,
+      });
+    }
   }
 
   return snake;
