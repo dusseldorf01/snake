@@ -97,5 +97,6 @@ jobs:
             mkdir -p data/ssl
              ~/yandex-cloud/bin/yc certificate-manager certificate content --id fpq214701peqc1g8f990 --chain data/ssl/certificate_full_chain.pem --key data/ssl/private_key.pem
             docker-compose down
+            docker volume rm static || true
             docker-compose up -d
-            docker rm $(docker ps -a -f status=exited -q)
+            docker rm $(docker ps -a -f status=exited -q) || true
