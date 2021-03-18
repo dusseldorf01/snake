@@ -6,6 +6,7 @@ import userTheme from '@/reducers/userTheme';
 import postsList from '@/reducers/postsList';
 import post from '@/reducers/post';
 import feedback from '@/reducers/feedback';
+import leaderboard from '@/reducers/leaderboard';
 import game from '@/reducers/game';
 import { signOutActions } from '@/actions/user';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -18,6 +19,7 @@ const rootReducer = (history: History) => combineReducers({
   postsList,
   post,
   feedback,
+  leaderboard,
   router: connectRouter(history),
 });
 

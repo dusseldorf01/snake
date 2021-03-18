@@ -5,9 +5,12 @@ import postsListSaga from '@/saga/postsList';
 import postSaga from '@/saga/post';
 import feedbackSaga from '@/saga/feedback';
 import routerSaga from '@/saga/router';
+import leaderboardSaga from '@/saga/leaderboard';
 import gameSaga from '@/saga/game';
 
 export default function* rootSaga() {
+  yield fork(leaderboardSaga);
+
   yield fork(userSaga);
 
   yield fork(userUpdateDataSaga);
