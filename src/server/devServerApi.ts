@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 apiProxy(app);
 
-app.use('/*', addApiParams);
+app.use('/*', (req, res, next) => addApiParams(req, res, next, port));
 
 app.use(router);
 

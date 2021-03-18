@@ -6,10 +6,11 @@ import type {
 import api, { DEFAULT_API_URL } from '@/utils/api';
 import apiInternal from '@/utils/apiInternal';
 
-export default (req: Request, _res: Response, next: NextFunction) => {
+export default (req: Request, _res: Response, next: NextFunction, port: string | number) => {
   api.defaults.headers.cookie = req.headers.cookie;
-  api.defaults.baseURL = `http${req.secure ? 's' : ''}://${req.headers.host}${DEFAULT_API_URL}`;
+  api.defaults.baseURL = `http://localhost:${port}${DEFAULT_API_URL}`;
   apiInternal.defaults.headers.cookie = req.headers.cookie;
+  apiInternal.defaults.baseURL = `http://localhost:${port}/api`;
 
   next();
 };

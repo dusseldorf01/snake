@@ -18,6 +18,7 @@ import Alert from '@/components/Alert';
 import cssCommon from '@/styles/common.css';
 import cssForm from '@/styles/form.css';
 import OauthLink from '@/components/OAuthLink';
+import ClientOnly from '@/components/ClientOnly';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -86,7 +87,9 @@ const Login = () => {
         >
           Зарегистрироваться
         </NavLink>
-        <OauthLink />
+        <ClientOnly>
+          <OauthLink />
+        </ClientOnly>
       </form>
     </div>
   );
