@@ -1,4 +1,3 @@
-
 import { fork, spawn } from 'redux-saga/effects';
 import { userSaga, userUpdateDataSaga } from '@/saga/user';
 import leaderboardSaga from '@/saga/leaderboard';
