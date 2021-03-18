@@ -82,7 +82,7 @@ jobs:
           username: ${{ secrets.YA_CLOUD_SERVICE_USER }}
           key: ${{ secrets.YA_CLOUD_SERVICE_KEY }}
           port: 22
-          source: "docker-compose.yml,data"
+          source: "docker-compose.yml,.env.database,data"
           target: "/home/snake/app"
       - name: Pull new image and restart docker
         uses: appleboy/ssh-action@master
