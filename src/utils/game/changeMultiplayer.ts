@@ -10,11 +10,11 @@ const changeMultiplayer = (state: IGameState, payload: boolean) => {
   state.multiplayer = payload;
 
   if (payload) {
-    state.direction = [Direction.RIGHT, Direction.RIGHT];
+    state.direction = [Direction.Right, Direction.Right];
     state.score = [0, 0];
     state.snake = [...snake, createSnake(maps[state.map], snake[0])];
   } else {
-    state.direction = [Direction.RIGHT];
+    state.direction = [Direction.Right];
     state.score = [0];
     state.snake = [snake[0]];
   }

@@ -17,13 +17,13 @@ const getNewSnakePart = (
   }: ISnakePart,
 ): ISnakeCoordinate => {
   switch (direction) {
-    case Direction.TOP:
+    case Direction.Top:
       return { x, y: getPrevYCoordinate(y), direction };
-    case Direction.BOTTOM:
+    case Direction.Bottom:
       return { x, y: getNextYCoordinate(y), direction };
-    case Direction.LEFT:
+    case Direction.Left:
       return { x: getPrevXCoordinate(x), y, direction };
-    case Direction.RIGHT:
+    case Direction.Right:
       return { x: getNextXCoordinate(x), y, direction };
     default:
       throw new Error('Unknown direction');

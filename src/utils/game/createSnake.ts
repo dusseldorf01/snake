@@ -34,7 +34,7 @@ const createSnake = (walls: IWall[], existingSnake: ISnakePart[] = []): ISnakePa
     }
   } while (isBarrier);
 
-  const snake: ISnakePart[] = [{ x, y, direction: Direction.RIGHT }];
+  const snake: ISnakePart[] = [{ x, y, direction: Direction.Right }];
 
   for (let i = 0; i < 3; i += 1) {
     const last = getLast(snake);
@@ -42,7 +42,7 @@ const createSnake = (walls: IWall[], existingSnake: ISnakePart[] = []): ISnakePa
     snake.push({
       x: getNextXCoordinate(last.x),
       y: last.y,
-      direction: Direction.RIGHT,
+      direction: Direction.Right,
     });
   }
 
