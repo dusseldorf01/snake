@@ -121,4 +121,5 @@ dist
 .vscode
 
 /ssl
+/data/ssl
 .env

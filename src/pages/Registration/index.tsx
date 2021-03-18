@@ -11,10 +11,17 @@ import {
 import validate from '@/utils/validators/validate';
 import { checkFormField } from '@/utils/validators/checkFormField';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpStateSelector } from '@/selectors/user';
+import { signUpActions } from '@/actions/user';
+import Alert from '@/components/Alert';
+
 import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';
 
 const Registration = () => {
+  const dispatch = useDispatch();
+  const signUpState = useSelector(signUpStateSelector);
   const {
     errors,
     handleBlur,
@@ -38,13 +45,33 @@ const Registration = () => {
       })
     ),
     onSubmit: (v) => {
-      console.log(v);
+      const {
+        firstName, secondName, login, email, password, phone,
+      } = v;
+
+      dispatch(
+        signUpActions.request({
+          params: {
+            data: {
+              first_name: firstName,
+              second_name: secondName,
+              login,
+              email,
+              password,
+              phone,
+            },
+          },
+        }),
+      );
     },
   });
 
   useEffect(() => {
     validateForm();
   }, []);
+
+  let signUpStateError;
+  if (signUpState.data.reason && signUpState.error) signUpStateError = `${signUpState.data.reason}`;
 
   return (
     <div className={cssCommon.centerContent}>
@@ -94,6 +121,7 @@ const Registration = () => {
           value={values.phone}
         />
         <RegistrationInput
+          type="password"
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
@@ -102,6 +130,7 @@ const Registration = () => {
           value={values.password}
         />
         <RegistrationInput
+          type="password"
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"
@@ -115,6 +144,9 @@ const Registration = () => {
         >
           Зарегистрироваться
         </button>
+        {
+              signUpStateError && (<Alert>{signUpStateError}</Alert>)
+            }
         <NavLink
           to="/login"
           className={cssForm.appFormLink}

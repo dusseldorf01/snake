@@ -8,6 +8,7 @@ const GameSettingsSelect = ({
   value,
 }: IGameSettingSelect) => (
   <select
+    aria-label="Выбрать карту"
     className={css.gameSettingsSelect}
     name="map"
     onChange={onChange}

@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
 import type { IUseGamepadChangeDirection } from '@/hooks/useGamepadChangeDirection/interfaces';
-import { IGamepadKeyMap, IActualGamepadKeyMap } from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
-import type { GamepadStick, GamepadButton } from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
-import gameActions from '@/game/actionCreators';
-import xboxKeyMap from '@/hooks/useGamepadChangeDirection/keyMap/xboxKeyMap';
-
-const {
+import type {
+  IGamepadKeyMap,
+  IActualGamepadKeyMap,
+  GamepadStick,
+  GamepadButton,
+} from '@/hooks/useGamepadChangeDirection/keyMap/interfaces';
+import {
   goToBottom,
   goToLeft,
   goToRight,
   goToTop,
-} = gameActions;
+} from '@/actions/game';
+import xboxKeyMap from '@/hooks/useGamepadChangeDirection/keyMap/xboxKeyMap';
 
 const useGamepadChangeDirection = ({
   dispatch,

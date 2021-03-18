@@ -85,6 +85,30 @@ export default function getCommonWebpackConfig(_env:unknown, argv: WebpackArgs, 
         patterns: [{
           from: 'public/favicon.ico',
           to: `${PUBLIC_PATH}favicon.ico`,
+        }, {
+          from: 'public/apple-touch-icon.png',
+          to: `${PUBLIC_PATH}apple-touch-icon.png`,
+        }, {
+          from: 'public/icon.svg',
+          to: `${PUBLIC_PATH}icon.svg`,
+        }, {
+          from: 'public/icon-192.png',
+          to: `${PUBLIC_PATH}icon-192.png`,
+        }, {
+          from: 'public/icon-512.png',
+          to: `${PUBLIC_PATH}icon-512.png`,
+        }, {
+          from: 'public/icon-192-maskable.png',
+          to: `${PUBLIC_PATH}icon-192-maskable.png`,
+        }, {
+          from: 'public/icon-512-maskable.png',
+          to: `${PUBLIC_PATH}icon-512-maskable.png`,
+        }, {
+          from: 'public/manifest.json',
+          to: `${PUBLIC_PATH}manifest.json`,
+        }, {
+          from: 'public/robots.txt',
+          to: `${PUBLIC_PATH}robots.txt`,
         }],
       }),
     ],

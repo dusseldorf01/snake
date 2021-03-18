@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [ 14.x ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [ 14.x ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -36,20 +36,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build
-  deploy:
-    if: ${{ github.event_name != 'pull_request' }}
-    needs: [lint, test, build]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
         node-version: [ 14.x ]
     steps:
       - uses: actions/checkout@v2
@@ -58,9 +44,59 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build
-      - uses: akhileshns/heroku-deploy@v3.8.9
+  build_image:
+    #if: ${{ github.event_name != 'pull_request' }}
+    needs: [ lint, test, build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Yandex.Cloud
+        uses: docker/login-action@v1
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "dusseldorf-snake"
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
-          usedocker: true
+          registry: cr.yandex
+          username: ${{ secrets.YA_CLOUD_USER }}
+          password: ${{ secrets.YA_CLOUD_KEY }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+  deploy:
+    needs: [ build_image ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Sync files
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.YA_CLOUD_SERVICE_IP }}
+          username: ${{ secrets.YA_CLOUD_SERVICE_USER }}
+          key: ${{ secrets.YA_CLOUD_SERVICE_KEY }}
+          port: 22
+          source: "docker-compose.yml,data"
+          target: "/home/snake/app"
+      - name: Pull new image and restart docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.YA_CLOUD_SERVICE_IP }}
+          username: ${{ secrets.YA_CLOUD_SERVICE_USER }}
+          key: ${{ secrets.YA_CLOUD_SERVICE_KEY }}
+          port: 22
+          script: |
+            docker pull cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
+            cd app
+            mkdir -p data/ssl
+             ~/yandex-cloud/bin/yc certificate-manager certificate content --id fpq214701peqc1g8f990 --chain data/ssl/certificate_full_chain.pem --key data/ssl/private_key.pem
+            docker-compose down -v
+            docker-compose up -d
+            docker rm $(docker ps -a -f status=exited -q)
+            docker system prune --volumes --force --all
