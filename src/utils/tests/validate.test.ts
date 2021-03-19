@@ -1,5 +1,5 @@
-import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
+import validate from '@/utils/validators/validate';
+import { checkFormField } from '@/utils/validators/checkFormField';
 
 describe('validate', () => {
   interface IMockModel {

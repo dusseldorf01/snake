@@ -10,11 +10,11 @@ import {
 } from '@/models/forum';
 import Textarea from '@/components/Textarea';
 import Button from '@/components/Button';
-import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
-import type { IAddComment } from '@/components/AddComment/interface';
+import validate from '@/utils/validators/validate';
+import { checkFormField } from '@/utils/validators/checkFormField';
 import postActions from '@/actions/post';
 import postSelector from '@/selectors/post';
+import type { IAddComment } from './interface';
 import css from './index.css';
 
 const AddComment = ({

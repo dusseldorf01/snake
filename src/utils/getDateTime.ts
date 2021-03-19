@@ -1,5 +1,3 @@
-import addZero from '@/utils/addZero';
-
 const months = [
   'января',
   'февраля',
@@ -23,5 +21,5 @@ export default (date: string): string => {
   const hours = d.getHours();
   const minutes = d.getMinutes();
 
-  return `${day} ${months[month]} ${year} в ${addZero(hours)}:${addZero(minutes)}`;
+  return `${day} ${months[month]} ${year} в ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 };

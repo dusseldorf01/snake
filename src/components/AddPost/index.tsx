@@ -11,8 +11,8 @@ import {
 import Input from '@/components/Input';
 import Textarea from '@/components/Textarea';
 import Button from '@/components/Button';
-import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
+import validate from '@/utils/validators/validate';
+import { checkFormField } from '@/utils/validators/checkFormField';
 import postsListActions from '@/actions/postsList';
 import postsListSelector from '@/selectors/postsList';
 import css from './index.css';

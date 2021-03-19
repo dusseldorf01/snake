@@ -1,4 +1,4 @@
-import areEqualPasswords from '@/utils/areEqualPasswords';
+import areEqualPasswords from '@/utils/validators/areEqualPasswords';
 
 describe('areEqualPasswords', () => {
   it('checking equal passwords', () => {

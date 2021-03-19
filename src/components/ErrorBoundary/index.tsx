@@ -5,17 +5,14 @@ import { IErrorBoundaryState, IErrorBoundaryProps } from './interfaces';
 import Error from '../Error';
 
 export default class ErrorBoundary extends Component<IErrorBoundaryProps, IErrorBoundaryState> {
+  // eslint-disable-next-line react/state-in-constructor
+  state: IErrorBoundaryState = {
+    hasError: false,
+  };
+
   static defaultProps = {
     errorText: 'Похоже, что-то пошло не так',
   };
-
-  constructor(props:IErrorBoundaryProps) {
-    super(props);
-
-    this.state = {
-      hasError: false,
-    };
-  }
 
   static getDerivedStateFromError() {
     return {

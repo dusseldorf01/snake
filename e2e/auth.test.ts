@@ -1,10 +1,4 @@
 describe('checking authorization', () => {
-  const onBeforeLoad = (win: Cypress.AUTWindow) => {
-    // @ts-ignore
-    // eslint-disable-next-line no-param-reassign,no-proto
-    delete win.navigator.__proto__.serviceWorker;
-  };
-
   beforeEach(() => {
     cy.server();
   });
@@ -19,13 +13,13 @@ describe('checking authorization', () => {
     });
 
     it('checking render authorization page', () => {
-      cy.visit('/', { onBeforeLoad });
+      cy.visit('/');
 
       cy.get('h1').should('contain', 'Авторизация');
     });
 
     it('checking authorization request body', () => {
-      cy.visit('/', { onBeforeLoad });
+      cy.visit('/');
 
       cy
         .get('[name="login"]')
@@ -52,7 +46,7 @@ describe('checking authorization', () => {
     });
 
     it('checking successful authorization', () => {
-      cy.visit('/', { onBeforeLoad });
+      cy.visit('/');
 
       cy
         .get('[name="login"]')
@@ -85,7 +79,7 @@ describe('checking authorization', () => {
     });
 
     it('checking failed authorization', () => {
-      cy.visit('/', { onBeforeLoad });
+      cy.visit('/');
 
       cy
         .get('[name="login"]')
@@ -120,7 +114,7 @@ describe('checking authorization', () => {
         },
       });
 
-      cy.visit('/', { onBeforeLoad });
+      cy.visit('/');
 
       cy.get('h1').should('contain', 'Игра');
     });

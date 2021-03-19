@@ -54,16 +54,16 @@ const gameReducer = createReducer<IGameState>(getInitialGameState(), (builder) =
       changeMultiplayerHandler(state, action.payload);
     })
     .addCase(goToBottom, (state, action) => {
-      changeDirection(Direction.BOTTOM, Direction.TOP, action.payload, state);
+      changeDirection(Direction.Bottom, Direction.Top, action.payload, state);
     })
     .addCase(goToLeft, (state, action) => {
-      changeDirection(Direction.LEFT, Direction.RIGHT, action.payload, state);
+      changeDirection(Direction.Left, Direction.Right, action.payload, state);
     })
     .addCase(goToRight, (state, action) => {
-      changeDirection(Direction.RIGHT, Direction.LEFT, action.payload, state);
+      changeDirection(Direction.Right, Direction.Left, action.payload, state);
     })
     .addCase(goToTop, (state, action) => {
-      changeDirection(Direction.TOP, Direction.BOTTOM, action.payload, state);
+      changeDirection(Direction.Top, Direction.Bottom, action.payload, state);
     })
     .addCase(restartGame, (state) => {
       createGameState(state);

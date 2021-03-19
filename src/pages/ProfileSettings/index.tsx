@@ -6,8 +6,8 @@ import Input from '@/components/Input';
 import {
   IProfileSettingsModel,
 } from '@/models/profileSettings';
-import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
+import validate from '@/utils/validators/validate';
+import { checkFormField } from '@/utils/validators/checkFormField';
 import shallowUserDataEqual from '@/utils/shallowUserDataEqual';
 
 import cssCommon from '@/styles/common.css';

@@ -20,9 +20,9 @@ const getInitialGameState = (): IGameState => {
   return {
     bigFood: null,
     changingLevel: false,
-    direction: [Direction.RIGHT],
+    direction: [Direction.Right],
     food: createFood(snake, null, map),
-    lastDirection: [Direction.RIGHT],
+    lastDirection: [Direction.Right],
     level: INITIAL_LEVEL,
     map: INITIAL_MAP,
     multiplayer: false,
