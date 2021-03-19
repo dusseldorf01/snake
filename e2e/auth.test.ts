@@ -94,13 +94,16 @@ describe('checking authorization', () => {
         method: 'POST',
       }, {
         statusCode: 401,
+        body: {
+          reason: 'Login or password is incorrect',
+        },
       });
 
       cy
         .contains('Войти')
         .click();
 
-      cy.contains('Вы ввели неправильный логин или пароль');
+      cy.contains('Вы ввели неправильный логин или пароль', { timeout: 10000 });
     });
   });
 

@@ -1,5 +1,5 @@
 import {
-  useEffect, useState,
+  useEffect, useRef, useState,
 } from 'react';
 import { useFormik } from 'formik';
 import Input from '@/components/Input';
@@ -15,14 +15,15 @@ import cssForm from '@/styles/form.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { userStateSelector, userSettingsStateSelector } from '@/selectors/user';
 import { userAvatarActions, userDataActions, userPasswordActions } from '@/actions/user';
-import Alert from '@/components/Alert';
 
 const ProfileSettings = () => {
+  const mounted = useRef<boolean>(false);
+
   let inputFile:HTMLInputElement;
 
   const dispatch = useDispatch();
   const oldData = useSelector(userStateSelector).data;
-  const { password, other } = useSelector(userSettingsStateSelector);
+  const { password } = useSelector(userSettingsStateSelector);
   const avatarUpdateState = useSelector(userSettingsStateSelector).avatar;
   const userData = {
     avatar: (typeof oldData.avatar === 'string') ? oldData.avatar : '',
@@ -48,6 +49,8 @@ const ProfileSettings = () => {
     handleBlur,
     handleChange,
     handleSubmit,
+    setFieldValue,
+    setFieldTouched,
     touched,
     validateForm,
     values,
@@ -119,6 +122,19 @@ const ProfileSettings = () => {
     validateForm();
   }, []);
 
+  const clearValues = (keys: (keyof IProfileSettingsModel)[]) => {
+    keys.forEach((key) => {
+      setFieldValue(key, undefined);
+      setFieldTouched(key, false);
+    });
+  };
+
+  useEffect(() => {
+    if (mounted.current && password.status === 200) {
+      clearValues(['oldPassword', 'newPassword', 'passwordRepeat']);
+    }
+  }, [password.status]);
+
   const onAvatarChange = () => {
     let avatar;
     if (inputFile) {
@@ -154,14 +170,16 @@ const ProfileSettings = () => {
     }
   };
 
-  const passwordError = (password.status === 400) ? password.data : password.error;
+  useEffect(() => {
+    mounted.current = true;
+  }, []);
 
   return (
     <div className={cssCommon.pageHalfContent}>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <h1 className={cssForm.appFormTitle}>Изменение данных профиля</h1>
         <Input
-          error={(touched.avatar && errors.avatar) || avatarUpdateState.error}
+          error={touched.avatar && errors.avatar}
           errorOnChangeAvatar={currentUserData.errors.avatar}
           name="avatar"
           type="file"
@@ -246,12 +264,6 @@ const ProfileSettings = () => {
           onChange={handleChange}
           value={values.passwordRepeat}
         />
-        {
-          passwordError && (<Alert>{passwordError}</Alert>)
-        }
-        {
-          other.error && (<Alert>{other.error}</Alert>)
-        }
         <button
           type="submit"
           className={cssForm.appFormButton}

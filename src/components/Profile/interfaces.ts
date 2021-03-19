@@ -4,5 +4,5 @@ export interface IProfile {
   children: ReactNode;
   displayName: string;
   title: string;
-  avatar?: string;
+  avatar?: string | null;
 }

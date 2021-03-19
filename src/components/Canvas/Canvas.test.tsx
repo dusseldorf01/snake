@@ -6,6 +6,7 @@ import {
 } from '@/lib/Painter/interfaces';
 import Painter from '@/lib/Painter';
 import maps from '@/game/maps';
+import ReduxTestWrapper from '@/utils/testWrapper';
 import Canvas from '.';
 
 describe('Canvas', () => {
@@ -18,16 +19,20 @@ describe('Canvas', () => {
     x: 4, y: 2, direction: Direction.Right,
   }]];
 
+  const initialState = { userTheme: { data: { themeName: 'light' } } };
+
   it('renders snake correctly', () => {
     const spyRenderSnake = jest.spyOn(Painter, 'renderSnake');
 
     render(
-      <Canvas
-        bigFood={null}
-        food={food}
-        map={0}
-        snakes={snakes}
-      />,
+      <ReduxTestWrapper initialState={initialState}>
+        <Canvas
+          bigFood={null}
+          food={food}
+          map={0}
+          snakes={snakes}
+        />
+      </ReduxTestWrapper>,
     );
 
     expect(spyRenderSnake).toBeCalledWith(snakes[0]);
@@ -39,12 +44,14 @@ describe('Canvas', () => {
     const spyRenderMap = jest.spyOn(Painter, 'renderMap');
 
     render(
-      <Canvas
-        bigFood={null}
-        food={food}
-        map={0}
-        snakes={snakes}
-      />,
+      <ReduxTestWrapper initialState={initialState}>
+        <Canvas
+          bigFood={null}
+          food={food}
+          map={0}
+          snakes={snakes}
+        />
+      </ReduxTestWrapper>,
     );
 
     expect(spyRenderMap).toBeCalledWith(maps[0]);
@@ -63,12 +70,14 @@ describe('Canvas', () => {
 
     it('small one if "bigFood" parameter does not passed', () => {
       render(
-        <Canvas
-          bigFood={null}
-          food={food}
-          map={0}
-          snakes={snakes}
-        />,
+        <ReduxTestWrapper initialState={initialState}>
+          <Canvas
+            bigFood={null}
+            food={food}
+            map={0}
+            snakes={snakes}
+          />
+        </ReduxTestWrapper>,
       );
 
       expect(spyRenderFood).toBeCalledWith(food);
@@ -79,12 +88,14 @@ describe('Canvas', () => {
       const bigFood: IFood = { x: 3, y: 3 };
 
       render(
-        <Canvas
-          bigFood={bigFood}
-          food={food}
-          map={0}
-          snakes={snakes}
-        />,
+        <ReduxTestWrapper initialState={initialState}>
+          <Canvas
+            bigFood={bigFood}
+            food={food}
+            map={0}
+            snakes={snakes}
+          />
+        </ReduxTestWrapper>,
       );
 
       expect(spyRenderFood).toBeCalledWith(food);

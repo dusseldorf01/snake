@@ -1,5 +1,9 @@
-import { Application } from 'express';
+import type { Application } from 'express';
 import proxy from 'express-http-proxy';
+import {
+  DEFAULT_API_DOMAIN,
+  DEFAULT_API_URL,
+} from '@/utils/api';
 
 type CookiePart = {
   name: string,
@@ -7,15 +11,15 @@ type CookiePart = {
 };
 
 const apiProxy = (app: Application):void => {
-  app.use('/api', proxy('https://ya-praktikum.tech', {
+  app.use(DEFAULT_API_URL.slice(0, -1), proxy(DEFAULT_API_DOMAIN, {
     proxyReqPathResolver(req) {
       return new Promise((resolve) => {
-        resolve(`/api${req.url}`);
+        resolve(`${DEFAULT_API_URL.slice(0, -1)}${req.url}`);
       });
     },
     proxyReqOptDecorator(options) {
       const result = { ...options };
-      const clearCookiePaths = ['/v2/auth/signin', '/v2/auth/signup'];
+      const clearCookiePaths = ['/auth/signin', '/auth/signup'];
       if (clearCookiePaths.includes(options.path as string)) {
         if (!result.headers) {
           result.headers = {};
@@ -38,7 +42,7 @@ const apiProxy = (app: Application):void => {
                 return { name: parts[0], value: parts[1] };
               }).filter((part:CookiePart) => !['Domain', 'Secure', 'SameSite'].includes(part.name));
 
-            return cookie.map((part:CookiePart) => `${part.name}${part.value ? `=${part.value}` : ''}`).join('; ');
+            return cookie.map((part:CookiePart) => `${part.name}=${part.value ? `${part.value}` : ''}`).join('; ');
           }),
         );
       }

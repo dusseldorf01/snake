@@ -23,6 +23,11 @@ function* afterUserDataUpdate() {
   yield put(userInfoActions.request());
 }
 
+function* afterSignOut() {
+  yield take(signOutActions.success);
+  yield put(userInfoActions.request());
+}
+
 export function* userSaga() {
   yield takeLatestRequest(userInfoActions, getUserInfo);
   yield takeLatestRequest(signInOauthActions, signInOauth);
@@ -30,11 +35,24 @@ export function* userSaga() {
   yield takeLatestRequest(signUpActions, signUp);
   yield takeLatestRequest(signOutActions, signOut);
   yield spawn(afterSignIn);
+  yield spawn(afterSignOut);
 }
 
 export function* userUpdateDataSaga() {
-  yield takeLatestRequest(userAvatarActions, changeUserAvatar);
-  yield takeLatestRequest(userDataActions, changeUserProfile);
-  yield takeLatestRequest(userPasswordActions, changeUserPassword);
+  yield takeLatestRequest(
+    userAvatarActions,
+    changeUserAvatar,
+    { error: 'При обновлении аватарки произошла ошибка', success: 'Аватарка успешно обновлена' },
+  );
+  yield takeLatestRequest(
+    userDataActions,
+    changeUserProfile,
+    { error: 'При обновлении профиля произошла ошибка', success: 'Профиль успешно обновлен' },
+  );
+  yield takeLatestRequest(
+    userPasswordActions,
+    changeUserPassword,
+    { error: 'При обновлении пароля произошла ошибка', success: 'Пароль успешно обновлен' },
+  );
   yield spawn(afterUserDataUpdate);
 }

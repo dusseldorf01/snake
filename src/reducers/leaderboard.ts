@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
-import { createAsyncReducer, initialAsyncState } from '@/utils/redux/reducers';
+import { createAsyncReducer, getInitialAsyncState } from '@/utils/redux/reducers';
 import {
   getAllScoreFromLeaderboard,
 } from '@/actions/leaderboard';
+import { ILeaderboardItem } from '@/models/leaderboard';
 
-const scores = createAsyncReducer(initialAsyncState, getAllScoreFromLeaderboard);
+const scores = createAsyncReducer<ILeaderboardItem>(
+  getInitialAsyncState({} as ILeaderboardItem),
+  getAllScoreFromLeaderboard,
+);
 
 const leaderboard = combineReducers({
   scores,

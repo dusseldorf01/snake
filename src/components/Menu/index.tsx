@@ -1,13 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import withThemeSwitcher from '@/hocs/withThemeSwitcher';
-import React from 'react';
-import {
-  IMenu,
-  IMenuItem,
-} from './interfaces';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
+import type { IMenuItem } from './interfaces';
 import css from './index.css';
 
 const menu: IMenuItem[] = [{
+  exact: true,
   title: 'Игра',
   path: '/',
 }, {
@@ -24,14 +21,14 @@ const menu: IMenuItem[] = [{
   path: '/feedback',
 }];
 
-const Menu = ({
-  Switcher,
-}: IMenu) => (
+const Menu = () => (
   <div className={css.menuContainer}>
     <nav className={css.menu}>
-      {menu.map(({ title, path }) => (
+      {menu.map(({ exact, title, path }) => (
         <NavLink
+          activeClassName={css.menuItemActive}
           className={css.menuItem}
+          exact={exact}
           key={title}
           to={path}
         >
@@ -39,8 +36,8 @@ const Menu = ({
         </NavLink>
       ))}
     </nav>
-    <Switcher />
+    <ThemeSwitcher />
   </div>
 );
 
-export default withThemeSwitcher(Menu);
+export default Menu;

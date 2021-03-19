@@ -1,19 +1,37 @@
 import { combineReducers } from 'redux';
-import { createAsyncReducer, initialAsyncState, initialAsyncStateNoLoad } from '@/utils/redux/reducers';
 import {
-  signInActions, signOutActions, signUpActions, signInOauthActions, userInfoActions,
-  userPasswordActions, userDataActions, userAvatarActions,
+  AsyncReducerState,
+  createAsyncReducer,
+  getInitialAsyncState,
+  getInitialAsyncStateNoLoad,
+} from '@/utils/redux/reducers';
+import {
+  signInActions,
+  signInOauthActions,
+  signOutActions,
+  signUpActions,
+  userInfoActions,
+  userPasswordActions,
+  userDataActions,
+  userAvatarActions,
 } from '@/actions/user';
+import type { IUser } from '@/models/user';
 
-const signUp = createAsyncReducer(initialAsyncStateNoLoad, signUpActions);
-const signIn = createAsyncReducer(initialAsyncStateNoLoad, signInActions);
-const signInOauth = createAsyncReducer(initialAsyncStateNoLoad, signInOauthActions);
-const signOut = createAsyncReducer(initialAsyncStateNoLoad, signOutActions);
-const info = createAsyncReducer(initialAsyncState, userInfoActions);
+const signUp = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), signUpActions);
+const signIn = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), signInActions);
+const signInOauth = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), signInOauthActions);
+const signOut = createAsyncReducer(getInitialAsyncStateNoLoad({}), signOutActions);
+const info = createAsyncReducer<IUser, AsyncReducerState<IUser>>(
+  getInitialAsyncState({} as IUser),
+  userInfoActions,
+);
 
-const userDataUpdate = createAsyncReducer(initialAsyncStateNoLoad, userDataActions);
-const userAvatarUpdate = createAsyncReducer(initialAsyncStateNoLoad, userAvatarActions);
-const userPasswordUpdate = createAsyncReducer(initialAsyncStateNoLoad, userPasswordActions);
+const userDataUpdate = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), userDataActions);
+const userAvatarUpdate = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), userAvatarActions);
+const userPasswordUpdate = createAsyncReducer<any>(
+  getInitialAsyncStateNoLoad({}),
+  userPasswordActions,
+);
 
 const user = combineReducers({
   signUp,

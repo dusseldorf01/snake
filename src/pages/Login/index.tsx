@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useFormik } from 'formik';
-import RegistrationInput from '@/components/RegistrationInput';
+import Input from '@/components/Input';
 
 import { checkFormField } from '@/utils/validators/checkFormField';
 
@@ -13,17 +13,20 @@ import { ILoginModel, loginInitialModel } from '@/models/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStateSelector } from '@/selectors/user';
 import { signInActions } from '@/actions/user';
-import Alert from '@/components/Alert';
 
 import cssCommon from '@/styles/common.css';
 import cssForm from '@/styles/form.css';
 import OauthLink from '@/components/OAuthLink';
+import ClientOnly from '@/components/ClientOnly';
+import notification from '@/components/Notification';
+import Button from '@/components/Button';
 
 const Login = () => {
   const dispatch = useDispatch();
   const signInState = useSelector(signInStateSelector);
 
   const {
+    isValid,
     errors,
     handleBlur,
     handleChange,
@@ -48,6 +51,17 @@ const Login = () => {
     validateForm();
   }, []);
 
+  useEffect(() => {
+    if (signInState.error) {
+      const { reason } = signInState.data;
+      if (reason === 'Login or password is incorrect') {
+        notification.error({ message: 'Вы ввели неправильный логин или пароль' });
+      } else {
+        notification.error({ message: reason || 'При авторизации возникла ошибка' });
+      }
+    }
+  }, [signInState]);
+
   return (
     <div className={cssCommon.centerContent}>
       <form
@@ -55,7 +69,7 @@ const Login = () => {
         onSubmit={handleSubmit}
       >
         <h1 className={cssForm.appFormTitle}>Авторизация</h1>
-        <RegistrationInput
+        <Input
           error={touched.login && errors.login}
           label="Логин"
           name="login"
@@ -63,7 +77,7 @@ const Login = () => {
           onChange={handleChange}
           value={values.login}
         />
-        <RegistrationInput
+        <Input
           error={touched.password && errors.password}
           label="Пароль"
           type="password"
@@ -72,21 +86,19 @@ const Login = () => {
           onChange={handleChange}
           value={values.password}
         />
-        <button
-          type="submit"
-          className={cssForm.appFormButton}
-          disabled={signInState.loading}
-        >
-          Войти
-        </button>
-        {signInState.status === 401 && <Alert>Вы ввели неправильный логин или пароль</Alert>}
+        <Button
+          disabled={!isValid || signInState.loading}
+          label="Войти"
+        />
         <NavLink
           to="/register"
           className={cssForm.appFormLink}
         >
           Зарегистрироваться
         </NavLink>
-        <OauthLink />
+        <ClientOnly>
+          <OauthLink />
+        </ClientOnly>
       </form>
     </div>
   );

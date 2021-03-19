@@ -9,6 +9,9 @@ import { loadableTransformer } from 'loadable-ts-transformer';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { WebpackArgs } from './webpack/types';
 
+const CompressionPlugin = require('compression-webpack-plugin');
+const zlib = require('zlib');
+
 const ASSETS_DIR = 'assets';
 
 export default function getCommonWebpackConfig(_env:unknown, argv: WebpackArgs, PUBLIC_PATH: string = '') {
@@ -16,14 +19,13 @@ export default function getCommonWebpackConfig(_env:unknown, argv: WebpackArgs, 
 
   return {
     devtool: isProduction ? undefined : 'inline-source-map',
-    // watch: true,
     module: {
       rules: [
         {
           test: /\.css$/i,
           use: [
             MiniCssExtractPlugin.loader,
-            { loader: 'css-loader', options: { modules: true } },
+            { loader: 'css-loader', options: { modules: { localIdentName: '[local]--[hash:base64:5]' } } },
             'postcss-loader',
           ],
         },
@@ -110,6 +112,18 @@ export default function getCommonWebpackConfig(_env:unknown, argv: WebpackArgs, 
           from: 'public/robots.txt',
           to: `${PUBLIC_PATH}robots.txt`,
         }],
+      }),
+      new CompressionPlugin({
+        filename: '[path][base].br',
+        algorithm: 'brotliCompress',
+        test: /\.(js|css|html|svg)$/,
+        compressionOptions: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+          },
+        },
+        minRatio: 0.8,
+        deleteOriginalAssets: false,
       }),
     ],
   };

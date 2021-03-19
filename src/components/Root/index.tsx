@@ -1,13 +1,21 @@
-import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import App from '@/components/App';
 import { Provider } from 'react-redux';
-import store from '@/store';
+import createStore from '@/store';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '@/saga';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const { store, history } = createStore({ sagaMiddleware });
+
+sagaMiddleware.run(rootSaga);
 
 const Root = () => (
   <Provider store={store}>
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       <App />
-    </BrowserRouter>
+    </ConnectedRouter>
   </Provider>
 );
 

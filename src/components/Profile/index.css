@@ -17,3 +17,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+.profileAvatar {
+  border-radius: 50%;
+}

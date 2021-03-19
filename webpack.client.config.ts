@@ -67,6 +67,11 @@ export default function webpackConfig(_env:WebpackEnv, argv: WebpackArgs) {
       https,
       key: https ? fs.readFileSync('./ssl/localhost+2-key.pem') : undefined,
       cert: https ? fs.readFileSync('./ssl/localhost+2.pem') : undefined,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8081',
+        },
+      },
     },
   };
 

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import Alert from '@/components/Alert';
 import { userIsOauthAutorized } from '@/selectors/user';
 import cssCommon from '@/styles/common.css';
-import withClientOnlyRender from '@/hocs/withClientOnly';
 import Loader from '../Loader';
 import css from './index.css';
 
@@ -42,4 +41,4 @@ const OauthLink = () => {
   );
 };
 
-export default withClientOnlyRender(OauthLink);
+export default OauthLink;

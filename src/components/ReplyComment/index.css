@@ -1,0 +1,55 @@
+.replyCommentForm {
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  gap: 8px;
+  align-items: center;
+}
+
+.replyCommentFormEnter {
+  transform: translateY(-25%) scaleY(0.5);
+  opacity: 0;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.replyCommentFormEnterActive,
+.replyCommentFormExit {
+  transform: translateY(0%) scaleY(1);
+  opacity: 1;
+}
+
+.replyCommentFormExitActive {
+  transform: translateY(-25%) scaleY(0.5);
+  opacity: 0;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.replyCommentButton {
+  font-weight: bold;
+  color: var(--text-secondary-color);
+  font-size: var(--small-font-size);
+}
+
+.replyCommentInput {
+  border-bottom: 1px solid var(--text-secondary-color);
+  font-size: var(--small-font-size);
+  margin-top: 4px;
+  padding: 2px;
+  border-radius: 3px;
+}
+
+.replyCommentInput::placeholder {
+  color: var(--text-secondary-color);
+}
+
+.replyCommentFormSubmit {
+  display: flex;
+}
+
+.replyCommentFormSubmit polygon {
+  fill: currentColor;
+}
+
+.replyCommentFormSubmit[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

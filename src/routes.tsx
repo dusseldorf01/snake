@@ -28,7 +28,7 @@ const Routes = () => (
           <PrivateRoute path="/profile" component={loadable(() => import('./pages/Profile'))} />
           <PrivateRoute path="/leaderboard" component={Leaderboard} />
           <PrivateRoute path="/forum" component={loadable(() => import('./pages/Forum'))} exact />
-          <PrivateRoute path="/forum/:id" component={loadable(() => import('./pages/Thread'))} />
+          <PrivateRoute path="/forum/:id" component={loadable(() => import('./pages/Post'))} />
           <PrivateRoute path="/feedback" component={loadable(() => import('./pages/Feedback'))} />
           <PrivateRoute path="/" component={loadable(() => import('./pages/Game'))} />
           <Route path="*" component={loadable(() => import('./pages/Error404'))} />

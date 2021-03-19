@@ -5,4 +5,5 @@ export interface IMenu {
 export interface IMenuItem {
   title: string;
   path: string;
+  exact?: boolean;
 }

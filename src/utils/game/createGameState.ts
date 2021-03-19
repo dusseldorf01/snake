@@ -9,9 +9,9 @@ const createGameState = (
   state: IGameState,
 ) => {
   const {
+    level,
     map: mapIndex,
     multiplayer,
-    startLevel,
   } = state;
   const map = maps[mapIndex];
 
@@ -19,8 +19,8 @@ const createGameState = (
 
   state.bigFood = null;
   state.direction = [Direction.Right];
-  state.level = startLevel;
   state.score = [0];
+  state.startLevel = level;
   state.snake = [snake1];
   state.status = GameStatus.WAITING_FOR_START;
   state.timeToRemoveBigFood = 0;

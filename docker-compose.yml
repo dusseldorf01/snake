@@ -1,21 +1,49 @@
-version: '3.9'
-volumes:
-  static:
-    name: "static"
+# docker-compose.yml
+version: "3.9"
 services:
+  postgres:
+    image: postgres:11.2-alpine
+    restart: always
+    env_file:
+      - .env.database
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  mongo:
+    image: mongo
+    restart: always
+    env_file:
+      - .env.database
+    volumes:
+      - mongo-data:/data/db
+
   ssr:
     image: cr.yandex/crp96j9lfkrv2cslsrdh/snake:latest
     volumes:
-      - static:/usr/src/app/dist/public:ro
-    ports: ["8080:8080"]
+      - static:/usr/src/app/dist/public
+    ports: [ "8080:8080" ]
+    depends_on:
+      - postgres
+      - mongo
+    env_file:
+      - .env.database
+
   nginx:
-    image: nginx:1.17-alpine
+    image: fholzer/nginx-brotli
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - ssr
     volumes:
       - static:/usr/share/nginx/html
       - ./data/nginx:/etc/nginx/conf.d
       - ./data/ssl:/etc/letsencrypt
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+volumes:
+  postgres-data:
+  mongo-data:
+  static:
+    name: "static"

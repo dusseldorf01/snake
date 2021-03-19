@@ -13,7 +13,7 @@ const months = [
   'декабря',
 ];
 
-export default (date: number): string => {
+export default (date: string): string => {
   const d = new Date(date);
   const day = d.getDate();
   const month = d.getMonth();

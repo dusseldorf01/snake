@@ -1,39 +1,56 @@
+import { useEffect } from 'react';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import { useFormik } from 'formik';
 import {
-  creatingCommentInitialModel,
-  ICreatingComment,
+  commentCreateInitialModel,
+  ICommentCreateModel,
 } from '@/models/forum';
 import Textarea from '@/components/Textarea';
 import Button from '@/components/Button';
 import validate from '@/utils/validators/validate';
 import { checkFormField } from '@/utils/validators/checkFormField';
-import { IAddComment } from './interface';
+import postActions from '@/actions/post';
+import postSelector from '@/selectors/post';
+import type { IAddComment } from './interface';
 import css from './index.css';
 
 const AddComment = ({
-  id,
+  postId,
 }: IAddComment) => {
+  const dispatch = useDispatch();
+
+  const { data: { comments } } = useSelector(postSelector);
+
   const {
+    dirty,
     handleBlur,
     handleChange,
     handleSubmit,
     errors,
     isValid,
+    resetForm,
     touched,
     values: {
       text,
     },
-  } = useFormik<ICreatingComment>({
-    initialValues: creatingCommentInitialModel,
+  } = useFormik<ICommentCreateModel>({
+    initialValues: commentCreateInitialModel,
     onSubmit: (v) => {
-      console.log(id, v);
+      dispatch(postActions.addCommentRequest({ ...v, postId }));
     },
     validate: (v) => (
-      validate<ICreatingComment>({
+      validate<ICommentCreateModel>({
         text: [checkFormField.requiredField(v.text)],
       })
     ),
   });
+
+  useEffect(() => {
+    resetForm();
+  }, [comments]);
 
   return (
     <div>
@@ -48,7 +65,7 @@ const AddComment = ({
           value={text}
         />
         <Button
-          disabled={!isValid}
+          disabled={!dirty || !isValid}
           label="Добавить"
         />
       </form>

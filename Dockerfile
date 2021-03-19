@@ -4,6 +4,6 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
 COPY . .
-RUN npm run-script build
+RUN npm run build
 EXPOSE 8080
 CMD [ "node", "dist/server.js" ]
