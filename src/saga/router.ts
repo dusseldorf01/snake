@@ -11,9 +11,11 @@ import postsListActions from '@/actions/postsList';
 import postActions from '@/actions/post';
 import {
   forumRegexp,
+  leaderboardRegexp,
   pageRegexp,
   postRegexp,
 } from '@/routerRegexp';
+import { getAllScoreFromLeaderboard } from '@/actions/leaderboard';
 
 function* changeRouterSaga(action: Effect<LocationChangeAction>) {
   const { payload: { location } } = action;
@@ -29,6 +31,10 @@ function* changeRouterSaga(action: Effect<LocationChangeAction>) {
     const id = pathname.replace(postRegexp, '$1');
 
     yield put(postActions.request({ params: { data: { id } } }));
+  }
+
+  if (leaderboardRegexp.test(pathname)) {
+    yield put(getAllScoreFromLeaderboard.request({ params: { data: { ratingFieldName: 'score', cursor: 0, limit: 10 } } }));
   }
 }
 

@@ -9,7 +9,7 @@ const useLeaderboardScore = ({
   status,
   level,
 }:{score: number[], status:GameStatus, level:number}) => {
-  const { id, login } = useSelector(userStateSelector).data;
+  const { login } = useSelector(userStateSelector).data;
   const dispatch = useDispatch();
   useEffect(() => {
     if (status === GameStatus.IS_OVER || status === GameStatus.PASSED) {
@@ -17,7 +17,6 @@ const useLeaderboardScore = ({
         params: {
           data: {
             data: {
-              id,
               login,
               level,
               score: score[0],

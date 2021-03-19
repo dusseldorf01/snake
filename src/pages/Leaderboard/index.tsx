@@ -1,42 +1,28 @@
 import LeaderboardTable from '@/components/LeaderboardTable';
 import cssCommon from '@/styles/common.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { getAllScoreFromLeaderboard } from '@/actions/leaderboard';
+import { useSelector } from 'react-redux';
 import { leaderboardScoresStateSelector } from '@/selectors/leaderboard';
-import Alert from '@/components/Alert';
-import Loader from '@/components/Loader';
+import withDataLoader from '@/hocs/withDataLoader';
 
 const Leaderboard = () => {
-  const dispatch = useDispatch();
   const leaderboardState = useSelector(leaderboardScoresStateSelector);
-  const { data, loading, error } = leaderboardState;
+  const { data } = leaderboardState;
 
   let normData;
   if (Array.isArray(data) && data.length) {
     normData = data
       .map((item) => item.data)
-      .filter((item) => item.id && item.level)
+      .filter((item) => item.score && item.level)
       .map(({
-        id, login, level, score,
+        login, level, score,
       }) => ({
-        id, login, level, score,
+        login, level, score,
       }));
   }
-
-  useEffect(() => {
-    dispatch(getAllScoreFromLeaderboard.request({ params: { data: { ratingFieldName: 'score', cursor: 0, limit: 10 } } }));
-  }, []);
 
   return (
     <div className={cssCommon.pageHalfContent}>
       <h1 className={cssCommon.visuallyHidden}>Таблица лидеров</h1>
-      {
-        loading && (<div className={cssCommon.centerContent}><Loader /></div>)
-      }
-      {
-        error && (<Alert>Ошибка получения данных...</Alert>)
-      }
       {
         normData && (<LeaderboardTable data={normData} />)
       }
@@ -44,4 +30,4 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard;
+export default withDataLoader(leaderboardScoresStateSelector)(Leaderboard);
