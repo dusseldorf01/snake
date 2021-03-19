@@ -4,4 +4,5 @@
   width: 130px;
   margin: 0 auto 30px;
   cursor: pointer;
+  border-radius: 50%;
 }

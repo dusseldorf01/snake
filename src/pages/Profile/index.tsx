@@ -27,11 +27,13 @@ const Profile = () => {
     login,
     email,
     phone,
+    avatar,
   } = data;
 
   return (
     <div className={cssCommon.pageHalfContent}>
       <ProfileComponent
+        avatar={avatar}
         displayName={displayName || `${firstName} ${secondName}`}
         title="Профиль"
       >

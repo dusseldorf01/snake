@@ -179,7 +179,7 @@ const ProfileSettings = () => {
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <h1 className={cssForm.appFormTitle}>Изменение данных профиля</h1>
         <Input
-          error={(touched.avatar && errors.avatar) || avatarUpdateState.error}
+          error={touched.avatar && errors.avatar}
           errorOnChangeAvatar={currentUserData.errors.avatar}
           name="avatar"
           type="file"

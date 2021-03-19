@@ -29,14 +29,12 @@
 
 ## Стек технологий
 
-- Frontend: TypeScript + React/Redux + Canvas API + PostCSS
+- Frontend: TypeScript + React/Redux/Redux-Saga + Canvas API + PostCSS
 - Backend: Node.js/Express + PostgreSQL + MongoDB
 - Тестирование: Jest + React Testing Library + Cypress
-- CI/CD - GitHub Actions
+- CI/CD - GitHub Actions + Яндекс.Облако
 
 ## Установка, запуск и сборка
-
-### Локальная разработка
 
 1. Подготовьте окружение:
 - При необходимости использования https для тестирования
@@ -64,18 +62,6 @@ npm run start
 npm run build
 ```
 
-### Разработка в Docker
-
-1. При необходимости отредактируйте переменные для работы
-   с базой данных PostgreSQL в файле `.env.database`.
-
-2. Соберите проект с помощью утилиты `docker-compose`:
-```
-docker-compose up --build
-```
-
-3. Перейдите по адресу: http://localhost:8080.
-
 ## Линтеры и тесты
 
 ```
@@ -92,7 +78,7 @@ npm run test:e2e
 
 ## Демо
 
-Приложение доступно на [Heroku](https://dusseldorf-snake.herokuapp.com/).
+Поиграть в нашу игру можно [здесь](https://dusseldorf-snake-02.ya-praktikum.tech/).
 
 ## Команда
 <table>
