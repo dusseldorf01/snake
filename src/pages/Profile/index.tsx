@@ -2,47 +2,64 @@ import {
   useCallback,
 } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userStateSelector } from '@/selectors/user';
 import ProfileComponent from '@/components/Profile';
 import ProfilePropertyValue from '@/components/ProfilePropertyValue';
+import { signOutActions } from '@/actions/user';
 
 import cssProfile from '@/components/Profile/index.css';
 import cssProfileProp from '@/components/ProfilePropertyValue/index.css';
 import cssCommon from '@/styles/common.css';
 
 const Profile = () => {
-  const onButtonClick = useCallback(() => console.log('logout'), []);
+  const dispatch = useDispatch();
+
+  const onButtonClick = useCallback(() => {
+    dispatch(signOutActions.request());
+  }, []);
+
+  const { data } = useSelector(userStateSelector);
+  const {
+    first_name: firstName,
+    second_name: secondName,
+    display_name: displayName,
+    login,
+    email,
+    phone,
+  } = data;
 
   return (
     <div className={cssCommon.pageHalfContent}>
       <ProfileComponent
-        displayName="Test 123"
+        displayName={displayName || `${firstName} ${secondName}`}
         title="Профиль"
       >
         <>
           <div className={cssProfile.profileSection}>
             <ProfilePropertyValue
               title="Имя"
-              value="Имя"
+              value={firstName}
             />
             <ProfilePropertyValue
               title="Фамилия"
-              value="Фамилия"
+              value={secondName}
             />
             <ProfilePropertyValue
               title="Отображаемое имя"
-              value="Отображаемое имя"
+              value={displayName || `${firstName} ${secondName}`}
             />
             <ProfilePropertyValue
               title="Логин"
-              value="Логин"
+              value={login}
             />
             <ProfilePropertyValue
               title="Почта"
-              value="Почта"
+              value={email}
             />
             <ProfilePropertyValue
               title="Телефон"
-              value="Телефон"
+              value={phone}
             />
           </div>
           <div className={cssProfile.profileSection}>

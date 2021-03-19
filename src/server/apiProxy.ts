@@ -42,7 +42,7 @@ const apiProxy = (app: Application):void => {
                 return { name: parts[0], value: parts[1] };
               }).filter((part:CookiePart) => !['Domain', 'Secure', 'SameSite'].includes(part.name));
 
-            return cookie.map((part:CookiePart) => `${part.name}${part.value ? `=${part.value}` : ''}`).join('; ');
+            return cookie.map((part:CookiePart) => `${part.name}=${part.value ? `${part.value}` : ''}`).join('; ');
           }),
         );
       }

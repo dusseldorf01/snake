@@ -23,6 +23,11 @@ function* afterUserDataUpdate() {
   yield put(userInfoActions.request());
 }
 
+function* afterSignOut() {
+  yield take(signOutActions.success);
+  yield put(userInfoActions.request());
+}
+
 export function* userSaga() {
   yield takeLatestRequest(userInfoActions, getUserInfo);
   yield takeLatestRequest(signInOauthActions, signInOauth);
@@ -30,6 +35,7 @@ export function* userSaga() {
   yield takeLatestRequest(signUpActions, signUp);
   yield takeLatestRequest(signOutActions, signOut);
   yield spawn(afterSignIn);
+  yield spawn(afterSignOut);
 }
 
 export function* userUpdateDataSaga() {
