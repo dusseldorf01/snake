@@ -238,7 +238,7 @@ export default function* gameSaga() {
 
   yield takeEvery([ateFood, ateBigFood], updateLevel);
 
-  yield takeEvery(getNextTick, saveInLocalStorage);
+  yield takeEvery(changeGameStatus, saveInLocalStorage);
 
   yield takeEvery(getStateFromStorage, getStateFromLocalStorage);
 }

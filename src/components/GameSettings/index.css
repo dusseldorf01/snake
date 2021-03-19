@@ -23,6 +23,10 @@
   align-items: center;
 }
 
+.gameSettingsInput input {
+  border-radius: 3px;
+}
+
 .gameSettingsCheckbox {
   cursor: pointer;
 }
