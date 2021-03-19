@@ -22,4 +22,5 @@ module.exports = {
   WHITE_1: '#FFFFFF',
   WHITE_1_80: 'rgba(255, 255, 255, 0.8)',
   YELLOW_1: '#FCF4DA',
+  TRANSPARENT: 'transparent',
 };
