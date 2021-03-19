@@ -18,7 +18,7 @@ const createGameState = (
   const snake1 = createSnake(map);
 
   state.bigFood = null;
-  state.direction = [Direction.RIGHT];
+  state.direction = [Direction.Right];
   state.level = startLevel;
   state.score = [0];
   state.snake = [snake1];
@@ -26,8 +26,8 @@ const createGameState = (
   state.timeToRemoveBigFood = 0;
 
   if (multiplayer) {
-    state.direction.push(Direction.RIGHT);
-    state.lastDirection.push(Direction.RIGHT);
+    state.direction.push(Direction.Right);
+    state.lastDirection.push(Direction.Right);
     state.score.push(0);
     state.snake.push(createSnake(map, snake1));
   }

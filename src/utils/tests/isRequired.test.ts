@@ -1,4 +1,4 @@
-import isRequired from '@/utils/isRequired';
+import isRequired from '@/utils/validators/isRequired';
 
 describe('isRequired', () => {
   it('checking right value', () => {

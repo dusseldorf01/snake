@@ -5,9 +5,9 @@ import { NavLink } from 'react-router-dom';
 import { useFormik } from 'formik';
 import RegistrationInput from '@/components/RegistrationInput';
 
-import { checkFormField } from '@/utils/checkFormField';
+import { checkFormField } from '@/utils/validators/checkFormField';
 
-import validate from '@/utils/validate';
+import validate from '@/utils/validators/validate';
 
 import { ILoginModel, loginInitialModel } from '@/models/login';
 import { useDispatch, useSelector } from 'react-redux';

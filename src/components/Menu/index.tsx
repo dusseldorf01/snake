@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import withThemeSwitcher from '@/hocs/withThemeSwitcher';
+import React from 'react';
 import {
   IMenu,
   IMenuItem,

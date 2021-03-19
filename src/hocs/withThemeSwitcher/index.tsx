@@ -1,4 +1,4 @@
-import {
+import React, {
   useCallback,
   useEffect,
   useRef,
@@ -13,12 +13,20 @@ export enum Themes {
   LIGHT = 'light',
   DARK = 'dark',
 }
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export interface withInjectedSwitcherElement {
+  Switcher: () => JSX.Element;
+  [key:string]:any;
+}
 
-const withThemeSwitcher = (Component: any) => (props: any) => {
+// eslint-disable-next-line max-len
+const withThemeSwitcher = (Component: React.ComponentType<withInjectedSwitcherElement>): React.FC => (props) => {
   const mounted = useRef<boolean>(false);
 
   const [theme, setTheme] = useState<Themes>(Themes.LIGHT);
-  const toggleTheme = () => setTheme((t) => (t === Themes.LIGHT ? Themes.DARK : Themes.LIGHT));
+  // eslint-disable-next-line max-len
+  const toggleTheme = useCallback(() => setTheme((t) => (t === Themes.LIGHT ? Themes.DARK : Themes.LIGHT)), []);
+
   useEffect(() => {
     if (!mounted.current) {
       return;
@@ -34,7 +42,6 @@ const withThemeSwitcher = (Component: any) => (props: any) => {
       html?.classList.remove(cssRoot.dark);
     }
   }, [theme]);
-
   useEffect(() => {
     mounted.current = true;
   }, []);
@@ -54,7 +61,8 @@ const withThemeSwitcher = (Component: any) => (props: any) => {
   ), []);
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
+  // eslint-disable-next-line react/jsx-props-no-spreading
+
     <Component {...props} Switcher={Switcher} />
   );
 };

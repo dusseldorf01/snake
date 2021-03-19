@@ -1,8 +1,8 @@
-import isRequired from '@/utils/isRequired';
-import isEmail from '@/utils/isEmail';
-import isPhone from '@/utils/isPhone';
-import areEqualPasswords from '@/utils/areEqualPasswords';
-import isFileSizeSmaller from '@/utils/isFileSizeSmaller';
+import isRequired from '@/utils/validators/isRequired';
+import isEmail from '@/utils/validators/isEmail';
+import isPhone from '@/utils/validators/isPhone';
+import areEqualPasswords from '@/utils/validators/areEqualPasswords';
+import isFileSizeSmaller from '@/utils/validators/isFileSizeSmaller';
 
 type CheckFunctionType = (str:string) => () => string;
 type CheckEqualFunction = (str:string, str2:string) => () => string;
