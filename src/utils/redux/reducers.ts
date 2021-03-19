@@ -40,6 +40,7 @@ export function createAsyncReducer<T = any, K extends AsyncReducerState<T> = Asy
         status: 0,
         loading: true,
         data: initialState.data,
+        error: '',
       }))
       .addCase(asyncCreator.success, (state, action) => ({
         ...state,
