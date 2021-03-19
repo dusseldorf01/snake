@@ -3,10 +3,12 @@ import {
   useEffect,
   useRef,
 } from 'react';
+import { useSelector } from 'react-redux';
+import userThemeSelector from '@/selectors/userTheme';
+import { Theme } from '@/models/theme';
 import gameConfig from '@/game/config';
 import Painter from '@/lib/Painter';
 import colors from '@/styles/colors';
-import cssRoot from '@/styles/variables.css';
 import type { ICanvas } from './interfaces';
 import css from './index.css';
 
@@ -28,6 +30,8 @@ const Canvas = ({
 }: ICanvas) => {
   const canvas = useRef<HTMLCanvasElement>(null);
 
+  const { themeName } = useSelector(userThemeSelector);
+
   useEffect(() => {
     if (canvas.current === null) {
       return;
@@ -41,8 +45,7 @@ const Canvas = ({
 
     context.clearRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
-    const html = document.querySelector('html');
-    context.fillStyle = html?.classList.contains(cssRoot.light) ? BLACK_1 : WHITE_1;
+    context.fillStyle = themeName === Theme.LIGHT ? BLACK_1 : WHITE_1;
 
     Painter.setContext(context);
     Painter.gameInitializationRender({
