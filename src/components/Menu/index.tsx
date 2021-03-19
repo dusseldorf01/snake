@@ -4,6 +4,7 @@ import type { IMenuItem } from './interfaces';
 import css from './index.css';
 
 const menu: IMenuItem[] = [{
+  exact: true,
   title: 'Игра',
   path: '/',
 }, {
@@ -23,9 +24,11 @@ const menu: IMenuItem[] = [{
 const Menu = () => (
   <div className={css.menuContainer}>
     <nav className={css.menu}>
-      {menu.map(({ title, path }) => (
+      {menu.map(({ exact, title, path }) => (
         <NavLink
+          activeClassName={css.menuItemActive}
           className={css.menuItem}
+          exact={exact}
           key={title}
           to={path}
         >
