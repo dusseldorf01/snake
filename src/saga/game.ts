@@ -13,6 +13,7 @@ import {
   changeLevel,
   getNextTick,
   getStateFromStorage,
+  restartGame,
   setLastDirection,
   setSnake,
   setState,
@@ -238,7 +239,7 @@ export default function* gameSaga() {
 
   yield takeEvery([ateFood, ateBigFood], updateLevel);
 
-  yield takeEvery(changeGameStatus, saveInLocalStorage);
+  yield takeEvery([changeGameStatus, restartGame], saveInLocalStorage);
 
   yield takeEvery(getStateFromStorage, getStateFromLocalStorage);
 }
