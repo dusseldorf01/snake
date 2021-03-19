@@ -3,9 +3,9 @@ import {
 } from 'react';
 import defaultAvatar from '@/components/Input/images/avatar.png';
 import cssForm from '@/styles/form.css';
+import { DEFAULT_API_DOMAIN } from '@/utils/api';
 import { IFormInput } from './interfaces';
 import cssInput from './index.css';
-import { DEFAULT_API_DOMAIN } from '../../utils/api';
 
 const Input = ({
   avatarImage,

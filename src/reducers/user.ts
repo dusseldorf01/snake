@@ -18,7 +18,7 @@ import {
 import type { IUser } from '@/models/user';
 
 const signUp = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), signUpActions);
-const signIn = createAsyncReducer(getInitialAsyncStateNoLoad({}), signInActions);
+const signIn = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), signInActions);
 const signInOauth = createAsyncReducer<any>(getInitialAsyncStateNoLoad({}), signInOauthActions);
 const signOut = createAsyncReducer(getInitialAsyncStateNoLoad({}), signOutActions);
 const info = createAsyncReducer<IUser, AsyncReducerState<IUser>>(
