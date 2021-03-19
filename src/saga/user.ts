@@ -39,8 +39,20 @@ export function* userSaga() {
 }
 
 export function* userUpdateDataSaga() {
-  yield takeLatestRequest(userAvatarActions, changeUserAvatar);
-  yield takeLatestRequest(userDataActions, changeUserProfile);
-  yield takeLatestRequest(userPasswordActions, changeUserPassword);
+  yield takeLatestRequest(
+    userAvatarActions,
+    changeUserAvatar,
+    { error: 'При обновлении аватарки произошла ошибка', success: 'Аватарка успешно обновлена' },
+  );
+  yield takeLatestRequest(
+    userDataActions,
+    changeUserProfile,
+    { error: 'При обновлении профиля произошла ошибка', success: 'Профиль успешно обновлен' },
+  );
+  yield takeLatestRequest(
+    userPasswordActions,
+    changeUserPassword,
+    { error: 'При обновлении пароля произошла ошибка', success: 'Пароль успешно обновлен' },
+  );
   yield spawn(afterUserDataUpdate);
 }

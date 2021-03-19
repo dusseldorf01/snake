@@ -24,6 +24,7 @@ import { userStateSelector } from '@/selectors/user';
 import pushComment from '@/utils/pushComment';
 import postSelector from '@/selectors/post';
 import selectComment from '@/utils/selectComment';
+import notification from '@/components/Notification';
 
 function* addLikeSaga(action: Effect<string, number>) {
   try {
@@ -31,6 +32,7 @@ function* addLikeSaga(action: Effect<string, number>) {
     yield put(postActions.likeAddSuccess(response.data.userId));
   } catch (e) {
     yield put(postActions.likeAddError());
+    yield notification.error({ message: 'При добавлении лайка произошла ошибка' });
   }
 }
 
@@ -41,6 +43,7 @@ function* deleteLikeSaga(action: Effect< string, number>) {
     yield put(postActions.likeDeleteSuccess(id));
   } catch (e) {
     yield put(postActions.likeDeleteError());
+    yield notification.error({ message: 'При удалении лайка произошла ошибка' });
   }
 }
 
@@ -59,6 +62,7 @@ function* addCommentSaga(action: Effect<string, ICommentAction>) {
     yield put(postActions.selectComment(Number(response.data.id)));
   } catch (e) {
     yield put(postActions.addCommentError());
+    yield notification.error({ message: 'При добавлении комментария произошла ошибка' });
   }
 }
 

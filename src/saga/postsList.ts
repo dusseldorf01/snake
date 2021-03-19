@@ -18,6 +18,7 @@ import type {
 } from '@/models/forum';
 import { userStateSelector } from '@/selectors/user';
 import postsListSelector from '@/selectors/postsList';
+import notification from '@/components/Notification';
 
 function* updatePostsListSaga(action: Effect<string, IPostCreateModel>) {
   const {
@@ -39,6 +40,7 @@ function* updatePostsListSaga(action: Effect<string, IPostCreateModel>) {
     }));
   } catch (e) {
     yield put(postsListActions.updateError());
+    yield notification.error({ message: 'При добавлении поста произошла ошибка' });
   }
 }
 
