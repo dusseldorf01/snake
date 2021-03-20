@@ -1,38 +1,33 @@
 import LeaderboardTable from '@/components/LeaderboardTable';
 import cssCommon from '@/styles/common.css';
+import { useSelector } from 'react-redux';
+import { leaderboardScoresStateSelector } from '@/selectors/leaderboard';
+import withDataLoader from '@/hocs/withDataLoader';
 
-const data = [{
-  id: 1,
-  login: 'Пользователь 1',
-  level: 5,
-  score: 136,
-}, {
-  id: 2,
-  login: 'Пользователь 2',
-  level: 7,
-  score: 131,
-}, {
-  id: 3,
-  login: 'Пользователь 1',
-  level: 6,
-  score: 107,
-}, {
-  id: 4,
-  login: 'Пользователь 3',
-  level: 4,
-  score: 88,
-}, {
-  id: 5,
-  login: 'Пользователь 4',
-  level: 3,
-  score: 62,
-}];
+const Leaderboard = () => {
+  const leaderboardState = useSelector(leaderboardScoresStateSelector);
+  const { data } = leaderboardState;
 
-const Leaderboard = () => (
-  <div className={cssCommon.pageHalfContent}>
-    <h1 className={cssCommon.visuallyHidden}>Таблица лидеров</h1>
-    <LeaderboardTable data={data} />
-  </div>
-);
+  let normData;
+  if (Array.isArray(data) && data.length) {
+    normData = data
+      .map((item) => item.data)
+      .filter((item) => item.score && item.level)
+      .map(({
+        login, level, score,
+      }) => ({
+        login, level, score,
+      }));
+  }
 
-export default Leaderboard;
+  return (
+    <div className={cssCommon.pageHalfContent}>
+      <h1 className={cssCommon.visuallyHidden}>Таблица лидеров</h1>
+      {
+        normData && (<LeaderboardTable data={normData} />)
+      }
+    </div>
+  );
+};
+
+export default withDataLoader(leaderboardScoresStateSelector)(Leaderboard);

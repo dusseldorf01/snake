@@ -1,7 +1,8 @@
 .logo {
   color: var(--text-primary-color);
   font-size: var(--extra-big-font-size);
-  font-family: 'Press Start 2P', sans-serif;
+  font-family: Joystix, sans-serif;
+  letter-spacing: 5px;
 }
 
 .logo:hover {

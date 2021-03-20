@@ -1,30 +1,35 @@
 import {
-  createAction, PayloadActionCreator, ActionCreatorWithOptionalPayload, ActionCreatorWithoutPayload,
+  createAction,
+  PayloadActionCreator,
+  ActionCreatorWithOptionalPayload,
+  ActionCreatorWithoutPayload,
 } from '@reduxjs/toolkit';
-import { ApiParams } from '@/utils/api';
+import type { ApiParams } from '@/utils/api';
 
-export type AsyncRequestPayload = {params: ApiParams};
-export type AsyncSuccessPayload = {
-  data: {[key:string]: unknown},
-  status: number
+export type AsyncRequestPayload = { params: ApiParams };
+export type AsyncSuccessPayload<T = {}> = {
+  data: T,
+  status: number,
 };
 export type AsyncErrorPayload = {
-  data?: {[key:string]: unknown},
+  data?: any,
   status?: number,
-  error: string
+  error: string,
 };
 
-export type AsyncActionCreator = {
+export type AsyncActionCreator<T = any> = {
   request: ActionCreatorWithOptionalPayload<AsyncRequestPayload | undefined>,
-  success: PayloadActionCreator<AsyncSuccessPayload>,
+  success: PayloadActionCreator<AsyncSuccessPayload<T>>,
   error: PayloadActionCreator<AsyncErrorPayload>,
   clear: ActionCreatorWithoutPayload,
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const createAsyncActions = (type: string):AsyncActionCreator => ({
-  request: createAction(`${type}_REQUEST`),
-  success: createAction<AsyncSuccessPayload>(`${type}_SUCCESS`),
-  error: createAction<AsyncErrorPayload>(`${type}_ERROR`),
-  clear: createAction(`${type}_CLEAR`),
-});
+export function createAsyncActions<T>(type: string): AsyncActionCreator<T> {
+  return {
+    request: createAction(`${type}_REQUEST`),
+    success: createAction<AsyncSuccessPayload<T>>(`${type}_SUCCESS`),
+    error: createAction<AsyncErrorPayload>(`${type}_ERROR`),
+    clear: createAction(`${type}_CLEAR`),
+  };
+}

@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
-import { IUseKeyboardChangeDirection } from '@/hooks/useKeyboardChangeDirection/interfaces';
+import type { IUseKeyboardChangeDirection } from '@/hooks/useKeyboardChangeDirection/interfaces';
+import { GameStatus } from '@/game/interfaces';
 import {
-  GameReducerType,
-  GameStatus,
-} from '@/pages/Game/reducer';
-import { Direction } from '@/lib/Painter/interfaces';
+  changeGameStatus,
+  goToBottom,
+  goToLeft,
+  goToRight,
+  goToTop,
+} from '@/actions/game';
 
 export default ({
   dispatch,
@@ -12,48 +15,35 @@ export default ({
   keyLeft,
   keyRight,
   keyUp,
+  number,
   status,
+  trueCondition,
 }: IUseKeyboardChangeDirection) => {
   useEffect(() => {
-    if (status !== GameStatus.RUNNING) {
+    if (!trueCondition) {
       return;
     }
 
-    const listener = ({ key }: KeyboardEvent) => {
-      switch (key) {
+    const listener = ({ code }: KeyboardEvent) => {
+      switch (code) {
         case keyUp: {
-          dispatch({
-            payload: Direction.TOP,
-            type: GameReducerType.CHANGE_DIRECTION,
-          });
+          dispatch(goToTop(number));
           break;
         }
         case keyDown: {
-          dispatch({
-            payload: Direction.BOTTOM,
-            type: GameReducerType.CHANGE_DIRECTION,
-          });
+          dispatch(goToBottom(number));
           break;
         }
         case keyRight: {
-          dispatch({
-            payload: Direction.RIGHT,
-            type: GameReducerType.CHANGE_DIRECTION,
-          });
+          dispatch(goToRight(number));
           break;
         }
         case keyLeft: {
-          dispatch({
-            payload: Direction.LEFT,
-            type: GameReducerType.CHANGE_DIRECTION,
-          });
+          dispatch(goToLeft(number));
           break;
         }
-        case ' ': {
-          dispatch({
-            type: GameReducerType.CHANGE_GAME_STATUS,
-            payload: GameStatus.ON_PAUSE,
-          });
+        case 'Space': {
+          dispatch(changeGameStatus(GameStatus.ON_PAUSE));
           break;
         }
         default:

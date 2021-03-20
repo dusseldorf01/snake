@@ -1,17 +1,21 @@
 import {
+  memo,
   useEffect,
   useRef,
 } from 'react';
-import gameParams from '@/gameParams';
+import { useSelector } from 'react-redux';
+import userThemeSelector from '@/selectors/userTheme';
+import { Theme } from '@/models/theme';
+import gameConfig from '@/game/config';
 import Painter from '@/lib/Painter';
 import colors from '@/styles/colors';
-import { ICanvas } from './interfaces';
-import './index.css';
+import type { ICanvas } from './interfaces';
+import css from './index.css';
 
 const {
   BOARD_HEIGHT,
   BOARD_WIDTH,
-} = gameParams;
+} = gameConfig;
 
 const {
   BLACK_1,
@@ -21,9 +25,12 @@ const {
 const Canvas = ({
   bigFood,
   food,
-  snake,
+  map,
+  snakes,
 }: ICanvas) => {
   const canvas = useRef<HTMLCanvasElement>(null);
+
+  const { themeName } = useSelector(userThemeSelector);
 
   useEffect(() => {
     if (canvas.current === null) {
@@ -38,24 +45,18 @@ const Canvas = ({
 
     context.clearRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
-    const html = document.querySelector('html');
-    context.fillStyle = html?.classList.contains('light') ? BLACK_1 : WHITE_1;
+    context.fillStyle = themeName === Theme.LIGHT ? BLACK_1 : WHITE_1;
 
     Painter.setContext(context);
-
-    Painter.renderSnake(snake);
-
-    Painter.renderFood(food);
-
-    if (bigFood !== null) {
-      Painter.renderBigFood(bigFood);
-    }
+    Painter.gameInitializationRender({
+      snakes, food, map, bigFood,
+    });
   });
 
   return (
     <canvas
       id="canvas"
-      className="game-canvas"
+      className={css.gameCanvas}
       ref={canvas}
       width={BOARD_WIDTH}
       height={BOARD_HEIGHT}
@@ -63,4 +64,4 @@ const Canvas = ({
   );
 };
 
-export default Canvas;
+export default memo(Canvas);

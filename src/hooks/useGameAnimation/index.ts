@@ -2,11 +2,9 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { IUseGameAnimation } from '@/hooks/useGameAnimation/interfaces';
-import {
-  GameReducerType,
-  GameStatus,
-} from '@/pages/Game/reducer';
+import type { IUseGameAnimation } from '@/hooks/useGameAnimation/interfaces';
+import { GameStatus } from '@/game/interfaces';
+import { getNextTick } from '@/actions/game';
 
 export default ({
   dispatch,
@@ -26,9 +24,7 @@ export default ({
       const current = performance.now();
 
       if (current - start >= 1000 / level) {
-        dispatch({
-          type: GameReducerType.NEXT_TICK,
-        });
+        dispatch(getNextTick());
         start = current;
       }
 
@@ -41,5 +37,5 @@ export default ({
     return () => {
       cancelAnimationFrame(animationRef.current);
     };
-  }, [status]);
+  }, [status, level]);
 };

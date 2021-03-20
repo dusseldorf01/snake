@@ -6,5 +6,6 @@ import {
 export interface ICanvas {
   bigFood: null | IFood;
   food: IFood;
-  snake: ISnakePart[];
+  map: number;
+  snakes: ISnakePart[][];
 }

@@ -7,12 +7,12 @@ interface DefaultLayoutProps {
 }
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => (
-  <div className={cssCommon.pageContainer}>
+  <>
     <Header />
     <main className={cssCommon.pageContent}>
       {children}
     </main>
-  </div>
+  </>
 );
 
 export default DefaultLayout;

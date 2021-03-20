@@ -1,10 +1,5 @@
-interface ILeaderboardITableRow {
-  id: number;
-  login: string;
-  level: number;
-  score: number;
-}
+import { ILeaderboardItem } from '@/models/leaderboard';
 
 export interface ILeaderboardTable {
-  data: ILeaderboardITableRow[];
+  data: ILeaderboardItem[];
 }

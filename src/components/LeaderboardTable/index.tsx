@@ -6,18 +6,29 @@ const LeaderboardTable = ({
 }: ILeaderboardTable) => (
   <table className={css.leaderboardTable}>
     <thead>
-      <th>#</th>
-      <th>Ник</th>
-      <th>Уровень</th>
-      <th>Очки</th>
-    </thead>
-    {data.map((row) => (
-      <tr key={row.id}>
-        {Object.entries(row).map(([key, value]) => (
-          <td key={key}>{value}</td>
-        ))}
+      <tr>
+        <th>#</th>
+        <th>Ник</th>
+        <th>Уровень</th>
+        <th>Очки</th>
       </tr>
-    ))}
+    </thead>
+    <tbody>
+      {data.length !== 0 ? (
+        data.map((row, index) => (
+          <tr key={`leaderboard-row-${index + 1}`}>
+            <td>{index + 1}</td>
+            {Object.entries(row).map(([key, value]) => (
+              <td key={key}>{value}</td>
+            ))}
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan={4}>Нет игроков</td>
+        </tr>
+      )}
+    </tbody>
   </table>
 );
 

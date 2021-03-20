@@ -14,3 +14,7 @@
 .menuItem {
   color: var(--menu-item-color);
 }
+
+.menuItemActive {
+  font-weight: bolder;
+}

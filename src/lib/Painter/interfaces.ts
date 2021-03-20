@@ -1,8 +1,8 @@
 export enum Direction {
-  TOP = 'TO_TOP',
-  RIGHT = 'TO_RIGHT',
-  BOTTOM = 'TO_BOTTOM',
-  LEFT = 'TO_LEFT',
+  Top = 'TO_TOP',
+  Right = 'TO_RIGHT',
+  Bottom = 'TO_BOTTOM',
+  Left = 'TO_LEFT',
 }
 
 export interface ISnakeCoordinate {
@@ -21,6 +21,11 @@ export interface ICanvasSnakePart extends ISnakePart {
 }
 
 export interface IFood {
+  x: number;
+  y: number;
+}
+
+export interface IWall {
   x: number;
   y: number;
 }

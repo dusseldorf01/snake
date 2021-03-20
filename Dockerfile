@@ -2,8 +2,8 @@ FROM node:14
 WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm ci --only=production
+RUN npm install
 COPY . .
-RUN npm build
-EXPOSE 3000
-CMD [ "node", "server.js" ]
+RUN npm run build
+EXPOSE 8080
+CMD [ "node", "dist/server.js" ]

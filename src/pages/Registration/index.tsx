@@ -1,20 +1,30 @@
 import {
   useEffect,
 } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useFormik } from 'formik';
-import RegistrationInput from '@/components/RegistrationInput';
+import Input from '@/components/Input';
 import {
   IRegistrationModel,
   registrationInitialModel,
 } from '@/models/registration';
-import validate from '@/utils/validate';
-import { checkFormField } from '@/utils/checkFormField';
+import validate from '@/utils/validators/validate';
+import { checkFormField } from '@/utils/validators/checkFormField';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpStateSelector } from '@/selectors/user';
+import { signUpActions } from '@/actions/user';
 
 import cssForm from '@/styles/form.css';
 import cssCommon from '@/styles/common.css';
+import Button from '@/components/Button';
+import notification from '@/components/Notification';
 
 const Registration = () => {
+  const dispatch = useDispatch();
+  const signUpState = useSelector(signUpStateSelector);
   const {
+    isValid,
     errors,
     handleBlur,
     handleChange,
@@ -37,13 +47,41 @@ const Registration = () => {
       })
     ),
     onSubmit: (v) => {
-      console.log(v);
+      const {
+        firstName, secondName, login, email, password, phone,
+      } = v;
+
+      dispatch(
+        signUpActions.request({
+          params: {
+            data: {
+              first_name: firstName,
+              second_name: secondName,
+              login,
+              email,
+              password,
+              phone,
+            },
+          },
+        }),
+      );
     },
   });
 
   useEffect(() => {
     validateForm();
   }, []);
+
+  useEffect(() => {
+    if (signUpState.error) {
+      const { reason } = signUpState.data;
+      if (reason === 'Login already exists') {
+        notification.error({ message: 'Пользователь с таким логином уже существует' });
+      } else {
+        notification.error({ message: reason || 'При регистрации возникла ошибка' });
+      }
+    }
+  }, [signUpState]);
 
   return (
     <div className={cssCommon.centerContent}>
@@ -52,7 +90,7 @@ const Registration = () => {
         onSubmit={handleSubmit}
       >
         <h1 className={cssForm.appFormTitle}>Регистрация</h1>
-        <RegistrationInput
+        <Input
           error={touched.firstName && errors.firstName}
           label="Имя"
           name="firstName"
@@ -60,7 +98,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.firstName}
         />
-        <RegistrationInput
+        <Input
           error={touched.secondName && errors.secondName}
           label="Фамилия"
           name="secondName"
@@ -68,7 +106,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.secondName}
         />
-        <RegistrationInput
+        <Input
           error={touched.login && errors.login}
           label="Логин"
           name="login"
@@ -76,7 +114,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.login}
         />
-        <RegistrationInput
+        <Input
           error={touched.email && errors.email}
           label="Почта"
           name="email"
@@ -84,7 +122,7 @@ const Registration = () => {
           onChange={handleChange}
           value={values.email}
         />
-        <RegistrationInput
+        <Input
           error={touched.phone && errors.phone}
           label="Телефон"
           name="phone"
@@ -92,7 +130,8 @@ const Registration = () => {
           onChange={handleChange}
           value={values.phone}
         />
-        <RegistrationInput
+        <Input
+          type="password"
           error={touched.password && errors.password}
           label="Пароль"
           name="password"
@@ -100,7 +139,8 @@ const Registration = () => {
           onChange={handleChange}
           value={values.password}
         />
-        <RegistrationInput
+        <Input
+          type="password"
           error={touched.passwordRepeat && errors.passwordRepeat}
           label="Пароль (еще раз)"
           name="passwordRepeat"
@@ -108,18 +148,16 @@ const Registration = () => {
           onChange={handleChange}
           value={values.passwordRepeat}
         />
-        <button
-          type="submit"
-          className={cssForm.appFormButton}
-        >
-          Зарегистрироваться
-        </button>
-        <a
-          href="/login"
+        <Button
+          disabled={!isValid || signUpState.loading}
+          label="Зарегистрироваться"
+        />
+        <NavLink
+          to="/login"
           className={cssForm.appFormLink}
         >
           Войти
-        </a>
+        </NavLink>
       </form>
     </div>
   );

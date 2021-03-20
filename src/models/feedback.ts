@@ -1,13 +1,13 @@
-export interface IFeedbackModel {
-  name: string;
-  email: string;
-  phone: string;
-  message:string;
+export interface IFeedbackCreateModel {
+  title: string;
+  message: string;
 }
 
-export const feedbackInitialModel: IFeedbackModel = {
-  name: '',
-  email: '',
-  phone: '',
+export interface IFeedback extends IFeedbackCreateModel {
+  userId: number;
+}
+
+export const feedbackInitialModel: IFeedbackCreateModel = {
+  title: '',
   message: '',
 };
